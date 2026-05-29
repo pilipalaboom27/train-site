@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WorkBuddy 内训课程站</title>
+    <meta
+      name="description"
+      content="WorkBuddy 在 AI 辅助办公与生态环境业务中的内部培训课程站。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar__brand">
+          <div class="sidebar__eyebrow">INTERNAL COURSE</div>
+          <a class="sidebar__title" href="#/">WorkBuddy 内训课程站</a>
+        </div>
+
+        <nav class="sidebar__nav" id="sidebar-nav" aria-label="课程导航"></nav>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div class="topbar__meta">
+            <span id="breadcrumb">首页</span>
+          </div>
+          <div class="topbar__search">
+            <input type="search" id="search-input" placeholder="搜索教程内容..." />
+          </div>
+          <div class="topbar__actions">
+            <button class="topbar__button" id="lecture-toggle" type="button">
+              讲解模式
+            </button>
+          </div>
+        </header>
+
+        <section class="content-view" id="app"></section>
+      </main>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="切换导航菜单">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+
+    <script src="./content.js"></script>
+    <script src="./app.js"></script>
+    <script>
+      (function () {
+        var sidebar = document.getElementById("sidebar");
+        var overlay = document.getElementById("sidebar-overlay");
+        var toggle = document.getElementById("sidebar-toggle");
+        var body = document.body;
+
+        function open() {
+          body.classList.add("sidebar-open");
+        }
+        function close() {
+          body.classList.remove("sidebar-open");
+        }
+
+        toggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (body.classList.contains("sidebar-open")) {
+            close();
+          } else {
+            open();
+          }
+        });
+
+        overlay.addEventListener("click", close);
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") close();
+        });
+
+        document.addEventListener("click", function (e) {
+          var title = e.target.closest(".nav-group__title");
+          if (title) {
+            var group = title.closest(".nav-group");
+            if (group) group.classList.toggle("is-collapsed");
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
