@@ -157,12 +157,12 @@ function renderInterfaceMapSection(section) {
 
 function renderBasicSection(section) {
   const detailCards = [
-    ["这节解决什么问题", section.problem],
-    ["适合谁先学", section.audience],
-    ["什么时候用", section.useWhen],
-    ["什么时候不要用", section.avoidWhen],
+    ["我当时遇到的问题是", section.problem],
+    ["什么时候会用到", section.audience],
+    ["可以什么时候用", section.useWhen],
+    ["什么时候先别用", section.avoidWhen],
     ["做完应该看到什么", section.expected],
-    ["业务小例子", section.businessExample],
+    ["放到业务里长这样", section.businessExample],
   ];
 
   return `
@@ -198,17 +198,17 @@ function renderAdvancedSection(section) {
   return `
     <div class="detail-grid detail-grid--two">
       <div class="detail-card">
-        <div class="detail-card__label">它解决什么问题</div>
+        <div class="detail-card__label">我什么时候需要这个</div>
         <p>${escapeHtml(section.problem)}</p>
       </div>
       <div class="detail-card">
-        <div class="detail-card__label">业务最佳实践</div>
+        <div class="detail-card__label">放到业务里是这样的</div>
         <p>${escapeHtml(section.business)}</p>
       </div>
     </div>
     ${renderLabeledBlock("适合什么场景", renderBulletList(section.scenarios))}
-    ${renderLabeledBlock("怎么开始", renderOrderedList(section.start))}
-    ${renderLabeledBlock("踩坑提醒", renderBulletList(section.pitfalls))}
+    ${renderLabeledBlock("我是这样开始的", renderOrderedList(section.start))}
+    ${renderLabeledBlock("踩过的坑", renderBulletList(section.pitfalls))}
     ${renderLinks(section.links)}
   `;
 }
@@ -221,13 +221,13 @@ function renderCaseSection(section) {
     </div>
     ${renderLabeledBlock("前置能力要求", renderChips(section.prerequisites))}
     ${renderLabeledBlock("涉及 WorkBuddy 模块", renderChips(section.modules))}
-    ${renderLabeledBlock("输入材料准备", renderBulletList(section.inputs))}
-    ${renderLabeledBlock("推荐操作步骤", renderOrderedList(section.steps))}
+    ${renderLabeledBlock("我准备了什么材料", renderBulletList(section.inputs))}
+    ${renderLabeledBlock("我是这样一步步做的", renderOrderedList(section.steps))}
     ${renderPrompt(section.prompt, "完整 Prompt")}
-    ${renderLabeledBlock("追问 Prompt", renderBulletList(section.followups))}
-    ${renderLabeledBlock("结果验收要点", renderBulletList(section.validation))}
-    ${renderLabeledBlock("最终交付长什么样", `<p class="body-copy">${escapeHtml(section.deliverable)}</p>`)}
-    ${renderLabeledBlock("最容易踩的坑", renderBulletList(section.pitfalls))}
+    ${renderLabeledBlock("我追问了什么", renderBulletList(section.followups))}
+    ${renderLabeledBlock("怎么验收结果", renderBulletList(section.validation))}
+    ${renderLabeledBlock("最终交付了什么", `<p class="body-copy">${escapeHtml(section.deliverable)}</p>`)}
+    ${renderLabeledBlock("我踩过的坑", renderBulletList(section.pitfalls))}
   `;
 }
 
@@ -298,39 +298,72 @@ function renderSection(section) {
 }
 
 function renderHome() {
-  const quickStartHtml = renderOrderedList(course.quickStartSteps.slice(0, 3));
   const entryChapters = chapters.filter((chapter) => ["chapter-1", "chapter-2", "chapter-3", "chapter-4"].includes(chapter.id));
+  const journeySteps = [
+    {
+      number: "01",
+      title: "快速上手",
+      text: "跟着做一遍，5 分钟看到第一个成果。从环境准备到验收结果，一条路走完。",
+      href: "#/chapter/chapter-1",
+    },
+    {
+      number: "02",
+      title: "用到再看",
+      text: "碰到哪个问题，翻到哪一页。不用从头读到尾，用到什么学什么。",
+      href: "#/chapter/chapter-2",
+    },
+    {
+      number: "03",
+      title: "照搬你的业务",
+      text: "我的案例改成你的场景。政策解读、数据分析、周报、汇报、会议纪要，拿来就能改。",
+      href: "#/chapter/chapter-3",
+    },
+  ];
+
+  const safetyBanner = course.safetyBanner;
 
   return `
     <section class="hero panel">
       <div class="hero__copy">
-        <div class="eyebrow">Internal Training Course</div>
+        <div class="eyebrow">Experience Sharing</div>
         <h1 class="display-title">${escapeHtml(course.title)}</h1>
         <h2 class="display-subtitle">${escapeHtml(course.subtitle)}</h2>
         <p class="lead">${escapeHtml(course.description)}</p>
         <p class="hero__statement">${escapeHtml(course.statement)}</p>
-        ${renderChips(course.audience)}
         <div class="hero__actions">
-          <a class="primary-button" href="#/chapter/chapter-2">直接开始跟练</a>
-          <a class="secondary-button" href="#/chapter/chapter-1">先认识 WorkBuddy</a>
+          <a class="primary-button" href="#/chapter/chapter-1/1-2">5 分钟做出第一个东西</a>
+          <a class="secondary-button" href="#/chapter/chapter-1">先看一眼它是干什么的</a>
         </div>
       </div>
       <div class="hero__panel">
-        <div class="hero__panel-title">最快上手</div>
-        ${quickStartHtml}
+        <div class="hero__panel-title">看完这个你至少能做到</div>
+        <div class="hero-focus-list">
+          <span>会提任务</span>
+          <span>会验收结果</span>
+          <span>会用到业务里</span>
+        </div>
       </div>
     </section>
 
+    ${safetyBanner ? `
+    <section class="panel safety-banner">
+      <div class="safety-banner__title">${escapeHtml(safetyBanner.title)}</div>
+      <ul class="safety-banner__list">
+        ${safetyBanner.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+      </ul>
+    </section>
+    ` : ""}
+
     <section class="panel">
-      <div class="section-label">不同听众怎么走</div>
-      <div class="path-grid">
-        ${course.audiencePaths
+      <div class="section-label">我是这样走过来的</div>
+      <div class="learning-steps">
+        ${journeySteps
           .map(
-            (path) => `
-              <a class="path-card" href="${escapeHtml(path.href)}">
-                <span class="path-card__title">${escapeHtml(path.title)}</span>
-                <span class="path-card__for">${escapeHtml(path.for)}</span>
-                <span class="path-card__route">${escapeHtml(path.route)}</span>
+            (step) => `
+              <a class="learning-step" href="${escapeHtml(step.href)}">
+                <span class="learning-step__number">${escapeHtml(step.number)}</span>
+                <span class="learning-step__title">${escapeHtml(step.title)}</span>
+                <span class="learning-step__text">${escapeHtml(step.text)}</span>
               </a>
             `
           )
@@ -339,15 +372,15 @@ function renderHome() {
     </section>
 
     <section class="panel">
-      <div class="section-label">课程入口</div>
+      <div class="section-label">快速入口</div>
       <div class="card-grid">
         ${entryChapters
           .map(
             (chapter) => `
               <a class="nav-card" href="#/chapter/${escapeHtml(chapter.id)}">
-                <span class="nav-card__kicker">${escapeHtml(chapter.stage ?? "Course")}</span>
+                <span class="nav-card__kicker">${escapeHtml(chapter.stage ?? "")}</span>
                 <span class="nav-card__title">${escapeHtml(chapter.title)}</span>
-                <span class="nav-card__summary">${escapeHtml(chapter.intro ?? "进入本章继续学习。")}</span>
+                <span class="nav-card__summary">${escapeHtml(chapter.intro ?? "进入继续阅读。")}</span>
               </a>
             `
           )
@@ -435,31 +468,33 @@ function renderResources() {
 function buildNavTree() {
   return [
     {
-      group: "导学",
+      group: "开始",
       items: [
         { type: "home", id: "", title: "首页" },
       ],
     },
     {
-      group: "基础",
+      group: "快速上手",
       items: [
-        { type: "chapter", id: "chapter-1", title: "第一章：认识 WorkBuddy" },
-        { type: "chapter", id: "chapter-2", title: "第二章：基础跟练教程" },
+        { type: "chapter", id: "chapter-1", title: "先动手做个东西" },
       ],
     },
     {
-      group: "进阶",
-      items: [{ type: "chapter", id: "chapter-3", title: "第三章：进阶能力地图" }],
-    },
-    {
-      group: "案例",
-      items: [{ type: "chapter", id: "chapter-4", title: "第四章：业务实战案例" }],
-    },
-    {
-      group: "速查",
+      group: "实用技巧",
       items: [
-        { type: "chapter", id: "faq", title: "FAQ：新手卡点" },
-        { type: "chapter", id: "appendix", title: "附录：模板与速查" },
+        { type: "chapter", id: "chapter-2", title: "用到什么学什么" },
+      ],
+    },
+    {
+      group: "场景实战",
+      items: [
+        { type: "chapter", id: "chapter-3", title: "我的真实业务故事" },
+      ],
+    },
+    {
+      group: "速查附录",
+      items: [
+        { type: "chapter", id: "chapter-4", title: "遇到问题再来翻" },
         { type: "page", id: "resources", title: "资料页" },
       ],
     },
@@ -662,14 +697,14 @@ function render() {
 function toggleLectureMode() {
   const current = document.body.classList.toggle("lecture-mode");
   localStorage.setItem(lectureModeKey, current ? "1" : "0");
-  lectureToggle.textContent = current ? "退出讲解模式" : "讲解模式";
+  lectureToggle.textContent = current ? "退出投屏模式" : "投屏模式";
 }
 
 function initLectureMode() {
   const enabled = localStorage.getItem(lectureModeKey) === "1";
   if (enabled) {
     document.body.classList.add("lecture-mode");
-    lectureToggle.textContent = "退出讲解模式";
+    lectureToggle.textContent = "退出投屏模式";
   }
 }
 
