@@ -2,11 +2,16 @@ const app = document.getElementById("app");
 const sidebarNav = document.getElementById("sidebar-nav");
 const breadcrumb = document.getElementById("breadcrumb");
 const lectureToggle = document.getElementById("lecture-toggle");
-const { chapters, course, resources, stages } = window.siteContent;
 
+const { chapters, course, resources } = window.siteContent;
 const lectureModeKey = "workbuddy-course-lecture-mode";
 let searchTerm = "";
-let chapterNavObserver = null;
+let currentRoute = null;
+const routeScrollPositions = new Map();
+
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
 
 function escapeHtml(text) {
   return String(text ?? "")
@@ -36,11 +41,6 @@ function renderPrompt(prompt, label = "示例 Prompt") {
   `;
 }
 
-function renderChips(items) {
-  if (!items?.length) return "";
-  return `<div class="chip-row">${items.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}</div>`;
-}
-
 function renderBulletList(items) {
   if (!items?.length) return "";
   return `<ul class="bullet-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
@@ -51,13 +51,16 @@ function renderOrderedList(items) {
   return `<ol class="ordered-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol>`;
 }
 
+function renderChips(items) {
+  if (!items?.length) return "";
+  return `<div class="chip-row">${items.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}</div>`;
+}
+
 function renderLinks(links) {
   if (!links?.length) return "";
   return `
     <div class="resource-links">
-      ${links
-        .map((link) => `<a class="resource-link" ${linkAttrs(link.href)}>${escapeHtml(link.label)}</a>`)
-        .join("")}
+      ${links.map((link) => `<a class="resource-link" ${linkAttrs(link.href)}>${escapeHtml(link.label)}</a>`).join("")}
     </div>
   `;
 }
@@ -88,18 +91,16 @@ function renderLabeledBlock(label, content) {
 }
 
 function renderTextSection(section) {
-  const paragraphs = (section.paragraphs ?? [])
-    .map((paragraph) => `<p class="body-copy">${escapeHtml(paragraph)}</p>`)
-    .join("");
-  const bullets = renderBulletList(section.bullets);
-  const extra = section.extra ? `<p class="body-copy">${escapeHtml(section.extra)}</p>` : "";
+  const paragraphs = (section.paragraphs ?? []).map((paragraph) => `<p class="body-copy">${escapeHtml(paragraph)}</p>`).join("");
   const templates = (section.templates ?? [])
     .map((template) => {
       const label = template.label ? `<div class="section-label template-label">${escapeHtml(template.label)}</div>` : "";
-      return label + renderPrompt(template.content, "可复制模板");
+      const context = template.context ? `<p class="body-copy">${escapeHtml(template.context)}</p>` : "";
+      const tip = template.tip ? `<p class="body-copy muted-copy">${escapeHtml(template.tip)}</p>` : "";
+      return label + context + renderPrompt(template.content, "可复制模板") + tip;
     })
     .join("");
-  return paragraphs + bullets + extra + templates + renderTable(section.table) + renderLinks(section.links);
+  return paragraphs + renderBulletList(section.bullets) + renderTable(section.table) + templates + renderLinks(section.links);
 }
 
 function renderCardsSection(section) {
@@ -120,50 +121,13 @@ function renderCardsSection(section) {
   `;
 }
 
-function renderInterfaceMapSection(section) {
-  const regions = section.regions ?? [];
-  if (!regions.length) return "";
-  return `
-    ${section.intro ? `<p class="body-copy">${escapeHtml(section.intro)}</p>` : ""}
-    <div class="interface-map">
-      <div class="interface-map__mock" aria-hidden="true">
-        <div class="interface-map__sidebar">任务列表</div>
-        <div class="interface-map__main">
-          <div class="interface-map__topbar">顶部任务栏</div>
-          <div class="interface-map__chat">对话区</div>
-          <div class="interface-map__input">输入栏</div>
-        </div>
-        <div class="interface-map__result">结果区</div>
-      </div>
-      <div class="interface-map__cards">
-        ${regions
-          .map(
-            (region, index) => `
-              <article class="interface-card">
-                <div class="interface-card__index">${String(index + 1).padStart(2, "0")}</div>
-                <div>
-                  <h3>${escapeHtml(region.title)}</h3>
-                  <p>${escapeHtml(region.description)}</p>
-                  ${region.tip ? `<span>${escapeHtml(region.tip)}</span>` : ""}
-                </div>
-              </article>
-            `
-          )
-          .join("")}
-      </div>
-    </div>
-  `;
-}
-
 function renderBasicSection(section) {
   const detailCards = [
-    ["我当时遇到的问题是", section.problem],
-    ["什么时候会用到", section.audience],
-    ["可以什么时候用", section.useWhen],
-    ["什么时候先别用", section.avoidWhen],
+    ["这节解决什么问题", section.problem],
+    ["什么时候用", section.useWhen],
+    ["先别什么时候用", section.avoidWhen],
     ["做完应该看到什么", section.expected],
-    ["放到业务里长这样", section.businessExample],
-  ];
+  ].filter(([, value]) => value);
 
   return `
     <div class="detail-grid">
@@ -178,8 +142,11 @@ function renderBasicSection(section) {
         )
         .join("")}
     </div>
-    ${renderLabeledBlock("操作前准备什么", renderBulletList(section.prepare))}
+    ${renderLabeledBlock("先理解这一步", (section.explanation ?? []).map((item) => `<p class="body-copy">${escapeHtml(item)}</p>`).join(""))}
+    ${renderLabeledBlock("操作前准备", renderBulletList(section.prepare))}
     ${renderLabeledBlock("一步一步怎么做", renderOrderedList(section.steps))}
+    ${renderLabeledBlock("现场重点看什么", renderBulletList(section.observation))}
+    ${renderLabeledBlock("做到什么算完成", renderBulletList(section.doneCriteria))}
     ${
       section.demo
         ? `<div class="practice-panel">
@@ -190,6 +157,7 @@ function renderBasicSection(section) {
         : ""
     }
     ${renderLabeledBlock("常见错误", renderBulletList(section.mistakes))}
+    ${renderLabeledBlock("业务里可以这样用", section.businessExample ? `<p class="body-copy">${escapeHtml(section.businessExample)}</p>` : "")}
     ${renderLinks(section.links)}
   `;
 }
@@ -198,17 +166,20 @@ function renderAdvancedSection(section) {
   return `
     <div class="detail-grid detail-grid--two">
       <div class="detail-card">
-        <div class="detail-card__label">我什么时候需要这个</div>
+        <div class="detail-card__label">它解决什么问题</div>
         <p>${escapeHtml(section.problem)}</p>
       </div>
       <div class="detail-card">
-        <div class="detail-card__label">放到业务里是这样的</div>
+        <div class="detail-card__label">放到工作里长这样</div>
         <p>${escapeHtml(section.business)}</p>
       </div>
     </div>
-    ${renderLabeledBlock("适合什么场景", renderBulletList(section.scenarios))}
-    ${renderLabeledBlock("我是这样开始的", renderOrderedList(section.start))}
-    ${renderLabeledBlock("踩过的坑", renderBulletList(section.pitfalls))}
+    ${renderLabeledBlock("先理解它", (section.explanation ?? []).map((item) => `<p class="body-copy">${escapeHtml(item)}</p>`).join(""))}
+    ${renderLabeledBlock("适合场景", renderBulletList(section.scenarios))}
+    ${renderLabeledBlock("先不要用在这些情况", renderBulletList(section.whenNot))}
+    ${renderLabeledBlock("怎么开始", renderOrderedList(section.start))}
+    ${renderLabeledBlock("做完怎么验收", renderBulletList(section.acceptance))}
+    ${renderLabeledBlock("踩坑提醒", renderBulletList(section.pitfalls))}
     ${renderLinks(section.links)}
   `;
 }
@@ -219,15 +190,17 @@ function renderCaseSection(section) {
       <p class="body-copy">${escapeHtml(section.scenario)}</p>
       <p class="case-audience">${escapeHtml(section.audience)}</p>
     </div>
-    ${renderLabeledBlock("前置能力要求", renderChips(section.prerequisites))}
+    ${renderLabeledBlock("为什么这个案例适合演示", section.background ? `<p class="body-copy">${escapeHtml(section.background)}</p>` : "")}
+    ${renderLabeledBlock("学完哪些基础页就能做", renderChips(section.prerequisites))}
     ${renderLabeledBlock("涉及 WorkBuddy 模块", renderChips(section.modules))}
-    ${renderLabeledBlock("我准备了什么材料", renderBulletList(section.inputs))}
-    ${renderLabeledBlock("我是这样一步步做的", renderOrderedList(section.steps))}
+    ${renderLabeledBlock("输入材料准备", renderBulletList(section.inputs))}
+    ${renderLabeledBlock("推荐操作步骤", renderOrderedList(section.steps))}
     ${renderPrompt(section.prompt, "完整 Prompt")}
-    ${renderLabeledBlock("我追问了什么", renderBulletList(section.followups))}
-    ${renderLabeledBlock("怎么验收结果", renderBulletList(section.validation))}
-    ${renderLabeledBlock("最终交付了什么", `<p class="body-copy">${escapeHtml(section.deliverable)}</p>`)}
-    ${renderLabeledBlock("我踩过的坑", renderBulletList(section.pitfalls))}
+    ${renderLabeledBlock("追问 Prompt", renderBulletList(section.followups))}
+    ${renderLabeledBlock("结果验收要点", renderBulletList(section.validation))}
+    ${renderLabeledBlock("人工复核重点", renderBulletList(section.reviewFocus))}
+    ${renderLabeledBlock("最终交付长什么样", `<p class="body-copy">${escapeHtml(section.deliverable)}</p>`)}
+    ${renderLabeledBlock("最容易踩的坑", renderBulletList(section.pitfalls))}
   `;
 }
 
@@ -241,7 +214,7 @@ function renderFaqSection(section) {
             <details class="faq-item" ${index < 2 ? "open" : ""}>
               <summary>${escapeHtml(item.q)}</summary>
               <p>${escapeHtml(item.a)}</p>
-              <span>${escapeHtml(item.ref)}</span>
+              ${item.ref ? `<span>${escapeHtml(item.ref)}</span>` : ""}
             </details>
           `
         )
@@ -250,38 +223,16 @@ function renderFaqSection(section) {
   `;
 }
 
-function renderResourceLinksSection(section) {
-  if (!section.links?.length) return "";
-  return `
-    <div class="resource-list">
-      ${section.links
-        .map(
-          (link) => `
-            <a class="resource-item" ${linkAttrs(link.href)}>
-              <span class="resource-item__title">${escapeHtml(link.label)}</span>
-              <span class="resource-item__note">${escapeHtml(link.note)}</span>
-            </a>
-          `
-        )
-        .join("")}
-    </div>
-  `;
+function renderStepsSection(section) {
+  return renderOrderedList(section.steps);
 }
 
 function renderSection(section) {
   switch (section.type) {
-    case "text":
-      return renderTextSection(section);
-    case "table":
-      return renderTable(section);
-    case "steps":
-      return renderOrderedList(section.steps);
-    case "list":
-      return renderBulletList(section.items);
     case "cards":
       return renderCardsSection(section);
-    case "interface-map":
-      return renderInterfaceMapSection(section);
+    case "table":
+      return renderTable(section);
     case "basic":
       return renderBasicSection(section);
     case "advanced":
@@ -290,74 +241,51 @@ function renderSection(section) {
       return renderCaseSection(section);
     case "faq":
       return renderFaqSection(section);
-    case "resource-links":
-      return renderResourceLinksSection(section);
+    case "steps":
+      return renderStepsSection(section);
+    case "text":
     default:
-      return "";
+      return renderTextSection(section);
   }
 }
 
 function renderHome() {
-  const entryChapters = chapters.filter((chapter) => ["chapter-1", "chapter-2", "chapter-3", "chapter-4"].includes(chapter.id));
-  const journeySteps = [
-    {
-      number: "01",
-      title: "快速上手",
-      text: "跟着做一遍，5 分钟看到第一个成果。从环境准备到验收结果，一条路走完。",
-      href: "#/chapter/chapter-1",
-    },
-    {
-      number: "02",
-      title: "用到再看",
-      text: "碰到哪个问题，翻到哪一页。不用从头读到尾，用到什么学什么。",
-      href: "#/chapter/chapter-2",
-    },
-    {
-      number: "03",
-      title: "照搬你的业务",
-      text: "我的案例改成你的场景。政策解读、数据分析、周报、汇报、会议纪要，拿来就能改。",
-      href: "#/chapter/chapter-3",
-    },
-  ];
-
-  const safetyBanner = course.safetyBanner;
-
   return `
     <section class="hero panel">
       <div class="hero__copy">
-        <div class="eyebrow">Experience Sharing</div>
+        <div class="eyebrow">WorkBuddy Tutorial</div>
         <h1 class="display-title">${escapeHtml(course.title)}</h1>
         <h2 class="display-subtitle">${escapeHtml(course.subtitle)}</h2>
         <p class="lead">${escapeHtml(course.description)}</p>
         <p class="hero__statement">${escapeHtml(course.statement)}</p>
         <div class="hero__actions">
-          <a class="primary-button" href="#/chapter/chapter-1/1-2">5 分钟做出第一个东西</a>
-          <a class="secondary-button" href="#/chapter/chapter-1">先看一眼它是干什么的</a>
+          <a class="primary-button" href="#/chapter/chapter-2">先学会提任务</a>
+          <a class="secondary-button" href="#/chapter/chapter-1">先认识 WorkBuddy</a>
         </div>
       </div>
       <div class="hero__panel">
-        <div class="hero__panel-title">看完这个你至少能做到</div>
+        <div class="hero__panel-title">看完这份分享，你至少能做到</div>
         <div class="hero-focus-list">
-          <span>会提任务</span>
-          <span>会验收结果</span>
-          <span>会用到业务里</span>
+          ${(course.outcomes ?? []).map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
         </div>
       </div>
     </section>
 
-    ${safetyBanner ? `
-    <section class="panel safety-banner">
-      <div class="safety-banner__title">${escapeHtml(safetyBanner.title)}</div>
-      <ul class="safety-banner__list">
-        ${safetyBanner.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-      </ul>
+    ${course.quickStart ? `
+    <section class="panel practice-panel">
+      <div class="section-label">Quick Start</div>
+      <h2>${escapeHtml(course.quickStart.title)}</h2>
+      <p class="body-copy">如果你不想先看概念，想直接试一下 WorkBuddy 能干什么：</p>
+      <ol class="ordered-list">
+        ${(course.quickStart.steps ?? []).map((s, i) => `<li>${escapeHtml(s)}${i === 1 ? `<div class="prompt-box" style="margin-top:8px"><pre>${escapeHtml(course.quickStart.prompt)}</pre></div>` : ""}</li>`).join("")}
+      </ol>
+      <p class="body-copy muted-copy">${escapeHtml(course.quickStart.closing)}</p>
     </section>
     ` : ""}
-
     <section class="panel">
-      <div class="section-label">我是这样走过来的</div>
+      <h2 class="section-heading home-section-title">循序渐进的学习路线</h2>
       <div class="learning-steps">
-        ${journeySteps
+        ${(course.journey ?? [])
           .map(
             (step) => `
               <a class="learning-step" href="${escapeHtml(step.href)}">
@@ -372,13 +300,13 @@ function renderHome() {
     </section>
 
     <section class="panel">
-      <div class="section-label">快速入口</div>
+      <h2 class="section-heading home-section-title">章节入口</h2>
       <div class="card-grid">
-        ${entryChapters
+        ${chapters
           .map(
             (chapter) => `
               <a class="nav-card" href="#/chapter/${escapeHtml(chapter.id)}">
-                <span class="nav-card__kicker">${escapeHtml(chapter.stage ?? "")}</span>
+                <span class="nav-card__kicker">${escapeHtml(chapter.group ?? "")}</span>
                 <span class="nav-card__title">${escapeHtml(chapter.title)}</span>
                 <span class="nav-card__summary">${escapeHtml(chapter.intro ?? "进入继续阅读。")}</span>
               </a>
@@ -392,17 +320,15 @@ function renderHome() {
 
 function renderChapterNav(chapter, activeSectionId) {
   if (!chapter.sections?.length) return "";
-  const items = chapter.sections
-    .map((section) => {
-      const href = `#/chapter/${chapter.id}/${section.id}`;
-      const active = section.id === activeSectionId ? " is-active" : "";
-      return `<a class="chapter-nav__link${active}" href="${href}" data-section="${escapeHtml(section.id)}">${escapeHtml(section.title)}</a>`;
-    })
-    .join("");
   return `
-    <nav class="chapter-nav" aria-label="本章节目录">
+    <nav class="chapter-nav" aria-label="本章目录">
       <div class="chapter-nav__title">本章目录</div>
-      ${items}
+      ${chapter.sections
+        .map((section) => {
+          const active = section.id === activeSectionId ? " is-active" : "";
+          return `<a class="chapter-nav__link${active}" href="#/chapter/${escapeHtml(chapter.id)}/${escapeHtml(section.id)}">${escapeHtml(section.title)}</a>`;
+        })
+        .join("")}
     </nav>
   `;
 }
@@ -421,7 +347,7 @@ function renderChapter(chapter, activeSectionId) {
 
   return `
     <section class="article-header panel">
-      ${chapter.stage ? `<div class="eyebrow">${escapeHtml(chapter.stage)}</div>` : ""}
+      ${chapter.group ? `<div class="eyebrow">${escapeHtml(chapter.group)}</div>` : ""}
       <h1>${escapeHtml(chapter.title)}</h1>
       ${chapter.intro ? `<p class="lead">${escapeHtml(chapter.intro)}</p>` : ""}
     </section>
@@ -436,8 +362,8 @@ function renderResources() {
   return `
     <section class="article-header panel">
       <div class="eyebrow">Resources</div>
-      <h1>资料页：精选参考链接</h1>
-      <p class="lead">这里不做素材仓库，只保留听众会后真正会点开的官方资料、Prompt 方法和本站速查入口。</p>
+      <h1>延伸阅读：官方文档和优质资料</h1>
+      <p class="lead">这里不做素材仓库，只保留会后真正可能点击的官方文档、教程资料和 Prompt 方法资料。</p>
     </section>
     <section class="resource-section-list">
       ${resources
@@ -466,73 +392,34 @@ function renderResources() {
 }
 
 function buildNavTree() {
+  const groups = [];
+  chapters.forEach((chapter) => {
+    const groupName = chapter.group ?? "教程";
+    let group = groups.find((item) => item.group === groupName);
+    if (!group) {
+      group = { group: groupName, items: [] };
+      groups.push(group);
+    }
+    group.items.push({ type: "chapter", id: chapter.id, title: chapter.title });
+  });
   return [
-    {
-      group: "开始",
-      items: [
-        { type: "home", id: "", title: "首页" },
-      ],
-    },
-    {
-      group: "快速上手",
-      items: [
-        { type: "chapter", id: "chapter-1", title: "先动手做个东西" },
-      ],
-    },
-    {
-      group: "实用技巧",
-      items: [
-        { type: "chapter", id: "chapter-2", title: "用到什么学什么" },
-      ],
-    },
-    {
-      group: "场景实战",
-      items: [
-        { type: "chapter", id: "chapter-3", title: "我的真实业务故事" },
-      ],
-    },
-    {
-      group: "速查附录",
-      items: [
-        { type: "chapter", id: "chapter-4", title: "遇到问题再来翻" },
-        { type: "page", id: "resources", title: "资料页" },
-      ],
-    },
+    { group: "开始", items: [{ type: "home", id: "", title: "首页" }] },
+    ...groups,
+    { group: "资料", items: [{ type: "page", id: "resources", title: "延伸阅读" }] },
   ];
 }
 
-function isActive(route, itemId, type) {
-  const normalizedRoute = route.replace(/^#\/?/, "");
-  if (type === "home") return normalizedRoute === "";
-  if (type === "chapter") {
-    const expected = "chapter/" + itemId;
-    return normalizedRoute === expected || normalizedRoute.startsWith(expected + "/");
-  }
-  return normalizedRoute === itemId;
+function getRoute() {
+  return location.hash.replace(/^#\/?/, "").trim();
 }
 
-function renderSidebar(route) {
-  const tree = buildNavTree();
-  const normalizedRoute = route === "" ? "" : route.replace(/^#\/?/, "");
-
-  sidebarNav.innerHTML = tree
-    .map(
-      (group) => `
-        <section class="nav-group" data-group="${escapeHtml(group.group)}">
-          <div class="nav-group__title">${escapeHtml(group.group)}</div>
-          ${group.items
-            .map((item) => {
-              const href = item.type === "home" ? "#/" : item.type === "chapter" ? "#/chapter/" + item.id : "#/" + item.id;
-              const active = isActive(normalizedRoute, item.id, item.type);
-              return `<a class="nav-link${active ? " is-active" : ""}" href="${href}">${escapeHtml(item.title)}</a>`;
-            })
-            .join("")}
-        </section>
-      `
-    )
-    .join("");
-
-  applySidebarSearchFilter();
+function isActive(route, itemId, type) {
+  if (type === "home") return route === "";
+  if (type === "chapter") {
+    const expected = "chapter/" + itemId;
+    return route === expected || route.startsWith(expected + "/");
+  }
+  return route === itemId;
 }
 
 function applySidebarSearchFilter() {
@@ -547,6 +434,26 @@ function applySidebarSearchFilter() {
     });
     group.style.display = hasVisible ? "" : "none";
   });
+}
+
+function renderSidebar(route) {
+  sidebarNav.innerHTML = buildNavTree()
+    .map(
+      (group) => `
+        <section class="nav-group">
+          <div class="nav-group__title">${escapeHtml(group.group)}</div>
+          ${group.items
+            .map((item) => {
+              const href = item.type === "home" ? "#/" : item.type === "chapter" ? "#/chapter/" + item.id : "#/" + item.id;
+              const active = isActive(route, item.id, item.type);
+              return `<a class="nav-link${active ? " is-active" : ""}" href="${escapeHtml(href)}">${escapeHtml(item.title)}</a>`;
+            })
+            .join("")}
+        </section>
+      `
+    )
+    .join("");
+  applySidebarSearchFilter();
 }
 
 function clearHighlights() {
@@ -589,171 +496,156 @@ function initSearch() {
   });
 }
 
-const pagerOrder = [
-  { id: "", title: "首页", href: "#/" },
-  ...chapters.map((chapter) => ({
-    id: chapter.id,
-    title: chapter.title,
-    href: "#/chapter/" + chapter.id,
-  })),
-  { id: "resources", title: "资料页", href: "#/resources" },
-];
+function getPagerOrder() {
+  return [
+    { id: "", title: "首页", href: "#/" },
+    ...chapters.map((chapter) => ({ id: chapter.id, title: chapter.title, href: "#/chapter/" + chapter.id })),
+    { id: "resources", title: "延伸阅读", href: "#/resources" },
+  ];
+}
 
 function getPagerId(route) {
-  const clean = route.replace(/^#\/?/, "");
-  if (clean === "" || clean === "resources") return clean;
-  if (clean.startsWith("chapter/")) return clean.split("/")[1] ?? clean;
-  return clean;
+  if (route === "" || route === "resources") return route;
+  if (route.startsWith("chapter/")) return route.split("/")[1] ?? route;
+  return route;
 }
 
 function renderPager(route) {
-  const currentId = getPagerId(route);
-  const index = pagerOrder.findIndex((item) => item.id === currentId);
-  const prev = index > 0 ? pagerOrder[index - 1] : null;
-  const next = index >= 0 && index < pagerOrder.length - 1 ? pagerOrder[index + 1] : null;
-
+  const order = getPagerOrder();
+  const index = order.findIndex((item) => item.id === getPagerId(route));
+  const prev = index > 0 ? order[index - 1] : null;
+  const next = index >= 0 && index < order.length - 1 ? order[index + 1] : null;
   return `
     <div class="pager">
       ${
         prev
-          ? `<a class="pager__item" href="${escapeHtml(prev.href)}">
-              <span class="pager__label">上一页</span>
-              <span class="pager__title">${escapeHtml(prev.title)}</span>
-            </a>`
+          ? `<a class="pager__item" href="${escapeHtml(prev.href)}"><span class="pager__label">上一页</span><span class="pager__title">${escapeHtml(prev.title)}</span></a>`
           : `<span class="pager__item pager__item--ghost"></span>`
       }
       ${
         next
-          ? `<a class="pager__item pager__item--next" href="${escapeHtml(next.href)}">
-              <span class="pager__label">下一页</span>
-              <span class="pager__title">${escapeHtml(next.title)}</span>
-            </a>`
+          ? `<a class="pager__item pager__item--next" href="${escapeHtml(next.href)}"><span class="pager__label">下一页</span><span class="pager__title">${escapeHtml(next.title)}</span></a>`
           : `<span class="pager__item pager__item--ghost"></span>`
       }
     </div>
   `;
 }
 
-function getRoute() {
-  return location.hash.replace(/^#\/?/, "").trim();
+function renderBreadcrumb(route) {
+  if (!breadcrumb) return;
+  if (!route) {
+    breadcrumb.textContent = "首页";
+    return;
+  }
+  if (route === "resources") {
+    breadcrumb.textContent = "延伸阅读";
+    return;
+  }
+  const [, chapterId] = route.split("/");
+  const chapter = chapters.find((item) => item.id === chapterId);
+  breadcrumb.textContent = chapter?.title ?? "教程";
 }
 
-function render() {
+function renderApp() {
   const route = getRoute();
-  const parts = route.split("/").filter(Boolean);
+  saveCurrentRouteScroll();
+  clearHighlights();
   let html = "";
-  let title = "首页";
-
   if (route === "") {
     html = renderHome();
-  } else if (parts[0] === "chapter") {
-    const chapterId = parts[1];
-    const sectionId = parts.slice(2).join("/");
-    if (chapterId === "start") {
-      title = "首页";
-      html = renderHome();
-    } else {
-      const chapter = chapters.find((item) => item.id === chapterId);
-      if (chapter) {
-        title = chapter.title;
-        html = renderChapter(chapter, sectionId);
-      }
-    }
   } else if (route === "resources") {
-    title = "资料页";
     html = renderResources();
+  } else if (route.startsWith("chapter/")) {
+    const [, chapterId, sectionId] = route.split("/");
+    const chapter = chapters.find((item) => item.id === chapterId);
+    html = chapter ? renderChapter(chapter, sectionId) : renderHome();
+  } else {
+    html = renderHome();
   }
-
-  if (!html) {
-    title = "未找到";
-    html = `
-      <section class="article-header panel">
-        <div class="eyebrow">Not Found</div>
-        <h1>这个页面还没有准备好</h1>
-        <p class="lead">你可以先返回首页，或者从左侧导航重新进入。</p>
-        <a class="primary-button" href="#/">返回首页</a>
-      </section>
-    `;
-  }
-
   app.innerHTML = html + renderPager(route);
-  breadcrumb.textContent = title;
   renderSidebar(route);
-  window.scrollTo({ top: 0, behavior: "auto" });
-
+  renderBreadcrumb(route);
   if (searchTerm) highlightContent(searchTerm);
-
-  if (parts[0] === "chapter" && parts.length >= 3) {
-    const sectionId = parts.slice(2).join("/");
-    requestAnimationFrame(() => {
-      const el = document.getElementById("section-" + sectionId);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
-
-  initChapterNavSpy();
-}
-
-function toggleLectureMode() {
-  const current = document.body.classList.toggle("lecture-mode");
-  localStorage.setItem(lectureModeKey, current ? "1" : "0");
-  lectureToggle.textContent = current ? "退出投屏模式" : "投屏模式";
-}
-
-function initLectureMode() {
-  const enabled = localStorage.getItem(lectureModeKey) === "1";
-  if (enabled) {
-    document.body.classList.add("lecture-mode");
-    lectureToggle.textContent = "退出投屏模式";
-  }
-}
-
-function initChapterNavSpy() {
-  if (chapterNavObserver) chapterNavObserver.disconnect();
-
-  const nav = document.querySelector(".chapter-nav");
-  const sections = document.querySelectorAll(".section-panel");
-  if (!nav || !sections.length) return;
-
-  const links = nav.querySelectorAll(".chapter-nav__link");
-  chapterNavObserver = new IntersectionObserver(
-    (entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting);
-      if (!visible.length) return;
-      const top = visible.reduce((best, entry) => (entry.intersectionRatio > best.intersectionRatio ? entry : best));
-      const sectionId = top.target.id.replace(/^section-/, "");
-      links.forEach((link) => {
-        link.classList.toggle("is-active", link.getAttribute("data-section") === sectionId);
-      });
-    },
-    { rootMargin: "-80px 0px -60% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
-  );
-
-  sections.forEach((section) => chapterNavObserver.observe(section));
-}
-
-document.addEventListener("click", async (event) => {
-  const button = event.target.closest("[data-copy]");
-  if (!button) return;
-
-  const text = button.getAttribute("data-copy") ?? "";
-  const original = button.getAttribute("data-original") ?? button.textContent;
-  if (!button.hasAttribute("data-original")) button.setAttribute("data-original", original);
-
-  try {
-    await navigator.clipboard.writeText(text);
-    button.textContent = "已复制";
+  currentRoute = route;
+  requestAnimationFrame(() => {
+    if (currentRoute !== route) return;
+    restoreRouteScroll(route);
     setTimeout(() => {
-      button.textContent = button.getAttribute("data-original") ?? original;
-    }, 1200);
-  } catch {
-    button.textContent = "复制失败";
+      if (currentRoute === route) restoreRouteScroll(route);
+    }, 0);
+    setTimeout(() => {
+      if (currentRoute === route) restoreRouteScroll(route);
+    }, 80);
+    setTimeout(() => {
+      if (currentRoute === route) restoreRouteScroll(route);
+    }, 320);
+  });
+}
+
+function saveCurrentRouteScroll() {
+  if (currentRoute === null) return;
+  routeScrollPositions.set(currentRoute, window.scrollY);
+}
+
+function restoreRouteScroll(route) {
+  const sectionId = route.startsWith("chapter/") ? route.split("/")[2] : null;
+  const target = sectionId ? document.getElementById("section-" + CSS.escape(sectionId)) : null;
+  if (target) {
+    withInstantScroll(() => target.scrollIntoView({ behavior: "auto", block: "start" }));
+    return;
   }
-});
 
-window.addEventListener("hashchange", render);
-lectureToggle.addEventListener("click", toggleLectureMode);
+  jumpToScrollPosition(routeScrollPositions.get(route) ?? 0);
+}
 
-initLectureMode();
+function jumpToScrollPosition(top) {
+  withInstantScroll(() => window.scrollTo({ top, behavior: "auto" }));
+}
+
+function withInstantScroll(callback) {
+  const root = document.documentElement;
+  const previousScrollBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  callback();
+  requestAnimationFrame(() => {
+    root.style.scrollBehavior = previousScrollBehavior;
+  });
+}
+
+function initCopyButtons() {
+  app.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-copy]");
+    if (!button) return;
+    try {
+      await navigator.clipboard.writeText(button.dataset.copy);
+      const oldText = button.textContent;
+      button.textContent = "已复制";
+      setTimeout(() => {
+        button.textContent = oldText;
+      }, 1200);
+    } catch {
+      button.textContent = "复制失败";
+    }
+  });
+}
+
+function applyLectureMode(enabled) {
+  document.body.classList.toggle("lecture-mode", enabled);
+  if (lectureToggle) lectureToggle.textContent = enabled ? "退出讲解" : "讲解模式";
+}
+
+function initLectureToggle() {
+  const enabled = localStorage.getItem(lectureModeKey) === "1";
+  applyLectureMode(enabled);
+  lectureToggle?.addEventListener("click", () => {
+    const next = !document.body.classList.contains("lecture-mode");
+    localStorage.setItem(lectureModeKey, next ? "1" : "0");
+    applyLectureMode(next);
+  });
+}
+
+window.addEventListener("hashchange", renderApp);
 initSearch();
-render();
+initCopyButtons();
+initLectureToggle();
+renderApp();
