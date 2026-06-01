@@ -2403,7 +2403,42 @@ body.lecture-mode .topbar__search {
   display: none;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 721px) and (max-width: 900px) {
+  .site-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(48vw, 360px);
+    height: 100vh;
+    z-index: 10;
+    overflow-y: auto;
+    border-right: 1px solid var(--line);
+    border-bottom: none;
+    transform: translateX(-100%);
+    transition: transform 260ms ease;
+  }
+
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  body.sidebar-open .sidebar-overlay {
+    display: block;
+    opacity: 1;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    width: 52px;
+    height: 52px;
+    right: 24px;
+    bottom: 24px;
+  }
+
   .chapter-layout {
     grid-template-columns: 1fr;
   }
@@ -2424,4 +2459,511 @@ body.lecture-mode .topbar__search {
   .sidebar-toggle { transition: none; }
   .sidebar { transition: none; }
   .sidebar-overlay { transition: none; }
+}
+
+/* ================================================================
+   MOBILE READING ADAPTATION - max-width: 720px
+   ================================================================ */
+
+@media (max-width: 720px) {
+
+  /* 1. Title downgrades */
+
+  .display-title {
+    font-size: 2.6rem;
+    line-height: 1.12;
+    max-width: 100%;
+    letter-spacing: -0.01em;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .display-subtitle {
+    font-size: 1.4rem;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .article-header h1 {
+    font-size: 2rem;
+    line-height: 1.15;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .section-heading {
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+
+  /* 2. Topbar compaction */
+
+  .topbar {
+    padding: 8px 10px;
+    gap: 6px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    row-gap: 4px;
+  }
+
+  #search-input {
+    padding: 5px 12px 5px 30px;
+    font-size: 0.82rem;
+    min-height: 32px;
+  }
+
+  .topbar__button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  .topbar__meta {
+    font-size: 0.82rem;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .topbar__search {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: none;
+  }
+
+  /* 3. Sidebar toggle and drawer */
+
+  .sidebar-toggle {
+    width: 52px;
+    height: 52px;
+    bottom: 20px;
+    right: 20px;
+    box-shadow: 0 8px 28px rgba(39, 74, 64, 0.38);
+  }
+
+  .sidebar-toggle:hover {
+    box-shadow: 0 12px 36px rgba(39, 74, 64, 0.48);
+  }
+
+  .sidebar {
+    width: min(86vw, 340px);
+    max-width: none;
+  }
+
+  /* 4. Single-column reading layout */
+
+  .main-panel {
+    padding: 12px;
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .content-view {
+    padding-right: 0;
+  }
+
+  .hero.panel,
+  .article-header.panel {
+    padding: 24px 0 20px;
+  }
+
+  .panel {
+    padding: 20px 0;
+    border-radius: 0;
+  }
+
+  .section-panel {
+    padding: 20px 0;
+    scroll-margin-top: 70px;
+  }
+
+  .practice-panel.panel {
+    padding: 20px 16px;
+    margin: 8px 0 20px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .hero__copy {
+    min-width: 0;
+  }
+
+  .hero__panel {
+    padding: 16px 0 0;
+    border-left: none;
+    border-top: 1px solid rgba(47, 58, 52, 0.18);
+  }
+
+  .hero__panel-title {
+    font-size: 1rem;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+  }
+
+  .hero__actions .primary-button,
+  .hero__actions .secondary-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero__statement {
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  .lead {
+    font-size: 0.96rem;
+    line-height: 1.75;
+  }
+
+  .stat-strip {
+    gap: 8px;
+  }
+
+  .stat-pill {
+    min-width: 100px;
+    min-height: 70px;
+    padding: 12px 14px;
+  }
+
+  .stat-pill__value {
+    font-size: 1.5rem;
+  }
+
+  .hero-focus-list span {
+    font-size: 1rem;
+    word-break: break-word;
+    padding: 12px 0;
+  }
+
+  .split-grid,
+  .article-grid,
+  .article-grid--module,
+  .split-grid--wide {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .learning-steps {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .learning-step {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    min-height: 0;
+    padding: 16px 0;
+  }
+
+  .learning-step__number {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+
+  .learning-step__title {
+    font-size: 1.25rem;
+  }
+
+  .learning-step__text {
+    font-size: 0.9rem;
+  }
+
+  .card-grid,
+  .stage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-card,
+  .resource-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 14px 0;
+  }
+
+  .nav-card__title,
+  .resource-item__title {
+    font-size: 1.15rem;
+  }
+
+  .nav-card__summary,
+  .resource-item__note {
+    font-size: 0.9rem;
+  }
+
+  .detail-grid,
+  .cards-grid,
+  .path-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid--two {
+    grid-template-columns: 1fr;
+  }
+
+  .pager {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .pager__item {
+    min-height: 72px;
+    padding: 14px 16px;
+  }
+
+  .pager__item--next {
+    text-align: left;
+  }
+
+  .pager__title {
+    font-size: 1.1rem;
+  }
+
+  .chapter-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .chapter-nav {
+    position: static;
+    max-height: none;
+    margin-top: 16px;
+    border-radius: var(--radius-sm);
+  }
+
+  .chapter-nav__link {
+    padding: 9px 0;
+    font-size: 0.92rem;
+  }
+
+  .interface-map {
+    grid-template-columns: 1fr;
+  }
+
+  .interface-map__mock {
+    min-height: 240px;
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .interface-card {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .interface-card__index {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+
+  /* 5. Tables, prompts, and cases */
+
+  .table-wrapper {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+
+  .table-wrapper table {
+    min-width: 620px;
+  }
+
+  table {
+    font-size: 0.78rem;
+  }
+
+  thead th,
+  tbody td {
+    padding: 6px 8px;
+  }
+
+  thead th {
+    font-size: 0.76rem;
+  }
+
+  .prompt-box {
+    border-radius: var(--radius-sm);
+  }
+
+  .prompt-box pre {
+    font-size: 0.8rem;
+    padding: 14px 16px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .prompt-box__header {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .prompt-box__header span {
+    font-size: 0.78rem;
+  }
+
+  .ghost-button {
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .practice-panel {
+    padding: 16px 14px;
+    border-radius: var(--radius-sm);
+  }
+
+  .practice-panel::before {
+    top: 18px;
+    bottom: 18px;
+    width: 3px;
+  }
+
+  .case-intro {
+    padding: 14px 16px;
+  }
+
+  .callout {
+    padding: 14px 16px;
+  }
+
+  .notes-box {
+    padding: 14px 16px;
+  }
+
+  .content-block {
+    padding: 14px;
+  }
+
+  .detail-card {
+    padding: 14px;
+  }
+
+  .detail-card__label,
+  .content-block__label {
+    font-size: 0.72rem;
+    margin-bottom: 8px;
+  }
+
+  .resource-link {
+    font-size: 0.85rem;
+    min-height: 36px;
+    padding: 0 12px;
+  }
+
+  .resource-section-list {
+    gap: 12px;
+  }
+
+  .faq-item summary {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  .faq-item p {
+    padding: 0 14px 8px;
+    font-size: 0.9rem;
+  }
+
+  .card-simple {
+    padding: 16px;
+  }
+
+  .card-simple__title {
+    font-size: 1.1rem;
+  }
+
+  .card-simple__content {
+    font-size: 0.9rem;
+  }
+
+  .stage-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .chip {
+    font-size: 0.82rem;
+    min-height: 30px;
+    padding: 0 10px;
+  }
+
+  .eyebrow,
+  .section-label,
+  .sidebar__eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+  }
+
+  /* 6. Overflow and safety guards */
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .hero__panel-quote p {
+    font-size: 0.9rem;
+  }
+}
+
+/* ================================================================
+   TABLET LIGHT OPTIMISATION - max-width: 900px
+   ================================================================ */
+
+@media (min-width: 721px) and (max-width: 900px) {
+
+  /* Title moderation between desktop and phone */
+
+  .display-title {
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+  }
+
+  .article-header h1 {
+    font-size: clamp(2.1rem, 3.8vw, 2.8rem);
+  }
+
+  /* Chapter layout: single column, no sticky nav */
+
+  .chapter-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .chapter-nav {
+    position: static;
+    max-height: none;
+  }
+
+  /* Hero: keep two columns but tighter */
+
+  .hero {
+    grid-template-columns: minmax(0, 1.8fr) minmax(200px, 0.8fr);
+    gap: 18px;
+  }
+
+  .hero__panel {
+    padding: 18px 0 18px 22px;
+  }
+
+  /* Moderate spacing reduction */
+
+  .main-panel {
+    padding: 20px 0 32px 28px;
+  }
+
+  .content-view {
+    padding-right: 28px;
+  }
+
+  .panel {
+    padding: 28px 0;
+  }
 }
