@@ -217,6 +217,7 @@ window.siteContent = {
   ],
   resources: [
     { title: "本地分享材料", items: [
+      { label: "WorkBuddy 使用教程与分享文档", href: "WorkBuddy使用教程与分享文档_2026-06-01.md", note: "主教程文档，分享时建议以这份文档为准。" },
       { label: "课程网站制作流程", href: "#/chapter/chapter-12", note: "单独说明网站制作思路、文件分工、制作步骤和维护方法。" },
       { label: "网站制作流程说明文档", href: "WorkBuddy课程网站制作流程说明_2026-06-02.md", note: "Markdown 文档版，可单独分享或会后阅读。" }
     ]},
