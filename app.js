@@ -85,7 +85,7 @@ function renderLabeledBlock(label, content) {
   return `
     <div class="content-block">
       <div class="content-block__label">${escapeHtml(label)}</div>
-      ${content}
+      <div class="content-block__body">${content}</div>
     </div>
   `;
 }
@@ -164,6 +164,7 @@ function renderBasicSection(section) {
 
 function renderAdvancedSection(section) {
   return `
+    <div class="advanced-layout">
     <div class="detail-grid detail-grid--two">
       <div class="detail-card">
         <div class="detail-card__label">它解决什么问题</div>
@@ -181,6 +182,7 @@ function renderAdvancedSection(section) {
     ${renderLabeledBlock("做完怎么验收", renderBulletList(section.acceptance))}
     ${renderLabeledBlock("踩坑提醒", renderBulletList(section.pitfalls))}
     ${renderLinks(section.links)}
+    </div>
   `;
 }
 
@@ -271,17 +273,6 @@ function renderHome() {
       </div>
     </section>
 
-    ${course.quickStart ? `
-    <section class="panel practice-panel">
-      <div class="section-label">Quick Start</div>
-      <h2>${escapeHtml(course.quickStart.title)}</h2>
-      <p class="body-copy">如果你不想先看概念，想直接试一下 WorkBuddy 能干什么：</p>
-      <ol class="ordered-list">
-        ${(course.quickStart.steps ?? []).map((s, i) => `<li>${escapeHtml(s)}${i === 1 ? `<div class="prompt-box" style="margin-top:8px"><pre>${escapeHtml(course.quickStart.prompt)}</pre></div>` : ""}</li>`).join("")}
-      </ol>
-      <p class="body-copy muted-copy">${escapeHtml(course.quickStart.closing)}</p>
-    </section>
-    ` : ""}
     <section class="panel">
       <h2 class="section-heading home-section-title">循序渐进的学习路线</h2>
       <div class="learning-steps">
@@ -333,7 +324,76 @@ function renderChapterNav(chapter, activeSectionId) {
   `;
 }
 
+function renderAdvancedChapterMap(chapter) {
+  const advancedSections = (chapter.sections ?? []).filter((section) => section.type === "advanced");
+  if (!advancedSections.length || !["chapter-5", "chapter-6"].includes(chapter.id)) return "";
+
+  const chapterMeta =
+    chapter.id === "chapter-5"
+      ? {
+          eyebrow: "Capability Map",
+          title: "先看能力地图，再看单个功能",
+          note: "这一章不是要一次性打开所有高级能力，而是先判断任务卡在哪里，再选择最轻量的增强方式。",
+          summary: ["先解决空白页", "再沉淀常用能力", "最后引入专业视角和资料"],
+        }
+      : {
+          eyebrow: "Connection Map",
+          title: "先判断连接边界，再考虑自动执行",
+          note: "这一章的重点不是配置越多越好，而是确认外部系统、远程触发和自动化是否真的能降低重复劳动。",
+          summary: ["先确认授权范围", "再跑通低风险闭环", "最后自动化稳定流程"],
+        };
+
+  return `
+    <section class="advanced-map panel">
+      <div class="advanced-map__header">
+        <div>
+          <div class="section-label">${escapeHtml(chapterMeta.eyebrow)}</div>
+          <h2>${escapeHtml(chapterMeta.title)}</h2>
+        </div>
+        <p>${escapeHtml(chapterMeta.note)}</p>
+      </div>
+      <div class="advanced-map__rail">
+        ${advancedSections
+          .map((section, index) => {
+            const title = section.title.split(/[：:]/)[0] || section.title;
+            return `
+              <a class="advanced-map__item" href="#/chapter/${escapeHtml(chapter.id)}/${escapeHtml(section.id)}">
+                <span class="advanced-map__number">${String(index + 1).padStart(2, "0")}</span>
+                <span class="advanced-map__title">${escapeHtml(title)}</span>
+              </a>
+            `;
+          })
+          .join("")}
+      </div>
+      <div class="advanced-map__summary">
+        ${chapterMeta.summary.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+      </div>
+      <div class="advanced-index" aria-label="进阶能力速览">
+        ${advancedSections
+          .map((section, index) => {
+            const title = section.title.split(/[：:]/)[0] || section.title;
+            const firstScenario = section.scenarios?.[0] ?? "按当前任务判断";
+            const firstStep = section.start?.[0] ?? "先用低风险任务试一次";
+            return `
+              <a class="advanced-index__row" href="#/chapter/${escapeHtml(chapter.id)}/${escapeHtml(section.id)}">
+                <span class="advanced-index__number">${String(index + 1).padStart(2, "0")}</span>
+                <span class="advanced-index__name">${escapeHtml(title)}</span>
+                <span class="advanced-index__problem">${escapeHtml(section.problem ?? "")}</span>
+                <span class="advanced-index__meta">
+                  <span><strong>适合</strong>${escapeHtml(firstScenario)}</span>
+                  <span><strong>先试</strong>${escapeHtml(firstStep)}</span>
+                </span>
+              </a>
+            `;
+          })
+          .join("")}
+      </div>
+    </section>
+  `;
+}
+
 function renderChapter(chapter, activeSectionId) {
+  const isAdvancedChapter = ["chapter-5", "chapter-6"].includes(chapter.id);
   const sectionsHtml = chapter.sections
     .map(
       (section) => `
@@ -346,11 +406,12 @@ function renderChapter(chapter, activeSectionId) {
     .join("");
 
   return `
-    <section class="article-header panel">
+    <section class="article-header panel${isAdvancedChapter ? " article-header--advanced" : ""}">
       ${chapter.group ? `<div class="eyebrow">${escapeHtml(chapter.group)}</div>` : ""}
       <h1>${escapeHtml(chapter.title)}</h1>
       ${chapter.intro ? `<p class="lead">${escapeHtml(chapter.intro)}</p>` : ""}
     </section>
+    ${renderAdvancedChapterMap(chapter)}
     <div class="chapter-layout">
       <div class="chapter-layout__content">${sectionsHtml}</div>
       ${renderChapterNav(chapter, activeSectionId)}
