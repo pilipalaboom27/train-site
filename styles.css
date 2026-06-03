@@ -3533,6 +3533,15 @@ body.lecture-mode .topbar__search {
   line-height: 1.7;
 }
 
+.quote-block {
+  margin: 0;
+  padding: 14px 16px;
+  border-left: 3px solid var(--gold);
+  background: rgba(170, 141, 95, 0.08);
+  color: #2f4039;
+  line-height: 1.85;
+}
+
 .advanced-layout {
   gap: 16px;
 }

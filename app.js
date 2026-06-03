@@ -90,8 +90,17 @@ function renderLabeledBlock(label, content) {
   `;
 }
 
+function renderStructuredBlock(block) {
+  if (!block) return "";
+  const paragraphs = (block.paragraphs ?? []).map((paragraph) => `<p class="body-copy">${escapeHtml(paragraph)}</p>`).join("");
+  const prompt = block.prompt ? renderPrompt(block.prompt, block.promptLabel ?? "可复制模板") : "";
+  const quote = block.quote ? `<blockquote class="quote-block">${escapeHtml(block.quote)}</blockquote>` : "";
+  return renderLabeledBlock(block.label, paragraphs + renderBulletList(block.bullets) + renderTable(block.table) + prompt + quote);
+}
+
 function renderTextSection(section) {
   const paragraphs = (section.paragraphs ?? []).map((paragraph) => `<p class="body-copy">${escapeHtml(paragraph)}</p>`).join("");
+  const blocks = (section.blocks ?? []).map(renderStructuredBlock).join("");
   const templates = (section.templates ?? [])
     .map((template) => {
       const label = template.label ? `<div class="section-label template-label">${escapeHtml(template.label)}</div>` : "";
@@ -100,7 +109,7 @@ function renderTextSection(section) {
       return label + context + renderPrompt(template.content, "可复制模板") + tip;
     })
     .join("");
-  return paragraphs + renderBulletList(section.bullets) + renderTable(section.table) + templates + renderLinks(section.links);
+  return paragraphs + renderBulletList(section.bullets) + renderTable(section.table) + blocks + templates + renderLinks(section.links);
 }
 
 function renderCardsSection(section) {
