@@ -100,14 +100,23 @@ window.siteContent = {
       { id: "office-format", title: "文件格式统一：批量调成模板", type: "text", templates: [{ label: "格式统一 Prompt", context: "批量改格式最怕覆盖原文件。一定要求先列计划、另存新目录，再抽查表格、图片、页眉页脚。", content: "请把「项目方案」文件夹里所有 Word 文档统一格式：\n\n1. 标题：黑体三号加粗，居中。\n2. 正文：宋体小四，1.5 倍行距。\n3. 页眉：统一加公司名称「XX 公司」。\n4. 保存原文件名，不要覆盖原始文件——修改后的版本另存到「格式统一后」文件夹。\n\n执行前先列出你会怎么处理，等我确认后再开始。", tip: "验收时抽查 2-3 份文件，确认原始文件没被覆盖，并检查表格边框和图片位置是否被格式调整影响。" }] },
       { id: "office-email", title: "邮件草稿：让 AI 帮你写第一版", type: "text", templates: [{ label: "邮件草稿 Prompt", context: "邮件草稿适合让 AI 写第一版，但称呼、事实、承诺时限和语气必须人工检查。", content: "请帮我写一封邮件回复。\n\n原始邮件内容：[粘贴对方邮件]\n\n回复要点：\n1. 确认收到对方的需求。\n2. 说明我们会在 3 个工作日内给出方案。\n3. 询问对方是否有补充信息。\n\n要求：语气正式但不生硬，控制在 200 字以内。", tip: "最容易漏掉的是称呼和署名。正式邮件发送前一定核对对方姓名、职位、承诺时间和附件是否正确。" }] }
     ]},
-    { id: "chapter-8", group: "场景", title: "业务场景示例：7 个真实任务", intro: "业务案例不是为了展示行业知识，而是让听众看到同样的 WorkBuddy 能力如何迁移到政策、水质、周报、汇报、归档、合同与发票等真实工作。", sections: [
-      { id: "policy", title: "政策文件结构化解读", type: "case", scenario: "拿到一份政策文件，需要快速理解对工作有什么影响，并整理成工作简报。", audience: "适合综合管理、政策研究、项目负责人。", background: "演示时先展示原始政策文件，再展示 AI 整理的简报，重点对比「原文要求」和「AI 推断建议」的标注差异。", prerequisites: ["创建任务","上传资料","Ask / Plan","结果验收"], modules: ["文档读取","专家视角","Prompt 约束","人工验收"], inputs: ["政策原文","相关项目背景"], steps: ["先用 Ask 提取核心要求。","再要求区分原文、影响和建议动作。","追问生成简报版或表格版。","人工核对政策依据。"], prompt: "请阅读我提供的政策文件，整理一份工作简报。\n\n输出结构：\n1. 文件核心要求：不超过 5 条。\n2. 与我们工作直接相关的变化。\n3. 可能影响的业务流程。\n4. 建议采取的动作清单。\n5. 需要进一步人工确认的条款。\n\n要求：区分「政策原文要求」和「AI 推断建议」，不要把不确定内容写成确定结论。", followups: ["请把结果改成表格。","不满意时追问：压缩成一页 A4；按紧急程度排序建议动作。"], validation: ["原文要求是否准确。","AI 建议是否标注清楚。"], reviewFocus: ["逐条核对政策条文来源。","把「原文要求」和「建议动作」分开。"], deliverable: "800-1000 字工作简报 + 建议动作表。", pitfalls: ["把 AI 推测写成政策规定。","只总结原文，不转化行动。"] },
-      { id: "water", title: "水质监测异常初筛", type: "case", scenario: "拿到水质监测数据，需要先筛出疑似异常点，为人工复核提供线索。", audience: "适合监测岗、数据分析岗。", background: "演示时先展示原始表格，再展示 AI 标记的异常记录。强调 AI 做的是「缩小排查范围」，不是「下结论」。", prerequisites: ["表格分析","结果查看","人工验收"], modules: ["xlsx Skill","Ask","图表"], inputs: ["水质监测 Excel","指标阈值或评价标准"], steps: ["先备份原始 Excel。","用 Ask 读取数据。","要求区分数据事实和 AI 初步判断。"], prompt: "请读取这份水质监测数据，做异常初筛。\n\n请输出：\n1. 数据字段识别结果。\n2. 疑似异常记录清单。\n3. 每条异常的指标、时间、点位和异常表现。\n4. 可能原因的初步判断。\n5. 建议人工核查动作。\n\n要求：「数据事实」和「AI 初步判断」必须分开，不要直接给最终专业结论。", followups: ["请只保留最明显的 3 个异常点。","不满意时追问：按严重程度排序；标注是否与近期降雨有关。"], validation: ["是否保留原始数据。","是否区分事实和判断。"], reviewFocus: ["核对指标单位、时间范围和点位名称。","把「疑似异常」保留为线索，不写成最终原因。"], deliverable: "异常线索清单 + 重点点位对比表。", pitfalls: ["用 Craft 直接改原始 Excel。","把 AI 初筛当最终结论。"] },
-      { id: "weekly-report", title: "监测数据周报", type: "case", scenario: "每周固定生成监测周报，适合先手动跑通，再考虑自动化。", audience: "适合监测岗、数据分析岗。", background: "演示时展示从原始数据到周报草稿的全过程——重点看 AI 生成的图表和结论是否一致。", prerequisites: ["表格分析","周报模板","自动化前置"], modules: ["xlsx Skill","图表","自动化"], inputs: ["本周监测数据","历史对比数据"], steps: ["先手动跑通周报生成。","固定输入目录和输出格式。","连续验证稳定后设置自动化。"], prompt: "请根据本周监测数据生成周报草稿。\n\n输出内容：\n1. 本周数据概况。\n2. 关键指标趋势。\n3. 疑似异常点位或日期。\n4. 2-3 个建议图表。\n5. 3 条适合汇报的结论。\n6. 需要人工复核的问题清单。", followups: ["请把结论压缩成 PPT 首页 3 条要点。"], validation: ["图表是否和数据一致。"], reviewFocus: ["检查图表和原始数据是否对应。"], deliverable: "Markdown 周报 + 图表 + 人工复核清单。", pitfalls: ["第一次跑通就自动化。","周报结论不人工复核。"] },
-      { id: "project-briefing", title: "项目汇报材料整理", type: "case", scenario: "项目资料很多、时间紧，需要先整理出汇报主线、PPT 大纲和缺失材料清单。", audience: "适合项目负责人、综合岗。", background: "演示时先展示杂乱的项目材料文件夹，再展示 AI 输出的清晰大纲。「散乱材料→清晰主线」的对比最能打动人。", prerequisites: ["资料整理","Plan 模式","专家视角","PPT 大纲"], modules: ["文档读取","资料库","专家/专家团","PPT 大纲"], inputs: ["项目背景材料","阶段性成果","数据表或图表"], steps: ["先用 Plan 列汇报结构。","要求区分已有材料和缺失数据。","追问生成 10-12 页 PPT 大纲。"], prompt: "请根据我提供的项目材料，整理一份项目汇报 PPT 大纲。\n\n汇报对象：\n汇报时长：\n希望突出：项目进展、阶段成效、当前问题、下一步计划。\n\n输出要求：\n1. 先给 10-12 页以内的 PPT 结构。\n2. 每页包含标题、核心要点、建议图表或素材。\n3. 单独列出缺失数据和需要我补充的材料。\n4. 不要直接生成完整 PPT，先输出大纲让我确认。", followups: ["请把标题改得更适合领导汇报。"], validation: ["汇报主线是否清楚。","是否标出缺失数据。"], reviewFocus: ["核对关键数字和项目成果。"], deliverable: "PPT 大纲 + 每页要点 + 缺失材料清单。", pitfalls: ["材料堆砌成流水账。","AI 编造项目成效。"] },
-      { id: "meeting", title: "会议纪要整理与知识归档", type: "case", scenario: "会后立刻把录音、照片和笔记交给 WorkBuddy，生成纪要、待办和归档标签。", audience: "适合综合岗、项目秘书。", background: "演示时如果条件允许，播放一段会议录音，然后展示 AI 生成的纪要+待办表格——重点是「待办表格」展示怎么把散乱讨论变成行动清单。", prerequisites: ["任务对话","资料库","结果验收"], modules: ["docx Skill","资料库","归档"], inputs: ["会议记录","附件材料","参会人员名单"], steps: ["上传会议记录和附件。","生成纪要初稿和待办清单。","追问补责任人和截止时间。"], prompt: "请根据会议记录和附件材料整理正式会议纪要。\n\n输出结构：\n1. 会议基本信息。\n2. 核心结论。\n3. 待办事项表格：事项、责任人、截止时间、备注。\n4. 需要继续确认的问题。\n5. 建议归档目录和标签。\n\n要求：不要编造责任人和截止时间，缺失时标注「待确认」。", followups: ["请按责任人分组待办。"], validation: ["结论是否和原始记录一致。"], reviewFocus: ["核对责任人和截止时间是否真实出现。"], deliverable: "Word 会议纪要 + Markdown 待办清单。", pitfalls: ["只生成纪要，没有待办。","会后不归档。"] },
-      { id: "contract-review", title: "合同关键条款审查", type: "case", scenario: "手头有一份合同或制度文件，需要先筛出关键条款、风险点和需要人工确认的问题。", audience: "适合综合岗、项目负责人、合同经办人员；不替代法务审查。", background: "这个案例适合强调边界：WorkBuddy 可以做初筛和结构化整理，但不能替代正式法律意见。", prerequisites: ["pdf Skill","结果验收","风险边界"], modules: ["pdf Skill","结构化提取","搜索 Skill","人工复核"], inputs: ["合同 PDF 或 Word","已知关注点","相关制度或标准"], steps: ["先用 Ask 读取合同结构。","要求提取关键条款和风险提示。","把风险分为事实、疑问和建议动作。","交由人工或法务复核。"], prompt: "请阅读这份合同，帮我做关键条款初筛。\n\n输出结构：\n1. 合同基本信息：甲乙方、金额、期限、履约内容。\n2. 关键条款摘要：付款、交付、验收、违约、保密、解除。\n3. 需要重点关注的风险点。\n4. 需要我补充或人工确认的问题。\n5. 建议后续处理动作。\n\n要求：这只是初筛，不要给最终法律结论；所有不确定内容标注「需人工确认」。", followups: ["请把风险点按高/中/低分级。","请生成一份给负责人看的 300 字摘要。"], validation: ["关键条款是否来自原文。","风险提示是否被标注为初筛。"], reviewFocus: ["核对金额、日期、违约条款和责任主体。","正式结论必须人工或法务确认。"], deliverable: "合同关键条款表 + 风险初筛清单。", pitfalls: ["把 AI 初筛当法务意见。","没有核对原文条款位置。"] },
-      { id: "invoice-extract", title: "发票信息批量提取", type: "case", scenario: "需要从多份发票或报销附件中提取字段，形成一张可核对的 Excel 汇总表。", audience: "适合综合岗、财务协作、项目报销材料整理。", background: "这个案例能展示批量处理价值，但也要强调抽样核对，尤其是金额、税号、日期和发票号码。", prerequisites: ["批量处理","xlsx Skill","人工抽检"], modules: ["pdf Skill","xlsx Skill","文件管理"], inputs: ["发票 PDF 或图片","字段清单","输出表模板"], steps: ["先把发票放入单独文件夹。","要求逐份提取字段，不要覆盖原文件。","生成 Excel 汇总表。","抽样核对 2-3 份原始发票。"], prompt: "请批量读取「发票材料」文件夹中的发票文件，并生成一张 Excel 汇总表。\n\n需要提取字段：发票号码、开票日期、购买方、销售方、金额、税额、价税合计、备注。\n\n要求：\n1. 每份发票一行。\n2. 找不到的字段标注「未识别」，不要编造。\n3. 保留原始文件名，方便我回查。\n4. 输出后列出你认为需要人工核对的记录。", followups: ["请按开票日期排序。","请筛出金额超过 1 万元的记录。"], validation: ["是否遗漏文件。","金额、税额、价税合计是否一致。"], reviewFocus: ["抽样核对原始发票。","关注识别失败或疑似重复记录。"], deliverable: "发票 Excel 汇总表 + 需人工核对清单。", pitfalls: ["没有保留原始文件名导致无法回查。","OCR 识别错误但未抽检。"] }
+    { id: "chapter-8", group: "场景", title: "业务场景示例：流域治理工作中的真实应用", intro: "业务案例不讲泛泛的环保场景，而是围绕水污染防治资金申报、生态修复项目推进、督查调度、汇报材料编制、监测数据分析和历史项目经验复用来讲。", sections: [
+      { id: "chapter-position", title: "这一章怎么讲", type: "text", paragraphs: ["介绍 WorkBuddy 时，应让听众看到它如何进入项目谋划、技术支撑、材料编制和成果总结的具体流程。它不替代专业判断，而是承担基础性、重复性、结构化的工作，让工作人员把更多精力放在专业审核、现场调查、技术路线判断和综合协调上。"] },
+      { id: "funding", title: "中央水污染防治资金项目谋划与申报", type: "text", paragraphs: ["这是最适合放在业务应用开头的场景。痛点是政策文件多、更新快，项目谋划依赖经验，可研、绩效目标和实施方案编写耗时长，不同地区和年份材料风格也不统一。"], bullets: ["自动梳理政策依据，形成政策符合性分析。","快速生成项目谋划框架。","辅助撰写建设必要性、项目目标、绩效指标。","生成更接近中央资金申报语言风格的正式文本。"], templates: [{ label: "资金项目谋划 Prompt", content: "请围绕赤水河总磷治理，谋划一个中央水污染防治资金项目。\n\n请输出：\n1. 项目背景。\n2. 存在问题。\n3. 建设必要性。\n4. 建设内容。\n5. 治理目标。\n6. 资金需求测算思路。\n7. 绩效指标建议。\n8. 需要补充的政策依据和基础数据。\n\n要求：语言风格适合项目申报材料；政策依据和 AI 建议要分开；不要编造具体文号、金额和监测数据；缺失信息请标注“需补充”。", tip: "验收时重点看政策依据、项目问题、建设内容和绩效目标是否串起来。" }] },
+      { id: "feasibility-design", title: "可研报告、初步设计与技术报告编制", type: "text", paragraphs: ["水生态修复实施方案、河湖治理项目建议书、可研报告、初步设计和技术总结报告都需要清晰的工程逻辑。WorkBuddy 适合先搭框架、写基础性文字，再由专业人员修改审核。"], bullets: ["生成章节框架。","形成技术路线描述。","辅助开展工艺或措施比选。","生成工程实施计划与保障措施。"], templates: [{ label: "技术路线 Prompt", content: "请生成山洪型河道生态修复项目技术路线。\n\n已知情况：河道类型、主要生态问题、水质和水文特征、岸线现状、周边污染来源。\n\n请输出：总体治理思路、技术路线、主要工程措施、工艺或措施比选、实施计划、保障措施、需要进一步核实的数据。\n\n要求：语言适合可研报告或初步设计文本；不要编造现状数据；技术措施要说明适用条件。" }] },
+      { id: "monitoring-summary", title: "监测数据分析与成果总结", type: "text", paragraphs: ["水质监测、断面考核、河湖生态监测和项目前后对比数据，适合让 WorkBuddy 先做趋势分析、改善幅度计算和成果文字初稿。"], table: { headers: ["阶段","COD","氨氮","总磷"], rows: [["治理前","35","2.3","0.45"],["治理后","18","0.8","0.18"]] }, templates: [{ label: "成果总结 Prompt", content: "请分析项目实施前后水质变化情况，并形成成果总结。\n\n请输出：各指标变化情况、改善幅度计算、治理成效总结、适合写入项目总结报告的文字、需要人工复核的数据和口径。\n\n要求：不要直接作最终专业结论；数字、单位和时间范围必须保持一致；如果无法判断评价标准，请提示需要补充标准或考核口径。" }] },
+      { id: "diagnosis", title: "河湖生态问题诊断", type: "text", paragraphs: ["面对水质长期不稳定、总磷偏高、藻类频发、水体透明度下降、岸带生态退化等问题，WorkBuddy 可以先给出排查框架和可能原因。"], templates: [{ label: "生态问题诊断 Prompt", content: "某河段总磷长期超标，周边以农业种植和村镇生活污染为主。请分析可能原因及治理措施。\n\n请输出：可能污染来源、需要进一步核实的数据和现场信息、初步治理思路、可选工程措施和管理措施、哪些判断必须由专业人员或现场调查确认。\n\n要求：这只是辅助分析，不要直接给最终结论；原因分析要区分“可能原因”和“已知事实”；治理措施要说明适用条件。" }] },
+      { id: "inspection", title: "督查调研与现场问题整理", type: "text", paragraphs: ["这是新增的重点场景。现场调研资料往往分散在记录、照片、录音和附件里，督查结束后需要快速形成问题清单、整改要求、责任分工和督办事项。"], bullets: ["自动提炼现场问题。","生成督查问题分类清单。","快速形成督查通报与整改建议。","自动提取责任单位与时间节点。"], templates: [{ label: "督查调研 Prompt", content: "请根据以下现场调研记录和会议讨论内容，整理督查问题清单和整改建议。\n\n请输出：\n1. 问题分类：水质问题、工程进展问题、管护问题、资料问题、协调问题。\n2. 每类问题的具体表现。\n3. 整改要求。\n4. 责任单位。\n5. 建议完成时限。\n6. 需要进一步核实的问题。\n7. 可直接用于督查通报的文字。\n\n要求：不要编造责任单位和完成时限，缺失信息标注“待确认”；现场事实、分析判断和整改建议要分开；语言要适合正式督查或调度材料。" }] },
+      { id: "dispatch", title: "周报、月报与综合调度汇报", type: "text", paragraphs: ["多个项目同时推进时，WorkBuddy 可以把分散的项目进展、共性问题、需协调事项和下一步安排汇总成周报、月报或调度会材料。"], templates: [{ label: "综合调度 Prompt", content: "请根据 8 个县项目推进情况，整理一份综合调度汇报。\n\n请输出：总体进展、分县进展情况、共性问题、需协调事项、下一步计划、适合调度会上汇报的 3 条重点结论。\n\n要求：不要遗漏县区；问题和建议要对应；语言简洁，突出领导关注重点。" }] },
+      { id: "ppt", title: "领导汇报 PPT 与专题汇报", type: "text", paragraphs: ["专题汇报的难点常常不是没有内容，而是不会搭建汇报逻辑、标题缺乏高度、重点不突出。WorkBuddy 可以先生成汇报框架、一级标题和逻辑主线。"], templates: [{ label: "PPT 框架 Prompt", content: "请生成赤水河流域治理工作调度汇报 PPT 框架。\n\n汇报对象：领导。\n汇报目标：说明工作进展、存在问题和下一步安排。\n\n请输出：10 页以内 PPT 结构、每页标题、每页核心内容、建议图表或素材、需要补充的数据。\n\n要求：标题要适合领导汇报；减少过程描述，突出进展、问题、措施和下一步；不要直接生成完整 PPT，先输出大纲。" }] },
+      { id: "minutes", title: "会议纪要与任务督办", type: "text", paragraphs: ["专家咨询会、项目调度会、现场调研会、部门协调会和方案评审会，都适合用 WorkBuddy 整理纪要、提取议定事项、形成责任清单和督办台账。"], templates: [{ label: "会议督办 Prompt", content: "请根据会议录音转写内容整理会议纪要和任务督办清单。\n\n输出结构：会议基本信息、主要讨论内容、形成的结论、议定事项、责任清单、需要继续协调或确认的问题。\n\n要求：不要编造责任单位、责任人和完成时限；没有明确的信息标注“待确认”；会议结论和个人建议要分开。" }] },
+      { id: "knowledge", title: "单位知识库与 AI 业务助手", type: "text", paragraphs: ["把历史报告、实施方案、总结材料、政策标准和典型案例导入资料库后，WorkBuddy 可以成为单位内部经验库，帮助复用河道生态修复、湿地建设、入河排污口整治、水环境综合治理等项目经验。"], templates: [{ label: "知识库查询 Prompt", content: "请基于资料库中近三年的项目材料，整理单位实施的生态缓冲带建设项目有哪些典型做法。\n\n请输出：项目名称和所在区域、主要建设内容、采用的技术路线、实施效果或经验总结、可在新项目中复用的做法、信息来源或对应资料名称。\n\n要求：只基于资料库已有材料回答；找不到依据的内容不要编造；需要人工补充的信息请单独列出。" }] },
+      { id: "acceptance", title: "项目验收和绩效评价", type: "text", paragraphs: ["项目结束后，WorkBuddy 可以根据建设内容、投资完成情况、监测成果、现场照片和管理成效，辅助生成项目总结、验收材料、绩效评价和效益分析初稿。"], templates: [{ label: "绩效评价 Prompt", content: "请根据以下建设内容和监测成果，编写项目绩效评价总结。\n\n输入材料包括：项目建设内容、完成工程量、实施前后监测数据、生态环境改善情况、项目管理和资金执行情况。\n\n请输出：项目实施概况、主要建设成效、水环境或水生态改善情况、社会效益、生态效益和管理效益、存在问题和后续建议、需要人工复核的数据清单。\n\n要求：不要夸大项目成效；所有数据和结论要能回到输入材料；不确定内容标注“需核实”。" }] },
+      { id: "summary-talk", title: "汇报时可以这样总结", type: "cards", cards: [
+        { title: "业务结合口径", content: "WorkBuddy 可用于项目方案编制、监测数据分析、政策研究、生态问题诊断、会议纪要整理、历史项目经验查询以及项目验收总结等环节。" },
+        { title: "领导关心的落点", content: "它特别适合减少报告编写、数据分析和知识检索中的重复性工作，提高项目谋划和技术支撑效率。" },
+        { title: "具体案例", content: "编制某河流生态修复实施方案时，可快速梳理背景、问题、政策依据、建设目标和技术路线框架，把基础性文字工作压缩到几十分钟。" }
+      ] }
     ]},
     { id: "chapter-9", group: "速查", title: "Prompt 与模板：可复制、可改写、可复用", intro: "Prompt 不是咒语，而是任务说明。这里集中放可复制模板，也说明怎么改写和验收。", sections: [
       { id: "prompt-essence", title: "Prompt 的本质", type: "text", paragraphs: ["对 WorkBuddy 来说，Prompt 不是一句神秘口令，而是一份任务说明。它要让 AI 知道：要做什么、基于什么做、做到什么样、哪些地方不能乱来。","可以把好的 Prompt 理解成「目标 + 输入 + 格式 + 约束 + 验收」。目标决定方向，输入决定依据，格式决定产物，约束决定边界，验收决定能不能交付。"], table: { headers: ["要素","要回答的问题","写法示例"], rows: [["目标","要完成什么","整理一份项目周报草稿"],["输入","基于什么材料","读取本周工作记录和项目文件夹"],["格式","输出长什么样","Markdown 表格 + 三段总结"],["约束","不能做什么","不要编造缺失数据，缺失处标注待确认"],["验收","什么样算可用","能直接给负责人快速浏览，关键数字需标注来源"]] } },
@@ -158,95 +167,21 @@ window.siteContent = {
         { q: "WorkBuddy 能记住我的偏好和习惯吗？", a: "可以。WorkBuddy 有记忆功能，会从对话中提取你的格式、语气和流程偏好。也可以主动告诉它要记住的习惯，例如周报按项目分段、用表格输出。", ref: "延伸：官方记忆文档" }
       ]}
     ]},
-    { id: "chapter-11", group: "分享者参考", title: "如果你要拿这份内容去讲", intro: "这部分给分享者使用，用来控制现场节奏，不建议一字不差照读。", sections: [
-      { id: "flow", title: "推荐讲解节奏", type: "table", headers: ["时间","内容","目标"], rows: [
-        ["0-5 分钟","分享定位和 WorkBuddy 是什么","建立认知，不讲复杂配置"],
-        ["5-15 分钟","第一个任务演示","跑通任务闭环"],
-        ["15-25 分钟","提任务、看结果、选模式","讲清基础动作"],
-        ["25-40 分钟","进阶能力地图","讲 Skill、专家团、资料库、自动化、Claw"],
-        ["40-55 分钟","办公和业务案例","让听众代入自己的工作"],
-        ["55-60 分钟","FAQ 和行动建议","收束，给会后练习方向"]
-      ]},
-      { id: "talking-points", title: "现场反复强调三句话", type: "cards", cards: [
-        { title: "不是只聊天", content: "WorkBuddy 是围绕任务交付结果的 AI 工作台。" },
-        { title: "结果不是终稿", content: "AI 结果必须人工验收，尤其是数据、政策和正式材料。" },
-        { title: "先低风险再自动化", content: "先把高频、低风险、易验收的工作跑顺，再上自动化和连接器。" }
-      ]}
-    ]},
-    { id: "chapter-12", group: "分享者参考", title: "课程网站制作流程", intro: "这部分单独说明课程网站是怎么做出来的，方便分享时讲清楚思路和方法。它不是技术开发手册，不展开代码细节。", sections: [
-      { id: "goal", title: "制作目标", type: "text", paragraphs: [
-        "课程网站的目标不是重新写一套教程，而是把已经整理好的 WorkBuddy 教程内容，转换成更适合投屏讲解、现场导航和会后复习的网页形式。",
-        "简单理解：教程文档负责承载完整内容，网站负责把内容变成可浏览、可跳转、可演示的课程页面。分享时以教程文档为主线，网站作为展示和辅助讲解工具。"
-      ]},
-      { id: "method", title: "整体思路", type: "text", paragraphs: [
-        "网站采用“先文档、后网页”的方式。先把教程内容整理成完整 Markdown 文档，确认章节顺序、讲解逻辑、案例、Prompt 模板和 FAQ，再把内容拆成网站可以识别的数据结构。",
-        "这样可以先稳定课程主线，再围绕讲解体验做网页展示。后续如果要改内容，也应先改主文档，再同步到网站展示版。"
-      ]},
-      { id: "files", title: "主要文件分工", type: "table", headers: ["文件","作用"], rows: [
-        ["index.html","页面基础结构，负责承载网站界面。"],
-        ["content.js","网站课程内容数据，包含首页、章节、案例、FAQ 和资源链接。"],
-        ["app.js","页面交互逻辑，例如章节切换、搜索、讲解模式等。"],
-        ["styles.css","页面样式，控制颜色、排版、间距和响应式布局。"],
-        ["server.js","本地启动网站的服务脚本。"],
-        ["README.md","网站启动和维护说明。"]
-      ]},
-      { id: "steps", title: "制作步骤", type: "text", bullets: [
-        "确定教程主线：先完成主教程文档，明确要讲什么、不讲什么，以及分享对象是谁。",
-        "拆成网站结构：把文档内容拆成首页、章节页、表格、卡片、案例、FAQ 和资源页。",
-        "写入内容数据：把拆好的内容整理到 content.js，网站打开时自动渲染成页面。",
-        "制作页面交互：加入左侧导航、学习路径、章节展示、模板展示、FAQ、资源页、搜索和讲解模式。",
-        "本地预览调整：检查章节顺序、显示效果、投屏体验、移动端阅读和关键内容是否遗漏。"
-      ]},
-      { id: "relationship", title: "文档和网站的关系", type: "text", paragraphs: [
-        "教程文档是主稿，网站是展示版。两者内容主线一致，但呈现方式不完全一样。文档更完整，适合按顺序阅读和分享；网站更适合投屏讲解、快速跳转和会后检索。",
-        "分享时建议按照教程文档来讲，网站作为辅助展示使用。如果文档和网站某处表达不完全一致，以教程文档为准。"
-      ]},
-      { id: "maintenance", title: "后续维护方法", type: "text", bullets: [
-        "先修改教程文档，确认主线和文字。",
-        "再同步调整 content.js 或内容生成脚本。",
-        "启动网站本地预览。",
-        "检查章节、案例、FAQ 和资源链接。",
-        "确认无误后再分享给其他人。"
-      ]},
-      { id: "summary", title: "一句话总结", type: "cards", cards: [
-        { title: "先讲清楚", content: "先用文档把课程主线和内容讲清楚。" },
-        { title: "再做展示", content: "再用网页把课程变得更好讲、更好看、更好查。" },
-        { title: "文档为准", content: "分享和维护时以教程文档为主，网站作为展示版同步更新。" }
-      ]}
-    ]},
   ],
   resources: [
     { title: "本地分享材料", items: [
-      { label: "WorkBuddy 使用教程与分享文档", href: "WorkBuddy使用教程与分享文档_2026-06-01.md", note: "主教程文档，分享时建议以这份文档为准。" },
-      { label: "课程网站制作流程", href: "#/chapter/chapter-12", note: "单独说明网站制作思路、文件分工、制作步骤和维护方法。" },
-      { label: "网站制作流程说明文档", href: "WorkBuddy课程网站制作流程说明_2026-06-02.md", note: "Markdown 文档版，可单独分享或会后阅读。" }
+      { label: "WorkBuddy 使用教程与分享文档", href: "WorkBuddy使用教程与分享文档_2026-06-01.md", note: "主教程文档，分享和会后复习以这份文档为准。" }
     ]},
     { title: "WorkBuddy 官方文档", items: [
-      { label: "产品介绍", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Product-Guide", note: "确认产品定位和核心能力。" },
       { label: "WorkBuddy 简介", href: "https://www.codebuddy.cn/docs/workbuddy/Overview", note: "快速了解 WorkBuddy 是什么。" },
       { label: "快速开始", href: "https://www.codebuddy.cn/docs/workbuddy/Quickstart", note: "适合第一次上手前阅读。" },
       { label: "创建任务", href: "https://www.codebuddy.cn/docs/workbuddy/Create-Task", note: "任务描述、工作目录和上下文补充。" },
       { label: "任务对话", href: "https://www.codebuddy.cn/docs/workbuddy/Conversation", note: "追问、补充材料和迭代结果。" },
       { label: "结果查看", href: "https://www.codebuddy.cn/docs/workbuddy/Results", note: "产物、全部文件、变更和预览。" },
-      { label: "新建任务栏", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Task-Bar", note: "模式、模型、工作目录和任务入口。" }
-    ]},
-    { title: "进阶能力官方文档", items: [
       { label: "技能市场", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market", note: "Skill 安装、查找、创建和启用。" },
       { label: "专家中心", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Expert-Center", note: "专家、专家团和角色能力。" },
-      { label: "探索", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Exploration", note: "从案例反推 Prompt 和操作路径。" },
       { label: "资料库", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Knowledge-Base", note: "资料检索、引用和沉淀。" },
-      { label: "连接器", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Connector", note: "接入外部服务。" },
-      { label: "MCP", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/MCP-Guide", note: "外部工具和数据源接口。" },
-      { label: "自动化", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Automation-Guide", note: "定时任务和重复流程。" },
-      { label: "Claw", href: "https://www.codebuddy.cn/docs/workbuddy/Claw", note: "远程触发电脑端 WorkBuddy。" },
-      { label: "Claw 远程任务", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Claw-Guide", note: "绑定和远程触发流程。" },
-      { label: "模型配置", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Model", note: "Auto 与自定义模型选择。" }
-    ]},
-    { title: "网络教程与实践", items: [
-      { label: "腾讯文档接入 WorkBuddy 报道", href: "https://finance.sina.com.cn/roll/2026-04-29/doc-inhwczny7987063.shtml", note: "理解连接器和文档协同的应用方向。" },
-      { label: "腾讯文档接入 WorkBuddy 上手指南", href: "https://xmsumi.com/detail/3341", note: "作为连接外部文档的补充阅读。" },
-      { label: "WorkBuddy 新手实战教程", href: "https://cloud.tencent.cn/developer/article/2666792", note: "会后补充看实操步骤。" },
-      { label: "WorkBuddy 养虾指南 10 个上手技巧", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Efficient-Shrimp-Raising-Tips", note: "官方最佳实践和效率技巧。" }
+      { label: "自动化", href: "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Automation-Guide", note: "定时任务和重复流程。" }
     ]},
     { title: "Prompt 方法学习", items: [
       { label: "OpenAI Prompting fundamentals", href: "https://openai.com/academy/prompting/", note: "提示词基础方法。" },
