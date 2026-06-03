@@ -3594,8 +3594,9 @@ body.lecture-mode .topbar__search {
 }
 
 .advanced-layout .content-block {
-  grid-template-columns: minmax(104px, 0.18fr) minmax(0, 1fr);
-  column-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   align-items: start;
   padding: 16px 18px;
 }
@@ -3638,7 +3639,6 @@ body.lecture-mode .topbar__search {
   }
 
   .advanced-layout .content-block {
-    grid-template-columns: 1fr;
-    column-gap: 0;
+    gap: 10px;
   }
 }
