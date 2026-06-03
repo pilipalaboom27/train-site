@@ -414,16 +414,91 @@ Skill 是能力扩展。比如处理 Word、Excel、PPT、PDF，或者进行网�
 6. 发送任务后，关注结果区是否生成了正确的产物（如图表、分析结果、新表格）。
 7. 如果在结果区看到了产物，说明 Skill 调用成功。如果没有，检查 Skill 是否正确启用，或 Prompt 是否明确了文件类型。
 
+**从 SkillHub 安装常用 Skill**：
+
+如果 WorkBuddy 内置市场里找不到，或者想按下载量挑选，可以先看这两个网站：
+
+| 网站 | 定位 | 适合怎么用 |
+|---|---|---|
+| SkillHub：<https://skillhub.cn/skills> | 面向中文用户和 WorkBuddy/ClawHub 生态的技能社区 | 优先搜索日常办公、WPS、Excel、PDF、PPT、网页搜索等技能 |
+| ClawHub 镜像站：<https://cn.clawhub-mirror.com/> | ClawHub 中文镜像入口 | 当主站访问慢或想查 ClawHub 生态技能时使用 |
+| Skills Directory：<https://www.skills.sh/> | 通用 Agent Skills 目录，有排行榜和安装热度 | 用来找更广泛的技能灵感，安装前先确认是否兼容 WorkBuddy |
+
+SkillHub 上的技能可以用安装名安装，例如：
+
+```bash
+skillhub search xlsx
+skillhub install excel-xlsx
+```
+
+第一次使用 SkillHub 时，先按官方安装说明安装 CLI：<https://skillhub.cn/install/skillhub.md>。
+
+**日常办公和数据分析优先推荐**：
+
+| 推荐顺序 | Skill | 安装名 | 下载量级 | 是否需要 API Key | 适合场景 |
+|---|---|---|---:|---|---|
+| 1 | Word / DOCX | `word-docx` | 13 万+ | 否 | 正式报告、会议纪要、项目总结、验收材料 |
+| 2 | Excel / XLSX | `excel-xlsx` | 12 万+ | 否 | 水质监测数据、排口数据、项目台账、图表统计 |
+| 3 | Data Analysis | `data-analysis` | 6 万+ | 否 | 数据清洗、统计分析、趋势识别、可视化和分析报告 |
+| 4 | Powerpoint / PPTX | `powerpoint-pptx` | 5 万+ | 否 | 领导汇报、项目调度 PPT、成果展示 |
+| 5 | PDF | `pdf` | 4 万+ | 否 | 政策文件、方案、报告、PDF 表格提取 |
+| 6 | Markdown Converter | `markdown-converter` | 5 万+ | 否 | 把 PDF/Word/PPT/Excel 转成 Markdown，便于资料整理和 AI 分析 |
+| 7 | Web Search | `web-search` | 3 万+ | 否 | 政策依据、新闻动态、行业资料检索 |
+| 8 | find-skills | `find-skills` | 按需 | 否 | 不知道该装什么时，让 AI 按任务帮你找技能 |
+| 9 | Humanizer | `humanizer` | 18 万+ | 否 | 润色报告、材料、公众号稿、通知，去掉明显 AI 腔 |
+| 10 | Research Paper Writer | `research-paper-writer` | 1 万+ | 否 | 按 IEEE/ACM 结构生成研究论文、学术论文、会议论文初稿 |
+
+可以先装这一组：
+
+```bash
+skillhub install word-docx
+skillhub install excel-xlsx
+skillhub install data-analysis
+skillhub install powerpoint-pptx
+skillhub install pdf
+skillhub install markdown-converter
+skillhub install web-search
+skillhub install find-skills
+skillhub install humanizer
+skillhub install research-paper-writer
+```
+
+如果单位里 WPS 或金山文档用得多，再加：
+
+```bash
+skillhub install wps
+skillhub install kdocs-skill
+```
+
+如果会议纪要、调度会、专家会很多，可以再加：
+
+```bash
+skillhub install ai-meeting-notes
+```
+
+如果有论文写作、科研材料、技术路线论证、英文摘要等任务，可以补充安装 `20-ml-paper-writing`。这个技能来自 Orchestra-Research 的 AI-Research-SKILLs，主要用于 ML/AI/Systems 论文写作、LaTeX 结构、引用核验和审稿清单。它目前不在 SkillHub 搜索结果中，建议从 Skills Directory 或 GitHub 来源安装：
+
+```bash
+npx skills add https://github.com/Orchestra-Research/AI-Research-SKILLs --skill 20-ml-paper-writing
+```
+
+如果上面的命令不兼容当前环境，也可以在 Skills Directory 搜索 `ml-paper-writing` 或 `20-ml-paper-writing`，按页面给出的安装命令执行：<https://www.skills.sh/>。
+
+> 💡 **选择原则**：先装无 API Key、下载量高、和文件处理直接相关的 Skill。需要外部账号或 API Key 的技能，等确实有云文档、网页搜索增强或会议系统接入需求时再装。
+
 **怎么判断当前任务需要什么 Skill**：
 
 | 你的任务 | 可能需要 |
 |---|---|
 | 读取或生成 Excel | xlsx |
+| 数据清洗、趋势分析、异常识别、可视化 | data-analysis |
 | 读取或生成 Word 文档 | docx |
 | 读取或生成 PPT | pptx |
 | 读取 PDF 内容 | pdf |
 | 语音转文字 | 语音相关 Skill |
 | 网页搜索 | 搜索相关 Skill |
+| 润色、去 AI 味 | humanizer |
+| 论文写作、英文摘要、科研材料 | research-paper-writer / 20-ml-paper-writing |
 | 只是问答、改写、总结 | 通常不需要额外 Skill |
 
 如果拿不准，先不加 Skill 试一次。AI 会在对话中告诉你它需要什么能力——那个时候再加也来得及。
