@@ -3560,6 +3560,26 @@ body.lecture-mode .topbar__search {
   background: rgba(255, 253, 247, 0.78);
 }
 
+.advanced-layout .detail-card__label,
+.advanced-layout .content-block__label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 30px;
+  margin: 0;
+  padding: 4px 10px 3px;
+  border: 1px solid rgba(170, 141, 95, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 253, 247, 0.78);
+  color: var(--accent);
+  font-family: var(--body-font);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: 0;
+  box-shadow: none;
+}
+
 .advanced-layout .content-block {
   grid-template-columns: minmax(104px, 0.18fr) minmax(0, 1fr);
   column-gap: 20px;
