@@ -3580,6 +3580,19 @@ body.lecture-mode .topbar__search {
   box-shadow: none;
 }
 
+.advanced-layout .detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.advanced-layout .detail-card p {
+  max-width: 72ch;
+  font-size: 1rem;
+  line-height: 1.78;
+}
+
 .advanced-layout .content-block {
   grid-template-columns: minmax(104px, 0.18fr) minmax(0, 1fr);
   column-gap: 20px;
