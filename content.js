@@ -1850,7 +1850,7 @@ window.siteContent = {
           ],
           "blocks": [
             {
-              "label": "OpenAI 的 Prompt 基础资料强调三个关键点：说明任务、提供上下文、描述理想输出。放在 WorkBuddy 里，可以改写成",
+              "label": "通用 Prompt 写法可以概括为：说明任务、提供上下文、描述理想输出。放在 WorkBuddy 里，可以进一步改写成",
               "prompt": "任务 + 材料 + 输出 + 约束 + 验收"
             }
           ]

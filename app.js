@@ -472,7 +472,7 @@ function renderResources() {
     <section class="article-header panel">
       <div class="eyebrow">Resources</div>
       <h1>延伸阅读：保留必要资料</h1>
-      <p class="lead">这里不做大而全的资料仓库，只保留会后真正可能用到的本地材料、官方文档、科研写作与 Skill 资源。</p>
+      <p class="lead">这里不做大而全的资料仓库，只保留会后真正可能用到的官方文档、科研写作与 Skill 资源。</p>
     </section>
     <section class="resource-section-list">
       ${resources
