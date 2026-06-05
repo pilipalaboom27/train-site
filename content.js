@@ -602,28 +602,83 @@ window.siteContent = {
           "title": "Skill：让 AI 具备某种具体能力",
           "type": "text",
           "paragraphs": [
-            "Skill 是能力扩展。比如处理 Word、Excel、PPT、PDF，或者进行网页搜索、语音转文字、文件整理。它回答的问题是：WorkBuddy 能不能做这件具体工作。"
+            "Skill 是能力扩展。比如处理 Word、Excel、PPT、PDF，或者进行网页搜索、语音转文字、文件整理。它回答的问题是：WorkBuddy 能不能做这件具体工作。不要把 Skill 理解成“越多越强”的插件包，它更像给 AI 临时发工具：当前任务需要什么，就只发什么。"
           ],
           "blocks": [
             {
-              "label": "使用建议",
-              "bullets": [
-                "当前任务需要什么能力，就启用什么能力。",
-                "不要一次打开太多无关 Skill。",
-                "常用办公场景优先准备文档、表格、PPT、PDF 相关能力。",
-                "如果找不到合适 Skill，可以先描述任务，让 WorkBuddy 查找或创建相关技能。"
-              ]
-            },
-            {
-              "label": "常见误区",
-              "bullets": [
-                "以为装得越多越强。实际上无关能力越多，越可能增加误调用和干扰。",
-                "把 Skill 当成专家。Skill 是工具能力，不等于专业判断。"
+              "label": "推荐选择链路",
+              "paragraphs": [
+                "1. 先判断任务类型：是在处理文件、检索资料、写论文、做汇报，还是整理会议内容。",
+                "2. 再选择 Skill：只选能直接解决当前卡点的 1-3 个 Skill。",
+                "3. 再安装或启用：从 WorkBuddy 技能市场、SkillHub 或 GitHub README 里按说明安装。",
+                "4. 最后组合使用：复杂任务用少量 Skill 串起来，不要把所有能力一次打开。"
               ],
               "quote": "💡 **同事经验**：有同事一上来开了七八个 Skill，觉得「技多不压身」。结果 AI 在不同能力间来回调用，输出反而变慢变乱。建议只开当前任务确实需要的，通常 2-3 个就够了，不够再加。"
             },
             {
-              "label": "**安装和启用一个 Skill 的完整过程**（以 xlsx 为例）",
+              "label": "**第一步：判断当前任务需要什么 Skill**",
+              "table": {
+                "headers": [
+                  "你的任务",
+                  "优先考虑"
+                ],
+                "rows": [
+                  [
+                    "读取或生成 Word 文档",
+                    "`docx` / `word-docx`"
+                  ],
+                  [
+                    "读取或生成 Excel",
+                    "`excel-xlsx`"
+                  ],
+                  [
+                    "读取或生成 PPT",
+                    "`powerpoint-pptx`"
+                  ],
+                  [
+                    "读取 PDF 内容",
+                    "`pdf`"
+                  ],
+                  [
+                    "搜索政策、新闻、论文或网页资料",
+                    "`web-search`"
+                  ],
+                  [
+                    "不知道该装什么",
+                    "`find-skills`"
+                  ],
+                  [
+                    "润色终稿、降低 AI 味",
+                    "`humanizer`"
+                  ],
+                  [
+                    "论文写作、英文摘要、科研材料",
+                    "`20-ml-paper-writing` / `research-paper-writing` / `PaperSpine` / `nature-skills`"
+                  ],
+                  [
+                    "PPT 汇报讲稿",
+                    "`speaker / ppt-speech-writer`"
+                  ],
+                  [
+                    "会议录音、纪要整理",
+                    "`ai-meeting-notes` 或语音相关 Skill"
+                  ],
+                  [
+                    "WPS / 金山文档协作",
+                    "`wps` / `kdocs-skill`"
+                  ],
+                  [
+                    "只是问答、改写、总结",
+                    "通常不需要额外 Skill"
+                  ]
+                ]
+              },
+              "paragraphs": [
+                "如果拿不准，先不加 Skill 试一次。AI 会在对话中告诉你它需要什么能力，那个时候再加也来得及。"
+              ]
+            },
+            {
+              "label": "**第二步：安装和启用一个 Skill 的完整过程**（以 xlsx 为例）",
               "paragraphs": [
                 "1. 打开 WorkBuddy，在左侧导航找到「Skill 市场」入口。",
                 "2. 搜索「xlsx」或「Excel」，找到官方或高评分的表格处理 Skill。",
@@ -635,10 +690,10 @@ window.siteContent = {
               ]
             },
             {
-              "label": "**从 SkillHub 安装常用 Skill**"
+              "label": "**第三步：从 SkillHub 或 GitHub 找 Skill**"
             },
             {
-              "label": "如果 WorkBuddy 内置市场里找不到，或者想按下载量挑选，可以先看这两个网站",
+              "label": "如果 WorkBuddy 内置市场里找不到，或者想按下载量挑选，可以先看这三个入口",
               "table": {
                 "headers": [
                   "网站",
@@ -681,8 +736,8 @@ window.siteContent = {
                 ],
                 "rows": [
                   [
-                    "Word / DOCX",
-                    "`docx` 或 `word-docx`",
+                    "DOCX 文档",
+                    "`docx` / `word-docx`",
                     "创建、编辑、分析 .docx；可读取正文、套用 Word 投稿模板、生成正式报告，也适合对他人文档做审稿式修订建议。"
                   ],
                   [
@@ -709,21 +764,6 @@ window.siteContent = {
                     "find-skills",
                     "`find-skills`",
                     "不知道该装什么时，让 AI 根据当前任务帮你找合适 Skill。"
-                  ],
-                  [
-                    "humanizer",
-                    "`humanizer` / blader/humanizer",
-                    "识别并去除 AI 写作痕迹，修掉促销腔、空洞分析、破折号滥用、三点式堆砌和 AI 高频词，让终稿更像人写。"
-                  ],
-                  [
-                    "doc-coauthoring",
-                    "anthropics/skills",
-                    "分阶段文档协作：收集上下文、按节头脑风暴、起草、精修、读者测试，适合论文单节或整篇结构化迭代。"
-                  ],
-                  [
-                    "canvas-design",
-                    "anthropics/skills",
-                    "先产出 design philosophy，再生成单页 .png / .pdf，适合论文概念图、示意图、框架图。"
                   ]
                 ]
               }
@@ -733,7 +773,7 @@ window.siteContent = {
               "prompt": "skillhub install word-docx\nskillhub install excel-xlsx\nskillhub install powerpoint-pptx\nskillhub install pdf\nskillhub install web-search\nskillhub install find-skills\nskillhub install humanizer"
             },
             {
-              "label": "**科研写作、论文和汇报增强 Skill**",
+              "label": "**科研论文与汇报增强 Skill**",
               "table": {
                 "headers": [
                   "Skill 名称",
@@ -745,6 +785,26 @@ window.siteContent = {
                     "20-ml-paper-writing",
                     "zechenzhangAGI/AI-research-SKILLs",
                     "面向 NeurIPS / ICML / ICLR / ACL / AAAI / COLM 的完整论文写作：repo 起稿、LaTeX 模板、引用验证、审稿人视角、会议 checklist、格式迁移；内含 booktabs 表格规范与图规范。"
+                  ],
+                  [
+                    "humanizer",
+                    "`humanizer` / blader/humanizer",
+                    "识别并去除 AI 写作痕迹，修掉促销腔、空洞分析、破折号滥用、三点式堆砌和 AI 高频词，让终稿更像人写。"
+                  ],
+                  [
+                    "docx",
+                    "anthropics/skills",
+                    "处理 .docx 创建、编辑、分析；论文场景可把标题、作者、摘要、正文替换进 Word 投稿模板，生成符合格式的投稿稿。"
+                  ],
+                  [
+                    "doc-coauthoring",
+                    "anthropics/skills",
+                    "分阶段文档协作：收集上下文与澄清问题、按节头脑风暴、起草、精修、读者测试，适合论文单节或整篇结构化迭代。"
+                  ],
+                  [
+                    "canvas-design",
+                    "anthropics/skills",
+                    "先产出 design philosophy，再生成单页 .png / .pdf，适合论文概念图、示意图、框架图。"
                   ],
                   [
                     "speaker / ppt-speech-writer",
@@ -765,11 +825,6 @@ window.siteContent = {
                     "nature-skills",
                     "Yuan1z0825/nature-skills",
                     "包含 nature-figure、nature-polishing、nature-writing、nature-reviewer、nature-citation、nature-data、nature-response、nature-paper2ppt、nature-academic-search，覆盖 Nature 风格写作、审稿回复、图表、引用、数据和论文转 PPT。"
-                  ],
-                  [
-                    "docx",
-                    "anthropics/skills",
-                    "处理 .docx 创建、编辑、分析；论文场景可把标题、作者、摘要、正文替换进 Word 投稿模板，生成符合格式的投稿稿。"
                   ]
                 ]
               }
@@ -783,61 +838,34 @@ window.siteContent = {
               "quote": "💡 **选择原则**：日常办公优先用 docx、xlsx、pptx、pdf、humanizer；论文写作、投稿、审稿回复、论文转汇报时，再补充科研写作类 Skill。"
             },
             {
-              "label": "**怎么判断当前任务需要什么 Skill**",
+              "label": "**按需扩展：WPS、协作和会议类 Skill**",
               "table": {
                 "headers": [
-                  "你的任务",
-                  "可能需要"
+                  "Skill 名称",
+                  "来源 / 安装名",
+                  "功能简述"
                 ],
                 "rows": [
                   [
-                    "读取或生成 Excel",
-                    "xlsx"
+                    "wps",
+                    "`wps`",
+                    "需要处理 WPS 本地文档、表格、演示或 WPS 生态文件时再启用，适合中文办公环境。"
                   ],
                   [
-                    "数据清洗、趋势分析、异常识别、可视化",
-                    "data-analysis"
+                    "kdocs-skill",
+                    "`kdocs-skill`",
+                    "面向金山文档 / 在线协作文档的读取、整理和协作场景，适合团队资料已经在 KDocs 里沉淀时使用。"
                   ],
                   [
-                    "读取或生成 Word 文档",
-                    "docx"
-                  ],
-                  [
-                    "读取或生成 PPT",
-                    "pptx"
-                  ],
-                  [
-                    "读取 PDF 内容",
-                    "pdf"
-                  ],
-                  [
-                    "语音转文字",
-                    "语音相关 Skill"
-                  ],
-                  [
-                    "网页搜索",
-                    "搜索相关 Skill"
-                  ],
-                  [
-                    "润色、去 AI 味",
-                    "humanizer"
-                  ],
-                  [
-                    "论文写作、英文摘要、科研材料",
-                    "research-paper-writer / 20-ml-paper-writing"
-                  ],
-                  [
-                    "只是问答、改写、总结",
-                    "通常不需要额外 Skill"
+                    "ai-meeting-notes",
+                    "`ai-meeting-notes`",
+                    "用于会议录音、纪要、行动项整理，适合会后把口头讨论转成正式文档或待办清单。"
                   ]
                 ]
-              },
-              "paragraphs": [
-                "如果拿不准，先不加 Skill 试一次。AI 会在对话中告诉你它需要什么能力——那个时候再加也来得及。"
-              ]
+              }
             },
             {
-              "label": "**常用 Skill 组合推荐**：大多数办公任务不是只靠一个 Skill 就能完成的。以下是几个高频组合，可以直接照着用",
+              "label": "**第四步：常用 Skill 组合推荐**",
               "table": {
                 "headers": [
                   "办公任务",
@@ -874,6 +902,21 @@ window.siteContent = {
                     "资讯日报",
                     "搜索 Skill + docx",
                     "搜索当日动态 → docx 生成排版好的简报"
+                  ],
+                  [
+                    "投稿前论文检查",
+                    "20-ml-paper-writing + humanizer + docx",
+                    "先做结构和引用自检，再修语言风格，最后放进投稿模板。"
+                  ],
+                  [
+                    "论文转组会汇报",
+                    "nature-skills + speaker / ppt-speech-writer + powerpoint-pptx",
+                    "先提炼论文内容和图表，再生成 PPT 与逐页讲稿。"
+                  ],
+                  [
+                    "会议资料沉淀",
+                    "ai-meeting-notes + docx + kdocs-skill",
+                    "先整理会议纪要，再生成正式文档，最后同步到团队在线文档。"
                   ]
                 ]
               },
@@ -2160,6 +2203,9 @@ window.siteContent = {
         {
           "label": "WorkBuddy 使用教程与分享文档",
           "href": "WorkBuddy使用教程与分享文档_2026-06-01.md",
+          "type": "本地文档",
+          "summary": "本文档本身，作为现场分享和会后复习的主材料。",
+          "useCase": "想快速回看操作路径、Prompt 示例和 Skill 选择逻辑时使用。",
           "note": "分享和会后复习主材料。"
         }
       ]
@@ -2170,21 +2216,33 @@ window.siteContent = {
         {
           "label": "WorkBuddy 简介",
           "href": "https://www.codebuddy.cn/docs/workbuddy/Overview",
+          "type": "官方文档",
+          "summary": "WorkBuddy 的产品定位和核心能力说明。",
+          "useCase": "第一次向同事解释 WorkBuddy 是什么、适合做什么时引用。",
           "note": "了解 WorkBuddy 定位。"
         },
         {
           "label": "快速开始",
           "href": "https://www.codebuddy.cn/docs/workbuddy/Quickstart",
+          "type": "官方文档",
+          "summary": "从创建任务到完成基础操作的入门路径。",
+          "useCase": "新同事第一次上手，或忘记基础入口时查看。",
           "note": "第一次上手时查看。"
         },
         {
           "label": "结果查看",
           "href": "https://www.codebuddy.cn/docs/workbuddy/Results",
+          "type": "官方文档",
+          "summary": "说明如何查看任务结果、产物和变更。",
+          "useCase": "任务跑完后不知道去哪里验收输出时使用。",
           "note": "验收产物和变更。"
         },
         {
           "label": "技能市场",
           "href": "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market",
+          "type": "官方文档",
+          "summary": "WorkBuddy Skill 市场的查找、安装和启用说明。",
+          "useCase": "需要给 Word、Excel、PDF、搜索等任务补能力时查看。",
           "note": "查找和安装 Skill。"
         }
       ]
@@ -2195,26 +2253,41 @@ window.siteContent = {
         {
           "label": "AI272/speaker",
           "href": "https://github.com/AI272/speaker",
+          "type": "GitHub Skill",
+          "summary": "PPT 讲稿 Skill，强调逐页解析 PPT、结合 OCR/视觉复核生成讲稿，并写入 PowerPoint speaker notes。",
+          "useCase": "做正式汇报、答辩、路演前，需要把 PPT 变成逐页讲稿和备注。",
           "note": "PPT 讲稿和 speaker notes。"
         },
         {
           "label": "WUBING2023/PaperSpine",
           "href": "https://github.com/WUBING2023/PaperSpine",
+          "type": "GitHub Skill",
+          "summary": "面向论文和报告的 motivation 主线工具，帮助搭建论文中心论证，做 evidence-aware 改写和 LaTeX-safe audit。",
+          "useCase": "论文逻辑松散、故事线不清楚，或需要检查 claim 和 evidence 是否对齐。",
           "note": "论文主线和 evidence-aware 改写。"
         },
         {
           "label": "Master-cai/Research-Paper-Writing-Skills",
           "href": "https://github.com/Master-cai/Research-Paper-Writing-Skills/tree/main",
+          "type": "GitHub Skill",
+          "summary": "ML/CV/NLP 论文写作 Skill 集，覆盖 Abstract、Introduction、Method、Experiments、Conclusion 等章节改写和 reviewer 视角自检。",
+          "useCase": "写英文论文、改实验分析、投稿前做结构和审稿风险检查。",
           "note": "研究论文各章节写作。"
         },
         {
           "label": "Yuan1z0825/nature-skills",
           "href": "https://github.com/Yuan1z0825/nature-skills",
+          "type": "GitHub Skill",
+          "summary": "Nature 风格科研 Skill 集，包含写作、润色、图表、引用、数据、审稿回复、论文转 PPT 和学术搜索等方向。",
+          "useCase": "想按高水平期刊表达方式打磨论文、图表、response letter 或组会汇报。",
           "note": "Nature 风格写作、图表、审稿回复。"
         },
         {
           "label": "Leey21/awesome-ai-research-writing",
           "href": "https://github.com/Leey21/awesome-ai-research-writing",
+          "type": "GitHub 资源",
+          "summary": "AI 科研写作资源合集，Part I 收集翻译、润色、扩写缩写、逻辑检查、去 AI 味、图表 caption、实验分析、审稿和模型选择等 Prompt。",
+          "useCase": "不想从零写 Prompt，希望直接参考论文写作各环节模板。",
           "note": "论文写作 Prompt 与工具合集。"
         }
       ]

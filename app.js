@@ -22,6 +22,39 @@ function escapeHtml(text) {
     .replaceAll("'", "&#039;");
 }
 
+function renderInline(text) {
+  const codeTokens = [];
+  const linkTokens = [];
+  let html = escapeHtml(text).replace(/`([^`]+)`/g, (_, code) => {
+    const token = `@@CODE_${codeTokens.length}@@`;
+    codeTokens.push(`<code>${code}</code>`);
+    return token;
+  });
+
+  html = html
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/&lt;(https?:\/\/[^\s]+?)&gt;/g, (_, url) => {
+      const href = url.replaceAll("&amp;", "&");
+      const token = `@@LINK_${linkTokens.length}@@`;
+      linkTokens.push(`<a ${linkAttrs(href)}>${url}</a>`);
+      return token;
+    })
+    .replace(/(^|[\s（(])((?:https?:\/\/)[^\s<>"'，。；、）)]+)/g, (match, prefix, url) => {
+      const href = url.replaceAll("&amp;", "&");
+      const token = `@@LINK_${linkTokens.length}@@`;
+      linkTokens.push(`<a ${linkAttrs(href)}>${url}</a>`);
+      return `${prefix}${token}`;
+    });
+
+  linkTokens.forEach((link, index) => {
+    html = html.replaceAll(`@@LINK_${index}@@`, link);
+  });
+  codeTokens.forEach((code, index) => {
+    html = html.replaceAll(`@@CODE_${index}@@`, code);
+  });
+  return html;
+}
+
 function linkAttrs(href) {
   return href.startsWith("#")
     ? `href="${escapeHtml(href)}"`
@@ -33,7 +66,7 @@ function renderPrompt(prompt, label = "示例 Prompt") {
   return `
     <div class="prompt-box">
       <div class="prompt-box__header">
-        <span>${escapeHtml(label)}</span>
+        <span>${renderInline(label)}</span>
         <button class="ghost-button" data-copy="${escapeHtml(prompt)}">复制</button>
       </div>
       <pre>${escapeHtml(prompt)}</pre>
@@ -43,34 +76,34 @@ function renderPrompt(prompt, label = "示例 Prompt") {
 
 function renderBulletList(items) {
   if (!items?.length) return "";
-  return `<ul class="bullet-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+  return `<ul class="bullet-list">${items.map((item) => `<li>${renderInline(item)}</li>`).join("")}</ul>`;
 }
 
 function renderOrderedList(items) {
   if (!items?.length) return "";
-  return `<ol class="ordered-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol>`;
+  return `<ol class="ordered-list">${items.map((item) => `<li>${renderInline(item)}</li>`).join("")}</ol>`;
 }
 
 function renderChips(items) {
   if (!items?.length) return "";
-  return `<div class="chip-row">${items.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}</div>`;
+  return `<div class="chip-row">${items.map((item) => `<span class="chip">${renderInline(item)}</span>`).join("")}</div>`;
 }
 
 function renderLinks(links) {
   if (!links?.length) return "";
   return `
     <div class="resource-links">
-      ${links.map((link) => `<a class="resource-link" ${linkAttrs(link.href)}>${escapeHtml(link.label)}</a>`).join("")}
+      ${links.map((link) => `<a class="resource-link" ${linkAttrs(link.href)}>${renderInline(link.label)}</a>`).join("")}
     </div>
   `;
 }
 
 function renderTable(tableData) {
   if (!tableData) return "";
-  const caption = tableData.caption ? `<div class="table-caption">${escapeHtml(tableData.caption)}</div>` : "";
-  const headers = (tableData.headers ?? []).map((header) => `<th>${escapeHtml(header)}</th>`).join("");
+  const caption = tableData.caption ? `<div class="table-caption">${renderInline(tableData.caption)}</div>` : "";
+  const headers = (tableData.headers ?? []).map((header) => `<th>${renderInline(header)}</th>`).join("");
   const rows = (tableData.rows ?? [])
-    .map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`)
+    .map((row) => `<tr>${row.map((cell) => `<td>${renderInline(cell)}</td>`).join("")}</tr>`)
     .join("");
   return `
     ${caption}
@@ -84,7 +117,7 @@ function renderLabeledBlock(label, content) {
   if (!content) return "";
   return `
     <div class="content-block">
-      <div class="content-block__label">${escapeHtml(label)}</div>
+      <div class="content-block__label">${renderInline(label)}</div>
       <div class="content-block__body">${content}</div>
     </div>
   `;
@@ -92,20 +125,20 @@ function renderLabeledBlock(label, content) {
 
 function renderStructuredBlock(block) {
   if (!block) return "";
-  const paragraphs = (block.paragraphs ?? []).map((paragraph) => `<p class="body-copy">${escapeHtml(paragraph)}</p>`).join("");
+  const paragraphs = (block.paragraphs ?? []).map((paragraph) => `<p class="body-copy">${renderInline(paragraph)}</p>`).join("");
   const prompt = block.prompt ? renderPrompt(block.prompt, block.promptLabel ?? "可复制模板") : "";
-  const quote = block.quote ? `<blockquote class="quote-block">${escapeHtml(block.quote)}</blockquote>` : "";
+  const quote = block.quote ? `<blockquote class="quote-block">${renderInline(block.quote)}</blockquote>` : "";
   return renderLabeledBlock(block.label, paragraphs + renderBulletList(block.bullets) + renderTable(block.table) + prompt + quote);
 }
 
 function renderTextSection(section) {
-  const paragraphs = (section.paragraphs ?? []).map((paragraph) => `<p class="body-copy">${escapeHtml(paragraph)}</p>`).join("");
+  const paragraphs = (section.paragraphs ?? []).map((paragraph) => `<p class="body-copy">${renderInline(paragraph)}</p>`).join("");
   const blocks = (section.blocks ?? []).map(renderStructuredBlock).join("");
   const templates = (section.templates ?? [])
     .map((template) => {
-      const label = template.label ? `<div class="section-label template-label">${escapeHtml(template.label)}</div>` : "";
-      const context = template.context ? `<p class="body-copy">${escapeHtml(template.context)}</p>` : "";
-      const tip = template.tip ? `<p class="body-copy muted-copy">${escapeHtml(template.tip)}</p>` : "";
+      const label = template.label ? `<div class="section-label template-label">${renderInline(template.label)}</div>` : "";
+      const context = template.context ? `<p class="body-copy">${renderInline(template.context)}</p>` : "";
+      const tip = template.tip ? `<p class="body-copy muted-copy">${renderInline(template.tip)}</p>` : "";
       return label + context + renderPrompt(template.content, "可复制模板") + tip;
     })
     .join("");
@@ -120,8 +153,8 @@ function renderCardsSection(section) {
         .map(
           (card) => `
             <article class="card-simple">
-              <div class="card-simple__title">${escapeHtml(card.title)}</div>
-              <div class="card-simple__content">${escapeHtml(card.content)}</div>
+              <div class="card-simple__title">${renderInline(card.title)}</div>
+              <div class="card-simple__content">${renderInline(card.content)}</div>
             </article>
           `
         )
@@ -144,14 +177,14 @@ function renderBasicSection(section) {
         .map(
           ([label, value]) => `
             <div class="detail-card">
-              <div class="detail-card__label">${escapeHtml(label)}</div>
-              <p>${escapeHtml(value)}</p>
+              <div class="detail-card__label">${renderInline(label)}</div>
+              <p>${renderInline(value)}</p>
             </div>
           `
         )
         .join("")}
     </div>
-    ${renderLabeledBlock("先理解这一步", (section.explanation ?? []).map((item) => `<p class="body-copy">${escapeHtml(item)}</p>`).join(""))}
+    ${renderLabeledBlock("先理解这一步", (section.explanation ?? []).map((item) => `<p class="body-copy">${renderInline(item)}</p>`).join(""))}
     ${renderLabeledBlock("操作前准备", renderBulletList(section.prepare))}
     ${renderLabeledBlock("一步一步怎么做", renderOrderedList(section.steps))}
     ${renderLabeledBlock("现场重点看什么", renderBulletList(section.observation))}
@@ -160,13 +193,13 @@ function renderBasicSection(section) {
       section.demo
         ? `<div class="practice-panel">
             <div class="section-label">最小 Demo</div>
-            <h2>${escapeHtml(section.demo.title)}</h2>
+            <h2>${renderInline(section.demo.title)}</h2>
             ${renderPrompt(section.demo.prompt)}
           </div>`
         : ""
     }
     ${renderLabeledBlock("常见错误", renderBulletList(section.mistakes))}
-    ${renderLabeledBlock("业务里可以这样用", section.businessExample ? `<p class="body-copy">${escapeHtml(section.businessExample)}</p>` : "")}
+    ${renderLabeledBlock("业务里可以这样用", section.businessExample ? `<p class="body-copy">${renderInline(section.businessExample)}</p>` : "")}
     ${renderLinks(section.links)}
   `;
 }
@@ -177,14 +210,14 @@ function renderAdvancedSection(section) {
     <div class="detail-grid detail-grid--two">
       <div class="detail-card">
         <div class="detail-card__label">它解决什么问题</div>
-        <p>${escapeHtml(section.problem)}</p>
+        <p>${renderInline(section.problem)}</p>
       </div>
       <div class="detail-card">
         <div class="detail-card__label">放到工作里长这样</div>
-        <p>${escapeHtml(section.business)}</p>
+        <p>${renderInline(section.business)}</p>
       </div>
     </div>
-    ${renderLabeledBlock("先理解它", (section.explanation ?? []).map((item) => `<p class="body-copy">${escapeHtml(item)}</p>`).join(""))}
+    ${renderLabeledBlock("先理解它", (section.explanation ?? []).map((item) => `<p class="body-copy">${renderInline(item)}</p>`).join(""))}
     ${renderLabeledBlock("适合场景", renderBulletList(section.scenarios))}
     ${renderLabeledBlock("先不要用在这些情况", renderBulletList(section.whenNot))}
     ${renderLabeledBlock("怎么开始", renderOrderedList(section.start))}
@@ -198,10 +231,10 @@ function renderAdvancedSection(section) {
 function renderCaseSection(section) {
   return `
     <div class="case-intro">
-      <p class="body-copy">${escapeHtml(section.scenario)}</p>
-      <p class="case-audience">${escapeHtml(section.audience)}</p>
+      <p class="body-copy">${renderInline(section.scenario)}</p>
+      <p class="case-audience">${renderInline(section.audience)}</p>
     </div>
-    ${renderLabeledBlock("为什么这个案例适合演示", section.background ? `<p class="body-copy">${escapeHtml(section.background)}</p>` : "")}
+    ${renderLabeledBlock("为什么这个案例适合演示", section.background ? `<p class="body-copy">${renderInline(section.background)}</p>` : "")}
     ${renderLabeledBlock("学完哪些基础页就能做", renderChips(section.prerequisites))}
     ${renderLabeledBlock("涉及 WorkBuddy 模块", renderChips(section.modules))}
     ${renderLabeledBlock("输入材料准备", renderBulletList(section.inputs))}
@@ -210,7 +243,7 @@ function renderCaseSection(section) {
     ${renderLabeledBlock("追问 Prompt", renderBulletList(section.followups))}
     ${renderLabeledBlock("结果验收要点", renderBulletList(section.validation))}
     ${renderLabeledBlock("人工复核重点", renderBulletList(section.reviewFocus))}
-    ${renderLabeledBlock("最终交付长什么样", `<p class="body-copy">${escapeHtml(section.deliverable)}</p>`)}
+    ${renderLabeledBlock("最终交付长什么样", `<p class="body-copy">${renderInline(section.deliverable)}</p>`)}
     ${renderLabeledBlock("最容易踩的坑", renderBulletList(section.pitfalls))}
   `;
 }
@@ -223,9 +256,9 @@ function renderFaqSection(section) {
         .map(
           (item, index) => `
             <details class="faq-item" ${index < 2 ? "open" : ""}>
-              <summary>${escapeHtml(item.q)}</summary>
-              <p>${escapeHtml(item.a)}</p>
-              ${item.ref ? `<span>${escapeHtml(item.ref)}</span>` : ""}
+              <summary>${renderInline(item.q)}</summary>
+              <p>${renderInline(item.a)}</p>
+              ${item.ref ? `<span>${renderInline(item.ref)}</span>` : ""}
             </details>
           `
         )
@@ -265,10 +298,10 @@ function renderHome() {
     <section class="hero panel">
       <div class="hero__copy">
         <div class="eyebrow">WorkBuddy Tutorial</div>
-        <h1 class="display-title">${escapeHtml(course.title)}</h1>
-        <h2 class="display-subtitle">${escapeHtml(course.subtitle)}</h2>
-        <p class="lead">${escapeHtml(course.description)}</p>
-        <p class="hero__statement">${escapeHtml(course.statement)}</p>
+        <h1 class="display-title">${renderInline(course.title)}</h1>
+        <h2 class="display-subtitle">${renderInline(course.subtitle)}</h2>
+        <p class="lead">${renderInline(course.description)}</p>
+        <p class="hero__statement">${renderInline(course.statement)}</p>
         <div class="hero__actions">
           <a class="primary-button" href="#/chapter/chapter-2">先学会提任务</a>
           <a class="secondary-button" href="#/chapter/chapter-1">先认识 WorkBuddy</a>
@@ -277,7 +310,7 @@ function renderHome() {
       <div class="hero__panel">
         <div class="hero__panel-title">看完这份分享，你至少能做到</div>
         <div class="hero-focus-list">
-          ${(course.outcomes ?? []).map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          ${(course.outcomes ?? []).map((item) => `<span>${renderInline(item)}</span>`).join("")}
         </div>
       </div>
     </section>
@@ -289,9 +322,9 @@ function renderHome() {
           .map(
             (step) => `
               <a class="learning-step" href="${escapeHtml(step.href)}">
-                <span class="learning-step__number">${escapeHtml(step.number)}</span>
-                <span class="learning-step__title">${escapeHtml(step.title)}</span>
-                <span class="learning-step__text">${escapeHtml(step.text)}</span>
+                <span class="learning-step__number">${renderInline(step.number)}</span>
+                <span class="learning-step__title">${renderInline(step.title)}</span>
+                <span class="learning-step__text">${renderInline(step.text)}</span>
               </a>
             `
           )
@@ -306,9 +339,9 @@ function renderHome() {
           .map(
             (chapter) => `
               <a class="nav-card" href="#/chapter/${escapeHtml(chapter.id)}">
-                <span class="nav-card__kicker">${escapeHtml(chapter.group ?? "")}</span>
-                <span class="nav-card__title">${escapeHtml(chapter.title)}</span>
-                <span class="nav-card__summary">${escapeHtml(chapter.intro ?? "进入继续阅读。")}</span>
+                <span class="nav-card__kicker">${renderInline(chapter.group ?? "")}</span>
+                <span class="nav-card__title">${renderInline(chapter.title)}</span>
+                <span class="nav-card__summary">${renderInline(chapter.intro ?? "进入继续阅读。")}</span>
               </a>
             `
           )
@@ -326,7 +359,7 @@ function renderChapterNav(chapter, activeSectionId) {
       ${chapter.sections
         .map((section) => {
           const active = section.id === activeSectionId ? " is-active" : "";
-          return `<a class="chapter-nav__link${active}" href="#/chapter/${escapeHtml(chapter.id)}/${escapeHtml(section.id)}">${escapeHtml(section.title)}</a>`;
+          return `<a class="chapter-nav__link${active}" href="#/chapter/${escapeHtml(chapter.id)}/${escapeHtml(section.id)}">${renderInline(section.title)}</a>`;
         })
         .join("")}
     </nav>
@@ -356,10 +389,10 @@ function renderAdvancedChapterMap(chapter) {
     <section class="advanced-map panel">
       <div class="advanced-map__header">
         <div>
-          <div class="section-label">${escapeHtml(chapterMeta.eyebrow)}</div>
-          <h2>${escapeHtml(chapterMeta.title)}</h2>
+          <div class="section-label">${renderInline(chapterMeta.eyebrow)}</div>
+          <h2>${renderInline(chapterMeta.title)}</h2>
         </div>
-        <p>${escapeHtml(chapterMeta.note)}</p>
+        <p>${renderInline(chapterMeta.note)}</p>
       </div>
       <div class="advanced-map__rail">
         ${advancedSections
@@ -368,14 +401,14 @@ function renderAdvancedChapterMap(chapter) {
             return `
               <a class="advanced-map__item" href="#/chapter/${escapeHtml(chapter.id)}/${escapeHtml(section.id)}">
                 <span class="advanced-map__number">${String(index + 1).padStart(2, "0")}</span>
-                <span class="advanced-map__title">${escapeHtml(title)}</span>
+                <span class="advanced-map__title">${renderInline(title)}</span>
               </a>
             `;
           })
           .join("")}
       </div>
       <div class="advanced-map__summary">
-        ${chapterMeta.summary.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+        ${chapterMeta.summary.map((item) => `<span>${renderInline(item)}</span>`).join("")}
       </div>
       <div class="advanced-index" aria-label="进阶能力速览">
         ${advancedSections
@@ -386,11 +419,11 @@ function renderAdvancedChapterMap(chapter) {
             return `
               <a class="advanced-index__row" href="#/chapter/${escapeHtml(chapter.id)}/${escapeHtml(section.id)}">
                 <span class="advanced-index__number">${String(index + 1).padStart(2, "0")}</span>
-                <span class="advanced-index__name">${escapeHtml(title)}</span>
-                <span class="advanced-index__problem">${escapeHtml(section.problem ?? "")}</span>
+                <span class="advanced-index__name">${renderInline(title)}</span>
+                <span class="advanced-index__problem">${renderInline(section.problem ?? "")}</span>
                 <span class="advanced-index__meta">
-                  <span><strong>适合</strong>${escapeHtml(firstScenario)}</span>
-                  <span><strong>先试</strong>${escapeHtml(firstStep)}</span>
+                  <span><strong>适合</strong>${renderInline(firstScenario)}</span>
+                  <span><strong>先试</strong>${renderInline(firstStep)}</span>
                 </span>
               </a>
             `;
@@ -407,7 +440,7 @@ function renderChapter(chapter, activeSectionId) {
     .map(
       (section) => `
         <article id="section-${escapeHtml(section.id)}" class="panel section-panel${section.id === activeSectionId ? " section-active" : ""}">
-          <h2 class="section-heading">${escapeHtml(section.title)}</h2>
+          <h2 class="section-heading">${renderInline(section.title)}</h2>
           ${renderSection(section)}
         </article>
       `
@@ -416,9 +449,9 @@ function renderChapter(chapter, activeSectionId) {
 
   return `
     <section class="article-header panel${isAdvancedChapter ? " article-header--advanced" : ""}">
-      ${chapter.group ? `<div class="eyebrow">${escapeHtml(chapter.group)}</div>` : ""}
-      <h1>${escapeHtml(chapter.title)}</h1>
-      ${chapter.intro ? `<p class="lead">${escapeHtml(chapter.intro)}</p>` : ""}
+      ${chapter.group ? `<div class="eyebrow">${renderInline(chapter.group)}</div>` : ""}
+      <h1>${renderInline(chapter.title)}</h1>
+      ${chapter.intro ? `<p class="lead">${renderInline(chapter.intro)}</p>` : ""}
     </section>
     ${renderAdvancedChapterMap(chapter)}
     <div class="chapter-layout">
@@ -440,17 +473,24 @@ function renderResources() {
         .map(
           (group) => `
             <article class="panel resource-panel">
-              <div class="section-label">${escapeHtml(group.title)}</div>
+              <div class="section-label">${renderInline(group.title)}</div>
               <div class="resource-list">
                 ${group.items
-                  .map(
-                    (item) => `
-                      <a class="resource-item" ${linkAttrs(item.href)}>
-                        <span class="resource-item__title">${escapeHtml(item.label)}</span>
-                        ${item.note ? `<span class="resource-item__note">${escapeHtml(item.note)}</span>` : ""}
-                      </a>
-                    `
-                  )
+                  .map((item) => {
+                    const summary = item.summary ?? item.note ?? "会后按需查阅。";
+                    const useCase = item.useCase ?? item.note ?? "";
+                    return `
+                      <article class="resource-item">
+                        <div class="resource-item__top">
+                          <span class="resource-item__type">${renderInline(item.type ?? "资源")}</span>
+                          <a class="resource-item__title" ${linkAttrs(item.href)}>${renderInline(item.label)}</a>
+                        </div>
+                        <p class="resource-item__summary">${renderInline(summary)}</p>
+                        ${useCase ? `<p class="resource-item__use"><span>适用：</span>${renderInline(useCase)}</p>` : ""}
+                        <a class="resource-item__link" ${linkAttrs(item.href)}>打开资源</a>
+                      </article>
+                    `;
+                  })
                   .join("")}
               </div>
             </article>
@@ -511,12 +551,12 @@ function renderSidebar(route) {
     .map(
       (group) => `
         <section class="nav-group">
-          <div class="nav-group__title">${escapeHtml(group.group)}</div>
+          <div class="nav-group__title">${renderInline(group.group)}</div>
           ${group.items
             .map((item) => {
               const href = item.type === "home" ? "#/" : item.type === "chapter" ? "#/chapter/" + item.id : "#/" + item.id;
               const active = isActive(route, item.id, item.type);
-              return `<a class="nav-link${active ? " is-active" : ""}" href="${escapeHtml(href)}">${escapeHtml(item.title)}</a>`;
+              return `<a class="nav-link${active ? " is-active" : ""}" href="${escapeHtml(href)}">${renderInline(item.title)}</a>`;
             })
             .join("")}
         </section>
@@ -589,12 +629,12 @@ function renderPager(route) {
     <div class="pager">
       ${
         prev
-          ? `<a class="pager__item" href="${escapeHtml(prev.href)}"><span class="pager__label">上一页</span><span class="pager__title">${escapeHtml(prev.title)}</span></a>`
+          ? `<a class="pager__item" href="${escapeHtml(prev.href)}"><span class="pager__label">上一页</span><span class="pager__title">${renderInline(prev.title)}</span></a>`
           : `<span class="pager__item pager__item--ghost"></span>`
       }
       ${
         next
-          ? `<a class="pager__item pager__item--next" href="${escapeHtml(next.href)}"><span class="pager__label">下一页</span><span class="pager__title">${escapeHtml(next.title)}</span></a>`
+          ? `<a class="pager__item pager__item--next" href="${escapeHtml(next.href)}"><span class="pager__label">下一页</span><span class="pager__title">${renderInline(next.title)}</span></a>`
           : `<span class="pager__item pager__item--ghost"></span>`
       }
     </div>

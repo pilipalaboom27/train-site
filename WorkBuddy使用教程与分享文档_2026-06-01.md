@@ -388,23 +388,37 @@ Plan（先出方案）→ 你确认 → Craft（执行方案）
 
 ### 5.2 Skill：让 AI 具备某种具体能力
 
-Skill 是能力扩展。比如处理 Word、Excel、PPT、PDF，或者进行网页搜索、语音转文字、文件整理。它回答的问题是：WorkBuddy 能不能做这件具体工作。
+Skill 是能力扩展。比如处理 Word、Excel、PPT、PDF，或者进行网页搜索、语音转文字、文件整理。它回答的问题是：WorkBuddy 能不能做这件具体工作。不要把 Skill 理解成“越多越强”的插件包，它更像给 AI 临时发工具：当前任务需要什么，就只发什么。
 
-使用建议：
+推荐按这条链路来选 Skill：
 
-- 当前任务需要什么能力，就启用什么能力。
-- 不要一次打开太多无关 Skill。
-- 常用办公场景优先准备文档、表格、PPT、PDF 相关能力。
-- 如果找不到合适 Skill，可以先描述任务，让 WorkBuddy 查找或创建相关技能。
-
-常见误区：
-
-- 以为装得越多越强。实际上无关能力越多，越可能增加误调用和干扰。
-- 把 Skill 当成专家。Skill 是工具能力，不等于专业判断。
+1. 先判断任务类型：是在处理文件、检索资料、写论文、做汇报，还是整理会议内容。
+2. 再选择 Skill：只选能直接解决当前卡点的 1-3 个 Skill。
+3. 再安装或启用：从 WorkBuddy 技能市场、SkillHub 或 GitHub README 里按说明安装。
+4. 最后组合使用：复杂任务用少量 Skill 串起来，不要把所有能力一次打开。
 
 > 💡 **同事经验**：有同事一上来开了七八个 Skill，觉得「技多不压身」。结果 AI 在不同能力间来回调用，输出反而变慢变乱。建议只开当前任务确实需要的，通常 2-3 个就够了，不够再加。
 
-**安装和启用一个 Skill 的完整过程**（以 xlsx 为例）：
+**第一步：判断当前任务需要什么 Skill**
+
+| 你的任务 | 优先考虑 |
+|---|---|
+| 读取或生成 Word 文档 | `docx` / `word-docx` |
+| 读取或生成 Excel | `excel-xlsx` |
+| 读取或生成 PPT | `powerpoint-pptx` |
+| 读取 PDF 内容 | `pdf` |
+| 搜索政策、新闻、论文或网页资料 | `web-search` |
+| 不知道该装什么 | `find-skills` |
+| 润色终稿、降低 AI 味 | `humanizer` |
+| 论文写作、英文摘要、科研材料 | `20-ml-paper-writing` / `research-paper-writing` / `PaperSpine` / `nature-skills` |
+| PPT 汇报讲稿 | `speaker / ppt-speech-writer` |
+| 会议录音、纪要整理 | `ai-meeting-notes` 或语音相关 Skill |
+| WPS / 金山文档协作 | `wps` / `kdocs-skill` |
+| 只是问答、改写、总结 | 通常不需要额外 Skill |
+
+如果拿不准，先不加 Skill 试一次。AI 会在对话中告诉你它需要什么能力，那个时候再加也来得及。
+
+**第二步：安装和启用一个 Skill 的完整过程**（以 xlsx 为例）：
 
 1. 打开 WorkBuddy，在左侧导航找到「Skill 市场」入口。
 2. 搜索「xlsx」或「Excel」，找到官方或高评分的表格处理 Skill。
@@ -414,9 +428,9 @@ Skill 是能力扩展。比如处理 Word、Excel、PPT、PDF，或者进行网�
 6. 发送任务后，关注结果区是否生成了正确的产物（如图表、分析结果、新表格）。
 7. 如果在结果区看到了产物，说明 Skill 调用成功。如果没有，检查 Skill 是否正确启用，或 Prompt 是否明确了文件类型。
 
-**从 SkillHub 安装常用 Skill**：
+**第三步：从 SkillHub 或 GitHub 找 Skill**
 
-如果 WorkBuddy 内置市场里找不到，或者想按下载量挑选，可以先看这两个网站：
+如果 WorkBuddy 内置市场里找不到，或者想按下载量挑选，可以先看这三个入口：
 
 | 网站 | 定位 | 适合怎么用 |
 |---|---|---|
@@ -433,19 +447,16 @@ skillhub install excel-xlsx
 
 第一次使用 SkillHub 时，先按官方安装说明安装 CLI：<https://skillhub.cn/install/skillhub.md>。
 
-**日常办公基础 Skill**：
+**日常办公基础 Skill**
 
 | Skill | 安装名 / 来源 | 功能简述 |
 |---|---|---|
-| Word / DOCX | `docx` 或 `word-docx` | 创建、编辑、分析 .docx；可读取正文、套用 Word 投稿模板、生成正式报告，也适合对他人文档做审稿式修订建议。 |
+| DOCX 文档 | `docx` / `word-docx` | 创建、编辑、分析 .docx；可读取正文、套用 Word 投稿模板、生成正式报告，也适合对他人文档做审稿式修订建议。 |
 | Excel / XLSX | `excel-xlsx` | 读取表格、清洗数据、汇总项目台账和监测数据，适合输出统计表或给 PPT 准备图表数据。 |
 | PowerPoint / PPTX | `powerpoint-pptx` | 生成或修改汇报 PPT、项目调度材料、成果展示页。 |
 | PDF | `pdf` | 读取政策文件、方案、报告和 PDF 表格，适合做资料摘录、条款对照和文档核查。 |
 | Web Search | `web-search` | 检索政策依据、新闻动态、行业资料；需要联网或引用来源时再启用。 |
 | find-skills | `find-skills` | 不知道该装什么时，让 AI 根据当前任务帮你找合适 Skill。 |
-| humanizer | `humanizer` / blader/humanizer | 识别并去除 AI 写作痕迹，修掉促销腔、空洞分析、破折号滥用、三点式堆砌和 AI 高频词，让终稿更像人写。 |
-| doc-coauthoring | anthropics/skills | 分阶段文档协作：收集上下文、按节头脑风暴、起草、精修、读者测试，适合论文单节或整篇结构化迭代。 |
-| canvas-design | anthropics/skills | 先产出 design philosophy，再生成单页 .png / .pdf，适合论文概念图、示意图、框架图。 |
 
 日常办公可以先装这一组：
 
@@ -459,16 +470,19 @@ skillhub install find-skills
 skillhub install humanizer
 ```
 
-**科研写作、论文和汇报增强 Skill**：
+**科研论文与汇报增强 Skill**
 
 | Skill 名称 | 来源 | 功能简述 |
 |---|---|---|
 | 20-ml-paper-writing | zechenzhangAGI/AI-research-SKILLs | 面向 NeurIPS / ICML / ICLR / ACL / AAAI / COLM 的完整论文写作：repo 起稿、LaTeX 模板、引用验证、审稿人视角、会议 checklist、格式迁移；内含 booktabs 表格规范与图规范。 |
+| humanizer | `humanizer` / blader/humanizer | 识别并去除 AI 写作痕迹，修掉促销腔、空洞分析、破折号滥用、三点式堆砌和 AI 高频词，让终稿更像人写。 |
+| docx | anthropics/skills | 处理 .docx 创建、编辑、分析；论文场景可把标题、作者、摘要、正文替换进 Word 投稿模板，生成符合格式的投稿稿。 |
+| doc-coauthoring | anthropics/skills | 分阶段文档协作：收集上下文与澄清问题、按节头脑风暴、起草、精修、读者测试，适合论文单节或整篇结构化迭代。 |
+| canvas-design | anthropics/skills | 先产出 design philosophy，再生成单页 .png / .pdf，适合论文概念图、示意图、框架图。 |
 | speaker / ppt-speech-writer | AI272/speaker | 逐页解析 PPT，结合 OCR 和视觉复核生成讲稿，并写入 PowerPoint speaker notes，适合正式汇报前准备逐页讲稿。 |
 | PaperSpine | WUBING2023/PaperSpine | 用 motivation 主线学习强论文、搭建中心论证，支持 evidence-aware 改写和 LaTeX-safe audit，适合从论文骨架到论证质量检查。 |
 | research-paper-writing | Master-cai/Research-Paper-Writing-Skills | 面向 ML/CV/NLP 论文的 Abstract、Introduction、Method、Experiments、Conclusion 改写，检查段落逻辑、claim-evidence alignment，并做投稿前 reviewer 视角自检。 |
 | nature-skills | Yuan1z0825/nature-skills | 包含 nature-figure、nature-polishing、nature-writing、nature-reviewer、nature-citation、nature-data、nature-response、nature-paper2ppt、nature-academic-search，覆盖 Nature 风格写作、审稿回复、图表、引用、数据和论文转 PPT。 |
-| docx | anthropics/skills | 处理 .docx 创建、编辑、分析；论文场景可把标题、作者、摘要、正文替换进 Word 投稿模板，生成符合格式的投稿稿。 |
 
 GitHub 来源 Skill 参考安装方式：
 
@@ -484,24 +498,15 @@ npx skills add https://github.com/Yuan1z0825/nature-skills
 
 > 💡 **选择原则**：日常办公优先用 docx、xlsx、pptx、pdf、humanizer；论文写作、投稿、审稿回复、论文转汇报时，再补充科研写作类 Skill。
 
-**怎么判断当前任务需要什么 Skill**：
+**按需扩展：WPS、协作和会议类 Skill**
 
-| 你的任务 | 可能需要 |
-|---|---|
-| 读取或生成 Excel | xlsx |
-| 数据清洗、趋势分析、异常识别、可视化 | data-analysis |
-| 读取或生成 Word 文档 | docx |
-| 读取或生成 PPT | pptx |
-| 读取 PDF 内容 | pdf |
-| 语音转文字 | 语音相关 Skill |
-| 网页搜索 | 搜索相关 Skill |
-| 润色、去 AI 味 | humanizer |
-| 论文写作、英文摘要、科研材料 | research-paper-writer / 20-ml-paper-writing |
-| 只是问答、改写、总结 | 通常不需要额外 Skill |
+| Skill 名称 | 来源 / 安装名 | 功能简述 |
+|---|---|---|
+| wps | `wps` | 需要处理 WPS 本地文档、表格、演示或 WPS 生态文件时再启用，适合中文办公环境。 |
+| kdocs-skill | `kdocs-skill` | 面向金山文档 / 在线协作文档的读取、整理和协作场景，适合团队资料已经在 KDocs 里沉淀时使用。 |
+| ai-meeting-notes | `ai-meeting-notes` | 用于会议录音、纪要、行动项整理，适合会后把口头讨论转成正式文档或待办清单。 |
 
-如果拿不准，先不加 Skill 试一次。AI 会在对话中告诉你它需要什么能力——那个时候再加也来得及。
-
-**常用 Skill 组合推荐**：大多数办公任务不是只靠一个 Skill 就能完成的。以下是几个高频组合，可以直接照着用：
+**第四步：常用 Skill 组合推荐**
 
 | 办公任务 | 推荐 Skill 组合 | 说明 |
 |---|---|---|
@@ -511,6 +516,9 @@ npx skills add https://github.com/Yuan1z0825/nature-skills
 | 合同/制度审阅 | pdf + 搜索 Skill | pdf 读取条款 → 搜索查相关规定对照 |
 | 批量文件处理 | xlsx/docx/pdf + 文件管理 | 读取 → 提取 → 整理 → 归档 |
 | 资讯日报 | 搜索 Skill + docx | 搜索当日动态 → docx 生成排版好的简报 |
+| 投稿前论文检查 | 20-ml-paper-writing + humanizer + docx | 先做结构和引用自检，再修语言风格，最后放进投稿模板。 |
+| 论文转组会汇报 | nature-skills + speaker / ppt-speech-writer + powerpoint-pptx | 先提炼论文内容和图表，再生成 PPT 与逐页讲稿。 |
+| 会议资料沉淀 | ai-meeting-notes + docx + kdocs-skill | 先整理会议纪要，再生成正式文档，最后同步到团队在线文档。 |
 
 > 💡 **同事经验**：不要一上来就把所有 Skill 全装上。先想清楚今天要做什么任务，按上面的组合只装 2-3 个，用完觉得不够再加。
 
@@ -1883,9 +1891,11 @@ WorkBuddy 按积分消耗计费，新用户注册送 3000 积分，每日签到 
 
 ### 科研写作与 Skill 资源
 
-- AI272/speaker：https://github.com/AI272/speaker
-- WUBING2023/PaperSpine：https://github.com/WUBING2023/PaperSpine
-- Master-cai/Research-Paper-Writing-Skills：https://github.com/Master-cai/Research-Paper-Writing-Skills/tree/main
-- Yuan1z0825/nature-skills：https://github.com/Yuan1z0825/nature-skills
-- Leey21/awesome-ai-research-writing：https://github.com/Leey21/awesome-ai-research-writing
+| 资源 | 简介 | 适用场景 |
+|---|---|---|
+| AI272/speaker：https://github.com/AI272/speaker | PPT 讲稿 Skill，强调逐页解析 PPT、结合 OCR/视觉复核生成讲稿，并写入 PowerPoint speaker notes。 | 做正式汇报、答辩、路演前，需要把 PPT 变成逐页讲稿和备注。 |
+| WUBING2023/PaperSpine：https://github.com/WUBING2023/PaperSpine | 面向论文和报告的 motivation 主线工具，帮助搭建论文中心论证，做 evidence-aware 改写和 LaTeX-safe audit。 | 论文逻辑松散、故事线不清楚，或需要检查 claim 和 evidence 是否对齐。 |
+| Master-cai/Research-Paper-Writing-Skills：https://github.com/Master-cai/Research-Paper-Writing-Skills/tree/main | ML/CV/NLP 论文写作 Skill 集，覆盖 Abstract、Introduction、Method、Experiments、Conclusion 等章节改写和 reviewer 视角自检。 | 写英文论文、改实验分析、投稿前做结构和审稿风险检查。 |
+| Yuan1z0825/nature-skills：https://github.com/Yuan1z0825/nature-skills | Nature 风格科研 Skill 集，包含写作、润色、图表、引用、数据、审稿回复、论文转 PPT 和学术搜索等方向。 | 想按高水平期刊表达方式打磨论文、图表、response letter 或组会汇报。 |
+| Leey21/awesome-ai-research-writing：https://github.com/Leey21/awesome-ai-research-writing | AI 科研写作资源合集，Part I 收集翻译、润色、扩写缩写、逻辑检查、去 AI 味、图表 caption、实验分析、审稿和模型选择等 Prompt。 | 不想从零写 Prompt，希望直接参考论文写作各环节模板。 |
 
