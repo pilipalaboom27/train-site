@@ -2127,6 +2127,19 @@ window.siteContent = {
   ],
   "resources": [
     {
+      "title": "项目仓库",
+      "items": [
+        {
+          "label": "pilipalaboom27/train-site",
+          "href": "https://github.com/pilipalaboom27/train-site",
+          "type": "GitHub 仓库",
+          "summary": "当前课程站的源码仓库，包含网页代码、教程文档、资源配置和提交记录。",
+          "useCase": "适合维护人员同步内容、追踪版本、继续迭代或回看最近修改。",
+          "note": "课程站源码与更新记录。"
+        }
+      ]
+    },
+    {
       "title": "WorkBuddy 官方文档",
       "items": [
         {

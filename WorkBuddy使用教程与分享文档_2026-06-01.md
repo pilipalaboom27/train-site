@@ -1868,6 +1868,12 @@ WorkBuddy 按积分消耗计费，新用户注册送 3000 积分，每日签到 
 
 延伸阅读不做“大而全”的资料仓库，只保留会后真正可能用到的链接。分享现场不建议展开这些内容，听众需要时再按需查阅。
 
+### 项目仓库
+
+- train-site：https://github.com/pilipalaboom27/train-site
+
+  当前课程站的 GitHub 仓库，用于查看最新网页源码、教程文档、资源配置和后续更新记录。适合维护人员同步内容、追踪版本和继续迭代。
+
 ### WorkBuddy 官方文档
 
 - WorkBuddy 简介：https://www.codebuddy.cn/docs/workbuddy/Overview
