@@ -3592,6 +3592,103 @@ body.lecture-mode .topbar__search {
   border-radius: 6px;
 }
 
+/* The advanced tips section is a mini playbook, not a normal article stream. */
+#section-advanced-tips {
+  padding-top: 34px;
+}
+
+#section-advanced-tips > .section-heading {
+  margin-bottom: 10px;
+}
+
+#section-advanced-tips > .body-copy {
+  max-width: 68ch;
+  margin-bottom: 18px;
+  color: #3f524a;
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+#section-advanced-tips .content-block {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.32fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  margin-top: 12px;
+  padding: 18px;
+  border: 1px solid rgba(47, 58, 52, 0.14);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 247, 0.96), rgba(241, 246, 243, 0.86)),
+    radial-gradient(circle at 0 0, rgba(170, 141, 95, 0.15), transparent 36%);
+  box-shadow: 0 14px 34px rgba(47, 66, 59, 0.07);
+  overflow: hidden;
+}
+
+#section-advanced-tips .content-block::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--gold), var(--accent));
+}
+
+#section-advanced-tips .content-block__label {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(170, 141, 95, 0.28);
+  border-radius: 12px;
+  background: rgba(255, 250, 239, 0.82);
+  color: var(--accent);
+  font-family: var(--display-font);
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+#section-advanced-tips .content-block__body {
+  min-width: 0;
+}
+
+#section-advanced-tips .body-copy {
+  margin-bottom: 12px;
+  color: #334840;
+  line-height: 1.74;
+}
+
+#section-advanced-tips .prompt-box {
+  margin-top: 10px;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+#section-advanced-tips .prompt-box__header {
+  min-height: 42px;
+}
+
+#section-advanced-tips .prompt-box pre {
+  padding: 16px 18px;
+  font-size: 0.9rem;
+  line-height: 1.72;
+}
+
+#section-advanced-tips .quote-block {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-left-color: var(--gold);
+  border-radius: 0 12px 12px 0;
+  background: rgba(170, 141, 95, 0.1);
+  color: #31423b;
+  font-size: 0.94rem;
+  line-height: 1.68;
+}
+
 @media (max-width: 720px) {
   .resource-panel.panel {
     padding-top: 18px;
@@ -3604,6 +3701,12 @@ body.lecture-mode .topbar__search {
 
   .resource-item {
     padding: 14px;
+  }
+
+  #section-advanced-tips .content-block {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 15px;
   }
 }
 
