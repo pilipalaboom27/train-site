@@ -672,119 +672,115 @@ window.siteContent = {
               ]
             },
             {
-              "label": "**日常办公和数据分析优先推荐**",
+              "label": "**日常办公基础 Skill**",
               "table": {
                 "headers": [
-                  "推荐顺序",
                   "Skill",
-                  "安装名",
-                  "下载量级",
-                  "是否需要 API Key",
-                  "适合场景"
+                  "安装名 / 来源",
+                  "功能简述"
                 ],
                 "rows": [
                   [
-                    "1",
                     "Word / DOCX",
-                    "`word-docx`",
-                    "13 万+",
-                    "否",
-                    "正式报告、会议纪要、项目总结、验收材料"
+                    "`docx` 或 `word-docx`",
+                    "创建、编辑、分析 .docx；可读取正文、套用 Word 投稿模板、生成正式报告，也适合对他人文档做审稿式修订建议。"
                   ],
                   [
-                    "2",
                     "Excel / XLSX",
                     "`excel-xlsx`",
-                    "12 万+",
-                    "否",
-                    "水质监测数据、排口数据、项目台账、图表统计"
+                    "读取表格、清洗数据、汇总项目台账和监测数据，适合输出统计表或给 PPT 准备图表数据。"
                   ],
                   [
-                    "3",
-                    "Data Analysis",
-                    "`data-analysis`",
-                    "6 万+",
-                    "否",
-                    "数据清洗、统计分析、趋势识别、可视化和分析报告"
-                  ],
-                  [
-                    "4",
-                    "Powerpoint / PPTX",
+                    "PowerPoint / PPTX",
                     "`powerpoint-pptx`",
-                    "5 万+",
-                    "否",
-                    "领导汇报、项目调度 PPT、成果展示"
+                    "生成或修改汇报 PPT、项目调度材料、成果展示页。"
                   ],
                   [
-                    "5",
                     "PDF",
                     "`pdf`",
-                    "4 万+",
-                    "否",
-                    "政策文件、方案、报告、PDF 表格提取"
+                    "读取政策文件、方案、报告和 PDF 表格，适合做资料摘录、条款对照和文档核查。"
                   ],
                   [
-                    "6",
-                    "Markdown Converter",
-                    "`markdown-converter`",
-                    "5 万+",
-                    "否",
-                    "把 PDF/Word/PPT/Excel 转成 Markdown，便于资料整理和 AI 分析"
-                  ],
-                  [
-                    "7",
                     "Web Search",
                     "`web-search`",
-                    "3 万+",
-                    "否",
-                    "政策依据、新闻动态、行业资料检索"
+                    "检索政策依据、新闻动态、行业资料；需要联网或引用来源时再启用。"
                   ],
                   [
-                    "8",
                     "find-skills",
                     "`find-skills`",
-                    "按需",
-                    "否",
-                    "不知道该装什么时，让 AI 按任务帮你找技能"
+                    "不知道该装什么时，让 AI 根据当前任务帮你找合适 Skill。"
                   ],
                   [
-                    "9",
-                    "Humanizer",
-                    "`humanizer`",
-                    "18 万+",
-                    "否",
-                    "润色报告、材料、公众号稿、通知，去掉明显 AI 腔"
+                    "humanizer",
+                    "`humanizer` / blader/humanizer",
+                    "识别并去除 AI 写作痕迹，修掉促销腔、空洞分析、破折号滥用、三点式堆砌和 AI 高频词，让终稿更像人写。"
                   ],
                   [
-                    "10",
-                    "Research Paper Writer",
-                    "`research-paper-writer`",
-                    "1 万+",
-                    "否",
-                    "按 IEEE/ACM 结构生成研究论文、学术论文、会议论文初稿"
+                    "doc-coauthoring",
+                    "anthropics/skills",
+                    "分阶段文档协作：收集上下文、按节头脑风暴、起草、精修、读者测试，适合论文单节或整篇结构化迭代。"
+                  ],
+                  [
+                    "canvas-design",
+                    "anthropics/skills",
+                    "先产出 design philosophy，再生成单页 .png / .pdf，适合论文概念图、示意图、框架图。"
                   ]
                 ]
               }
             },
             {
-              "label": "可以先装这一组",
-              "prompt": "skillhub install word-docx\nskillhub install excel-xlsx\nskillhub install data-analysis\nskillhub install powerpoint-pptx\nskillhub install pdf\nskillhub install markdown-converter\nskillhub install web-search\nskillhub install find-skills\nskillhub install humanizer\nskillhub install research-paper-writer"
+              "label": "日常办公可以先装这一组",
+              "prompt": "skillhub install word-docx\nskillhub install excel-xlsx\nskillhub install powerpoint-pptx\nskillhub install pdf\nskillhub install web-search\nskillhub install find-skills\nskillhub install humanizer"
             },
             {
-              "label": "如果单位里 WPS 或金山文档用得多，再加",
-              "prompt": "skillhub install wps\nskillhub install kdocs-skill"
+              "label": "**科研写作、论文和汇报增强 Skill**",
+              "table": {
+                "headers": [
+                  "Skill 名称",
+                  "来源",
+                  "功能简述"
+                ],
+                "rows": [
+                  [
+                    "20-ml-paper-writing",
+                    "zechenzhangAGI/AI-research-SKILLs",
+                    "面向 NeurIPS / ICML / ICLR / ACL / AAAI / COLM 的完整论文写作：repo 起稿、LaTeX 模板、引用验证、审稿人视角、会议 checklist、格式迁移；内含 booktabs 表格规范与图规范。"
+                  ],
+                  [
+                    "speaker / ppt-speech-writer",
+                    "AI272/speaker",
+                    "逐页解析 PPT，结合 OCR 和视觉复核生成讲稿，并写入 PowerPoint speaker notes，适合正式汇报前准备逐页讲稿。"
+                  ],
+                  [
+                    "PaperSpine",
+                    "WUBING2023/PaperSpine",
+                    "用 motivation 主线学习强论文、搭建中心论证，支持 evidence-aware 改写和 LaTeX-safe audit，适合从论文骨架到论证质量检查。"
+                  ],
+                  [
+                    "research-paper-writing",
+                    "Master-cai/Research-Paper-Writing-Skills",
+                    "面向 ML/CV/NLP 论文的 Abstract、Introduction、Method、Experiments、Conclusion 改写，检查段落逻辑、claim-evidence alignment，并做投稿前 reviewer 视角自检。"
+                  ],
+                  [
+                    "nature-skills",
+                    "Yuan1z0825/nature-skills",
+                    "包含 nature-figure、nature-polishing、nature-writing、nature-reviewer、nature-citation、nature-data、nature-response、nature-paper2ppt、nature-academic-search，覆盖 Nature 风格写作、审稿回复、图表、引用、数据和论文转 PPT。"
+                  ],
+                  [
+                    "docx",
+                    "anthropics/skills",
+                    "处理 .docx 创建、编辑、分析；论文场景可把标题、作者、摘要、正文替换进 Word 投稿模板，生成符合格式的投稿稿。"
+                  ]
+                ]
+              }
             },
             {
-              "label": "如果会议纪要、调度会、专家会很多，可以再加",
-              "prompt": "skillhub install ai-meeting-notes"
-            },
-            {
-              "label": "如果有论文写作、科研材料、技术路线论证、英文摘要等任务，可以补充安装 `20-ml-paper-writing`。这个技能来自 Orchestra-Research 的 AI-Research-SKILLs，主要用于 ML/AI/Systems 论文写作、LaTeX 结构、引用核验和审稿清单。它目前不在 SkillHub 搜索结果中，建议从 Skills Directory 或 GitHub 来源安装",
-              "prompt": "npx skills add https://github.com/Orchestra-Research/AI-Research-SKILLs --skill 20-ml-paper-writing",
+              "label": "GitHub 来源 Skill 参考安装方式",
+              "prompt": "npx skills add https://github.com/zechenzhangAGI/AI-research-SKILLs --skill 20-ml-paper-writing\nnpx skills add https://github.com/AI272/speaker\nnpx skills add https://github.com/WUBING2023/PaperSpine\nnpx skills add https://github.com/Master-cai/Research-Paper-Writing-Skills\nnpx skills add https://github.com/Yuan1z0825/nature-skills",
               "paragraphs": [
-                "如果上面的命令不兼容当前环境，也可以在 Skills Directory 搜索 `ml-paper-writing` 或 `20-ml-paper-writing`，按页面给出的安装命令执行：<https://www.skills.sh/>。"
+                "不同 WorkBuddy / Codex / SkillHub 环境的安装命令可能略有差异。安装前先看对应 GitHub README；安装后只在相关任务里启用，不要把科研写作 Skill 全部常驻打开。"
               ],
-              "quote": "💡 **选择原则**：先装无 API Key、下载量高、和文件处理直接相关的 Skill。需要外部账号或 API Key 的技能，等确实有云文档、网页搜索增强或会议系统接入需求时再装。"
+              "quote": "💡 **选择原则**：日常办公优先用 docx、xlsx、pptx、pdf、humanizer；论文写作、投稿、审稿回复、论文转汇报时，再补充科研写作类 Skill。"
             },
             {
               "label": "**怎么判断当前任务需要什么 Skill**",
@@ -1133,7 +1129,7 @@ window.siteContent = {
           "title": "模型选择：先用 Auto，再按任务切换",
           "type": "text",
           "paragraphs": [
-            "新手不建议一开始纠结模型。优先使用自动模式或默认推荐。只有当任务表现明显不符合预期时，再考虑切换模型。"
+            "新手不建议一开始纠结模型。优先使用 Auto 或默认推荐；只有当任务表现明显不符合预期时，再考虑切换模型。下面的说明按当前界面可见模型整理，重点是“适合什么任务”，不是绝对排名。"
           ],
           "blocks": [
             {
@@ -1145,6 +1141,73 @@ window.siteContent = {
                 "中文表达生硬、翻译腔重 → 换中文写作能力更强的模型。",
                 "什么都不确定 → 继续用 Auto，先检查 Prompt 是否说清楚了。"
               ]
+            },
+            {
+              "label": "**常见模型优势速览**",
+              "table": {
+                "headers": [
+                  "模型",
+                  "更适合的任务",
+                  "使用建议"
+                ],
+                "rows": [
+                  [
+                    "Auto",
+                    "不确定该选什么、日常问答、普通文档整理",
+                    "默认优先。先把 Prompt 写清楚，再判断是否需要手动切换。"
+                  ],
+                  [
+                    "Hy3 preview",
+                    "新模型预览、需要尝试新能力的任务",
+                    "适合探索，不建议直接用于重要交付终稿。"
+                  ],
+                  [
+                    "GLM-5.0-Turbo",
+                    "日常中文写作、摘要、结构化输出",
+                    "速度和成本更友好，适合普通办公任务。"
+                  ],
+                  [
+                    "GLM-5.1",
+                    "综合写作、逻辑梳理、较复杂的中文材料",
+                    "比 Turbo 更适合需要推理和表达质量的任务。"
+                  ],
+                  [
+                    "GLM-5v-Turbo",
+                    "图片、截图、PPT 页面、表格截图识别",
+                    "涉及视觉输入时优先考虑。"
+                  ],
+                  [
+                    "MiniMax-M2.7",
+                    "长文本整理、中文表达润色、多轮改写",
+                    "适合材料篇幅较长、需要自然表达的任务。"
+                  ],
+                  [
+                    "Kimi-K2.6",
+                    "长文档阅读、资料整合、政策/报告摘要",
+                    "适合一次读很多材料，先做归纳再输出。"
+                  ],
+                  [
+                    "Kimi-K2.5",
+                    "长文本阅读、低风险资料整理",
+                    "可作为长文档任务的稳妥备用。"
+                  ],
+                  [
+                    "Deepseek-V4-Flash",
+                    "快速问答、低成本草稿、初步提纲",
+                    "适合先跑一版，不适合直接作为最终把关。"
+                  ],
+                  [
+                    "Deepseek-V4-Pro",
+                    "复杂推理、代码/逻辑检查、严肃分析",
+                    "适合需要更强推理质量的任务。"
+                  ],
+                  [
+                    "DeepSeek-V3.2",
+                    "通用写作、结构化分析、代码辅助",
+                    "适合大多数需要稳定输出的综合任务。"
+                  ]
+                ]
+              }
             },
             {
               "label": "**常见的模型选择误区**",
@@ -1798,24 +1861,6 @@ window.siteContent = {
               ]
             }
           ]
-        },
-        {
-          "id": "summary-talk",
-          "title": "汇报时可以这样总结",
-          "type": "text",
-          "blocks": [
-            {
-              "label": "如果要向领导或同事概括 WorkBuddy 和本单位业务的结合，可以直接这样讲",
-              "quote": "结合我单位承担的流域水生态修复和水环境治理工作，WorkBuddy 可以应用于项目方案编制、监测数据分析、政策研究、生态问题诊断、会议纪要整理、历史项目经验查询以及项目验收总结等多个环节。特别是在报告编写、数据分析和知识检索方面，能够有效减少重复性工作，提高项目谋划和技术支撑效率，使工作人员将更多精力投入到专业判断和现场实践中。"
-            },
-            {
-              "label": "如果领导比较关注“AI 到底能不能落地”，建议再加一个具体案例",
-              "quote": "例如在编制某河流生态修复项目实施方案时，可以利用 WorkBuddy 快速梳理项目背景、提炼流域生态问题、整理相关政策依据，并辅助形成建设目标和技术路线框架，将原本需要半天甚至一天完成的基础性文字工作压缩到几十分钟内完成。这样既提高效率，也促进了单位知识经验的积累和共享。",
-              "paragraphs": [
-                "这类案例会让听众感受到：我们不是在泛泛谈 AI，而是在思考如何把 AI 放进真实业务流程里。"
-              ]
-            }
-          ]
         }
       ]
     },
@@ -1904,6 +1949,56 @@ window.siteContent = {
             {
               "label": "语气切换（同一内容适配不同读者）",
               "prompt": "请把下面这段项目进展说明，改写成三种语气版本。\n\n原文：[粘贴原文]\n\n版本一：给领导看——突出成果和影响，控制在 200 字以内。\n版本二：给团队成员看——突出具体进展和下一步动作，可适当保留技术细节。\n版本三：给外部合作方看——正式得体，强调合作进展和共同目标。\n\n三个版本都要保持事实一致，只调整语气和侧重点。"
+            }
+          ]
+        },
+        {
+          "id": "paper-writing-prompts",
+          "title": "论文写作 Prompt 模板",
+          "type": "text",
+          "paragraphs": [
+            "以下模板来自 `Leey21/awesome-ai-research-writing` 的 Part I 思路，适合论文写作、投稿前润色、实验结果解释和审稿人视角检查。使用时建议配合 `20-ml-paper-writing`、`research-paper-writing`、`PaperSpine`、`nature-skills` 或 `humanizer`。"
+          ],
+          "blocks": [
+            {
+              "label": "翻译",
+              "prompt": "请将下面这段中文学术内容翻译成英文论文表达。\n\n要求：\n1. 保留原意，不新增未经证明的结论。\n2. 使用自然、准确的学术英语。\n3. 术语前后一致。\n4. 如果有多种译法，请优先选择机器学习/环境科学论文中更常见的表达。\n\n原文：\n[粘贴文本]"
+            },
+            {
+              "label": "润色",
+              "prompt": "请润色下面这段英文论文内容。\n\n要求：\n1. 提升清晰度、准确性和学术表达。\n2. 不改变技术含义。\n3. 删除冗余表达。\n4. 输出润色后版本，并列出 3 条主要修改理由。\n\n原文：\n[粘贴文本]"
+            },
+            {
+              "label": "缩写 / 扩写",
+              "prompt": "请根据目标字数改写下面这段论文内容。\n\n目标：压缩到 [字数] 词 / 扩写到 [字数] 词。\n要求：\n1. 保留核心贡献、方法和结论。\n2. 不引入新实验或新数据。\n3. 标注哪些信息被删减或补充展开。\n\n原文：\n[粘贴文本]"
+            },
+            {
+              "label": "逻辑检查",
+              "prompt": "请检查下面论文段落的逻辑链条。\n\n重点检查：\n1. motivation 是否清楚。\n2. problem、method、evidence、claim 是否对应。\n3. 是否有跳跃推理或缺少证据的结论。\n4. 每一句是否服务于本段中心论点。\n\n请输出“问题清单 + 修改建议 + 建议改写版”。\n\n段落：\n[粘贴文本]"
+            },
+            {
+              "label": "去 AI 写作痕迹",
+              "prompt": "请帮我去除下面文字中明显的 AI 写作痕迹。\n\n要求：\n1. 删除空泛、夸张、模板化表达。\n2. 减少机械的三点式堆砌。\n3. 保留必要的学术严谨性。\n4. 让语气更像研究者本人写的，而不是宣传稿。\n\n原文：\n[粘贴文本]"
+            },
+            {
+              "label": "论文架构图",
+              "prompt": "请根据下面论文方法描述，设计一张论文架构图。\n\n请输出：\n1. 图的核心信息流。\n2. 每个模块名称。\n3. 箭头关系。\n4. 适合放在 caption 里的英文说明。\n5. 哪些部分需要我补充真实实验或数据。\n\n方法描述：\n[粘贴文本]"
+            },
+            {
+              "label": "实验图、标题和表格说明",
+              "prompt": "请为下面实验结果设计图题、表题和 caption。\n\n要求：\n1. 标题准确说明比较对象和指标。\n2. caption 解释实验设置、指标含义和主要发现。\n3. 不夸大结果，不写没有数据支持的结论。\n4. 如果表格适合使用 booktabs 风格，请给出列名建议。\n\n实验结果：\n[粘贴数据或结果描述]"
+            },
+            {
+              "label": "实验分析",
+              "prompt": "请根据下面实验结果写一段论文中的 Results / Analysis。\n\n要求：\n1. 先描述最重要的趋势。\n2. 再解释可能原因。\n3. 区分数据事实和作者推测。\n4. 指出需要补充消融实验或误差分析的地方。\n\n实验结果：\n[粘贴数据]"
+            },
+            {
+              "label": "审稿人视角审阅",
+              "prompt": "请以顶会审稿人的视角审阅下面论文片段。\n\n请检查：\n1. novelty 是否充分。\n2. motivation 是否站得住。\n3. evidence 是否支撑 claim。\n4. 实验是否缺关键 baseline、ablation 或统计显著性。\n5. 哪些表达可能被审稿人质疑。\n\n请输出“主要风险 + 可执行修改建议”。\n\n论文片段：\n[粘贴文本]"
+            },
+            {
+              "label": "模型选择",
+              "prompt": "我正在做论文写作任务，请根据任务类型推荐使用哪个模型或 Skill。\n\n任务类型：\n[翻译 / 润色 / introduction / method / experiments / rebuttal / paper-to-ppt]\n\n材料长度：\n[短段落 / 单节 / 全文 / 多篇论文]\n\n输出要求：\n[英文终稿 / 中文解释 / 图表 caption / 审稿回复 / PPT 讲稿]\n\n请给出：\n1. 推荐模型或 Skill。\n2. 为什么适合。\n3. 需要避免的风险。"
             }
           ]
         },
@@ -2065,7 +2160,7 @@ window.siteContent = {
         {
           "label": "WorkBuddy 使用教程与分享文档",
           "href": "WorkBuddy使用教程与分享文档_2026-06-01.md",
-          "note": "本文档本身，作为分享和会后复习主材料。"
+          "note": "分享和会后复习主材料。"
         }
       ]
     },
@@ -2075,62 +2170,52 @@ window.siteContent = {
         {
           "label": "WorkBuddy 简介",
           "href": "https://www.codebuddy.cn/docs/workbuddy/Overview",
-          "note": ""
+          "note": "了解 WorkBuddy 定位。"
         },
         {
           "label": "快速开始",
           "href": "https://www.codebuddy.cn/docs/workbuddy/Quickstart",
-          "note": ""
-        },
-        {
-          "label": "创建任务",
-          "href": "https://www.codebuddy.cn/docs/workbuddy/Create-Task",
-          "note": ""
-        },
-        {
-          "label": "任务对话",
-          "href": "https://www.codebuddy.cn/docs/workbuddy/Conversation",
-          "note": ""
+          "note": "第一次上手时查看。"
         },
         {
           "label": "结果查看",
           "href": "https://www.codebuddy.cn/docs/workbuddy/Results",
-          "note": ""
+          "note": "验收产物和变更。"
         },
         {
           "label": "技能市场",
           "href": "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market",
-          "note": ""
-        },
-        {
-          "label": "专家中心",
-          "href": "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Expert-Center",
-          "note": ""
-        },
-        {
-          "label": "资料库",
-          "href": "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Knowledge-Base",
-          "note": ""
-        },
-        {
-          "label": "自动化",
-          "href": "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Automation-Guide",
-          "note": ""
+          "note": "查找和安装 Skill。"
         }
       ]
     },
     {
-      "title": "Prompt 方法资料",
+      "title": "科研写作与 Skill 资源",
       "items": [
         {
-          "label": "OpenAI Prompting fundamentals",
-          "href": "https://openai.com/academy/prompting/",
-          "note": ""
+          "label": "AI272/speaker",
+          "href": "https://github.com/AI272/speaker",
+          "note": "PPT 讲稿和 speaker notes。"
         },
         {
-          "label": "OpenAI Prompt engineering best practices",
-          "href": "https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt",
-          "note": ""
+          "label": "WUBING2023/PaperSpine",
+          "href": "https://github.com/WUBING2023/PaperSpine",
+          "note": "论文主线和 evidence-aware 改写。"
+        },
+        {
+          "label": "Master-cai/Research-Paper-Writing-Skills",
+          "href": "https://github.com/Master-cai/Research-Paper-Writing-Skills/tree/main",
+          "note": "研究论文各章节写作。"
+        },
+        {
+          "label": "Yuan1z0825/nature-skills",
+          "href": "https://github.com/Yuan1z0825/nature-skills",
+          "note": "Nature 风格写作、图表、审稿回复。"
+        },
+        {
+          "label": "Leey21/awesome-ai-research-writing",
+          "href": "https://github.com/Leey21/awesome-ai-research-writing",
+          "note": "论文写作 Prompt 与工具合集。"
         }
       ]
     }

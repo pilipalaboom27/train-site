@@ -433,58 +433,56 @@ skillhub install excel-xlsx
 
 第一次使用 SkillHub 时，先按官方安装说明安装 CLI：<https://skillhub.cn/install/skillhub.md>。
 
-**日常办公和数据分析优先推荐**：
+**日常办公基础 Skill**：
 
-| 推荐顺序 | Skill | 安装名 | 下载量级 | 是否需要 API Key | 适合场景 |
-|---|---|---|---:|---|---|
-| 1 | Word / DOCX | `word-docx` | 13 万+ | 否 | 正式报告、会议纪要、项目总结、验收材料 |
-| 2 | Excel / XLSX | `excel-xlsx` | 12 万+ | 否 | 水质监测数据、排口数据、项目台账、图表统计 |
-| 3 | Data Analysis | `data-analysis` | 6 万+ | 否 | 数据清洗、统计分析、趋势识别、可视化和分析报告 |
-| 4 | Powerpoint / PPTX | `powerpoint-pptx` | 5 万+ | 否 | 领导汇报、项目调度 PPT、成果展示 |
-| 5 | PDF | `pdf` | 4 万+ | 否 | 政策文件、方案、报告、PDF 表格提取 |
-| 6 | Markdown Converter | `markdown-converter` | 5 万+ | 否 | 把 PDF/Word/PPT/Excel 转成 Markdown，便于资料整理和 AI 分析 |
-| 7 | Web Search | `web-search` | 3 万+ | 否 | 政策依据、新闻动态、行业资料检索 |
-| 8 | find-skills | `find-skills` | 按需 | 否 | 不知道该装什么时，让 AI 按任务帮你找技能 |
-| 9 | Humanizer | `humanizer` | 18 万+ | 否 | 润色报告、材料、公众号稿、通知，去掉明显 AI 腔 |
-| 10 | Research Paper Writer | `research-paper-writer` | 1 万+ | 否 | 按 IEEE/ACM 结构生成研究论文、学术论文、会议论文初稿 |
+| Skill | 安装名 / 来源 | 功能简述 |
+|---|---|---|
+| Word / DOCX | `docx` 或 `word-docx` | 创建、编辑、分析 .docx；可读取正文、套用 Word 投稿模板、生成正式报告，也适合对他人文档做审稿式修订建议。 |
+| Excel / XLSX | `excel-xlsx` | 读取表格、清洗数据、汇总项目台账和监测数据，适合输出统计表或给 PPT 准备图表数据。 |
+| PowerPoint / PPTX | `powerpoint-pptx` | 生成或修改汇报 PPT、项目调度材料、成果展示页。 |
+| PDF | `pdf` | 读取政策文件、方案、报告和 PDF 表格，适合做资料摘录、条款对照和文档核查。 |
+| Web Search | `web-search` | 检索政策依据、新闻动态、行业资料；需要联网或引用来源时再启用。 |
+| find-skills | `find-skills` | 不知道该装什么时，让 AI 根据当前任务帮你找合适 Skill。 |
+| humanizer | `humanizer` / blader/humanizer | 识别并去除 AI 写作痕迹，修掉促销腔、空洞分析、破折号滥用、三点式堆砌和 AI 高频词，让终稿更像人写。 |
+| doc-coauthoring | anthropics/skills | 分阶段文档协作：收集上下文、按节头脑风暴、起草、精修、读者测试，适合论文单节或整篇结构化迭代。 |
+| canvas-design | anthropics/skills | 先产出 design philosophy，再生成单页 .png / .pdf，适合论文概念图、示意图、框架图。 |
 
-可以先装这一组：
+日常办公可以先装这一组：
 
 ```bash
 skillhub install word-docx
 skillhub install excel-xlsx
-skillhub install data-analysis
 skillhub install powerpoint-pptx
 skillhub install pdf
-skillhub install markdown-converter
 skillhub install web-search
 skillhub install find-skills
 skillhub install humanizer
-skillhub install research-paper-writer
 ```
 
-如果单位里 WPS 或金山文档用得多，再加：
+**科研写作、论文和汇报增强 Skill**：
+
+| Skill 名称 | 来源 | 功能简述 |
+|---|---|---|
+| 20-ml-paper-writing | zechenzhangAGI/AI-research-SKILLs | 面向 NeurIPS / ICML / ICLR / ACL / AAAI / COLM 的完整论文写作：repo 起稿、LaTeX 模板、引用验证、审稿人视角、会议 checklist、格式迁移；内含 booktabs 表格规范与图规范。 |
+| speaker / ppt-speech-writer | AI272/speaker | 逐页解析 PPT，结合 OCR 和视觉复核生成讲稿，并写入 PowerPoint speaker notes，适合正式汇报前准备逐页讲稿。 |
+| PaperSpine | WUBING2023/PaperSpine | 用 motivation 主线学习强论文、搭建中心论证，支持 evidence-aware 改写和 LaTeX-safe audit，适合从论文骨架到论证质量检查。 |
+| research-paper-writing | Master-cai/Research-Paper-Writing-Skills | 面向 ML/CV/NLP 论文的 Abstract、Introduction、Method、Experiments、Conclusion 改写，检查段落逻辑、claim-evidence alignment，并做投稿前 reviewer 视角自检。 |
+| nature-skills | Yuan1z0825/nature-skills | 包含 nature-figure、nature-polishing、nature-writing、nature-reviewer、nature-citation、nature-data、nature-response、nature-paper2ppt、nature-academic-search，覆盖 Nature 风格写作、审稿回复、图表、引用、数据和论文转 PPT。 |
+| docx | anthropics/skills | 处理 .docx 创建、编辑、分析；论文场景可把标题、作者、摘要、正文替换进 Word 投稿模板，生成符合格式的投稿稿。 |
+
+GitHub 来源 Skill 参考安装方式：
 
 ```bash
-skillhub install wps
-skillhub install kdocs-skill
+npx skills add https://github.com/zechenzhangAGI/AI-research-SKILLs --skill 20-ml-paper-writing
+npx skills add https://github.com/AI272/speaker
+npx skills add https://github.com/WUBING2023/PaperSpine
+npx skills add https://github.com/Master-cai/Research-Paper-Writing-Skills
+npx skills add https://github.com/Yuan1z0825/nature-skills
 ```
 
-如果会议纪要、调度会、专家会很多，可以再加：
+不同 WorkBuddy / Codex / SkillHub 环境的安装命令可能略有差异。安装前先看对应 GitHub README；安装后只在相关任务里启用，不要把科研写作 Skill 全部常驻打开。
 
-```bash
-skillhub install ai-meeting-notes
-```
-
-如果有论文写作、科研材料、技术路线论证、英文摘要等任务，可以补充安装 `20-ml-paper-writing`。这个技能来自 Orchestra-Research 的 AI-Research-SKILLs，主要用于 ML/AI/Systems 论文写作、LaTeX 结构、引用核验和审稿清单。它目前不在 SkillHub 搜索结果中，建议从 Skills Directory 或 GitHub 来源安装：
-
-```bash
-npx skills add https://github.com/Orchestra-Research/AI-Research-SKILLs --skill 20-ml-paper-writing
-```
-
-如果上面的命令不兼容当前环境，也可以在 Skills Directory 搜索 `ml-paper-writing` 或 `20-ml-paper-writing`，按页面给出的安装命令执行：<https://www.skills.sh/>。
-
-> 💡 **选择原则**：先装无 API Key、下载量高、和文件处理直接相关的 Skill。需要外部账号或 API Key 的技能，等确实有云文档、网页搜索增强或会议系统接入需求时再装。
+> 💡 **选择原则**：日常办公优先用 docx、xlsx、pptx、pdf、humanizer；论文写作、投稿、审稿回复、论文转汇报时，再补充科研写作类 Skill。
 
 **怎么判断当前任务需要什么 Skill**：
 
@@ -671,7 +669,7 @@ Claw 不是手机端完整替代桌面端，它更像一个远程遥控入口—
 
 ### 6.4 模型选择：先用 Auto，再按任务切换
 
-新手不建议一开始纠结模型。优先使用自动模式或默认推荐。只有当任务表现明显不符合预期时，再考虑切换模型。
+新手不建议一开始纠结模型。优先使用 Auto 或默认推荐；只有当任务表现明显不符合预期时，再考虑切换模型。下面的说明按当前界面可见模型整理，重点是“适合什么任务”，不是绝对排名。
 
 **什么时候需要切换模型**：
 
@@ -680,6 +678,22 @@ Claw 不是手机端完整替代桌面端，它更像一个远程遥控入口—
 - 涉及图片、截图识别不准 → 换多模态模型。
 - 中文表达生硬、翻译腔重 → 换中文写作能力更强的模型。
 - 什么都不确定 → 继续用 Auto，先检查 Prompt 是否说清楚了。
+
+**常见模型优势速览**：
+
+| 模型 | 更适合的任务 | 使用建议 |
+|---|---|---|
+| Auto | 不确定该选什么、日常问答、普通文档整理 | 默认优先。先把 Prompt 写清楚，再判断是否需要手动切换。 |
+| Hy3 preview | 新模型预览、需要尝试新能力的任务 | 适合探索，不建议直接用于重要交付终稿。 |
+| GLM-5.0-Turbo | 日常中文写作、摘要、结构化输出 | 速度和成本更友好，适合普通办公任务。 |
+| GLM-5.1 | 综合写作、逻辑梳理、较复杂的中文材料 | 比 Turbo 更适合需要推理和表达质量的任务。 |
+| GLM-5v-Turbo | 图片、截图、PPT 页面、表格截图识别 | 涉及视觉输入时优先考虑。 |
+| MiniMax-M2.7 | 长文本整理、中文表达润色、多轮改写 | 适合材料篇幅较长、需要自然表达的任务。 |
+| Kimi-K2.6 | 长文档阅读、资料整合、政策/报告摘要 | 适合一次读很多材料，先做归纳再输出。 |
+| Kimi-K2.5 | 长文本阅读、低风险资料整理 | 可作为长文档任务的稳妥备用。 |
+| Deepseek-V4-Flash | 快速问答、低成本草稿、初步提纲 | 适合先跑一版，不适合直接作为最终把关。 |
+| Deepseek-V4-Pro | 复杂推理、代码/逻辑检查、严肃分析 | 适合需要更强推理质量的任务。 |
+| DeepSeek-V3.2 | 通用写作、结构化分析、代码辅助 | 适合大多数需要稳定输出的综合任务。 |
 
 **常见的模型选择误区**：
 
@@ -1401,18 +1415,6 @@ WorkBuddy 可以辅助完成：
 - 是否把已完成内容和后续建议分开。
 - 是否能满足绩效评价或验收材料的基本结构。
 
-### 8.11 汇报时可以这样总结
-
-如果要向领导或同事概括 WorkBuddy 和本单位业务的结合，可以直接这样讲：
-
-> 结合我单位承担的流域水生态修复和水环境治理工作，WorkBuddy 可以应用于项目方案编制、监测数据分析、政策研究、生态问题诊断、会议纪要整理、历史项目经验查询以及项目验收总结等多个环节。特别是在报告编写、数据分析和知识检索方面，能够有效减少重复性工作，提高项目谋划和技术支撑效率，使工作人员将更多精力投入到专业判断和现场实践中。
-
-如果领导比较关注“AI 到底能不能落地”，建议再加一个具体案例：
-
-> 例如在编制某河流生态修复项目实施方案时，可以利用 WorkBuddy 快速梳理项目背景、提炼流域生态问题、整理相关政策依据，并辅助形成建设目标和技术路线框架，将原本需要半天甚至一天完成的基础性文字工作压缩到几十分钟内完成。这样既提高效率，也促进了单位知识经验的积累和共享。
-
-这类案例会让听众感受到：我们不是在泛泛谈 AI，而是在思考如何把 AI 放进真实业务流程里。
-
 ---
 
 ## 9. Prompt 与模板：可复制、可改写、可复用
@@ -1536,7 +1538,172 @@ OpenAI 的 Prompt 基础资料强调三个关键点：说明任务、提供上�
 三个版本都要保持事实一致，只调整语气和侧重点。
 ```
 
-### 9.6 三个进阶技巧
+### 9.6 论文写作 Prompt 模板
+
+以下模板来自 `Leey21/awesome-ai-research-writing` 的 Part I 思路，适合论文写作、投稿前润色、实验结果解释和审稿人视角检查。使用时建议配合 `20-ml-paper-writing`、`research-paper-writing`、`PaperSpine`、`nature-skills` 或 `humanizer`。
+
+翻译：
+
+```text
+请将下面这段中文学术内容翻译成英文论文表达。
+
+要求：
+1. 保留原意，不新增未经证明的结论。
+2. 使用自然、准确的学术英语。
+3. 术语前后一致。
+4. 如果有多种译法，请优先选择机器学习/环境科学论文中更常见的表达。
+
+原文：
+[粘贴文本]
+```
+
+润色：
+
+```text
+请润色下面这段英文论文内容。
+
+要求：
+1. 提升清晰度、准确性和学术表达。
+2. 不改变技术含义。
+3. 删除冗余表达。
+4. 输出润色后版本，并列出 3 条主要修改理由。
+
+原文：
+[粘贴文本]
+```
+
+缩写 / 扩写：
+
+```text
+请根据目标字数改写下面这段论文内容。
+
+目标：压缩到 [字数] 词 / 扩写到 [字数] 词。
+要求：
+1. 保留核心贡献、方法和结论。
+2. 不引入新实验或新数据。
+3. 标注哪些信息被删减或补充展开。
+
+原文：
+[粘贴文本]
+```
+
+逻辑检查：
+
+```text
+请检查下面论文段落的逻辑链条。
+
+重点检查：
+1. motivation 是否清楚。
+2. problem、method、evidence、claim 是否对应。
+3. 是否有跳跃推理或缺少证据的结论。
+4. 每一句是否服务于本段中心论点。
+
+请输出“问题清单 + 修改建议 + 建议改写版”。
+
+段落：
+[粘贴文本]
+```
+
+去 AI 写作痕迹：
+
+```text
+请帮我去除下面文字中明显的 AI 写作痕迹。
+
+要求：
+1. 删除空泛、夸张、模板化表达。
+2. 减少机械的三点式堆砌。
+3. 保留必要的学术严谨性。
+4. 让语气更像研究者本人写的，而不是宣传稿。
+
+原文：
+[粘贴文本]
+```
+
+论文架构图：
+
+```text
+请根据下面论文方法描述，设计一张论文架构图。
+
+请输出：
+1. 图的核心信息流。
+2. 每个模块名称。
+3. 箭头关系。
+4. 适合放在 caption 里的英文说明。
+5. 哪些部分需要我补充真实实验或数据。
+
+方法描述：
+[粘贴文本]
+```
+
+实验图、标题和表格说明：
+
+```text
+请为下面实验结果设计图题、表题和 caption。
+
+要求：
+1. 标题准确说明比较对象和指标。
+2. caption 解释实验设置、指标含义和主要发现。
+3. 不夸大结果，不写没有数据支持的结论。
+4. 如果表格适合使用 booktabs 风格，请给出列名建议。
+
+实验结果：
+[粘贴数据或结果描述]
+```
+
+实验分析：
+
+```text
+请根据下面实验结果写一段论文中的 Results / Analysis。
+
+要求：
+1. 先描述最重要的趋势。
+2. 再解释可能原因。
+3. 区分数据事实和作者推测。
+4. 指出需要补充消融实验或误差分析的地方。
+
+实验结果：
+[粘贴数据]
+```
+
+审稿人视角审阅：
+
+```text
+请以顶会审稿人的视角审阅下面论文片段。
+
+请检查：
+1. novelty 是否充分。
+2. motivation 是否站得住。
+3. evidence 是否支撑 claim。
+4. 实验是否缺关键 baseline、ablation 或统计显著性。
+5. 哪些表达可能被审稿人质疑。
+
+请输出“主要风险 + 可执行修改建议”。
+
+论文片段：
+[粘贴文本]
+```
+
+模型选择：
+
+```text
+我正在做论文写作任务，请根据任务类型推荐使用哪个模型或 Skill。
+
+任务类型：
+[翻译 / 润色 / introduction / method / experiments / rebuttal / paper-to-ppt]
+
+材料长度：
+[短段落 / 单节 / 全文 / 多篇论文]
+
+输出要求：
+[英文终稿 / 中文解释 / 图表 caption / 审稿回复 / PPT 讲稿]
+
+请给出：
+1. 推荐模型或 Skill。
+2. 为什么适合。
+3. 需要避免的风险。
+```
+
+### 9.7 三个进阶技巧
 
 **技巧一：链式任务——一次说完，让它逐步执行**
 
@@ -1711,16 +1878,14 @@ WorkBuddy 按积分消耗计费，新用户注册送 3000 积分，每日签到 
 
 - WorkBuddy 简介：https://www.codebuddy.cn/docs/workbuddy/Overview
 - 快速开始：https://www.codebuddy.cn/docs/workbuddy/Quickstart
-- 创建任务：https://www.codebuddy.cn/docs/workbuddy/Create-Task
-- 任务对话：https://www.codebuddy.cn/docs/workbuddy/Conversation
 - 结果查看：https://www.codebuddy.cn/docs/workbuddy/Results
 - 技能市场：https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market
-- 专家中心：https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Expert-Center
-- 资料库：https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Knowledge-Base
-- 自动化：https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Automation-Guide
 
-### Prompt 方法资料
+### 科研写作与 Skill 资源
 
-- OpenAI Prompting fundamentals：https://openai.com/academy/prompting/
-- OpenAI Prompt engineering best practices：https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt
+- AI272/speaker：https://github.com/AI272/speaker
+- WUBING2023/PaperSpine：https://github.com/WUBING2023/PaperSpine
+- Master-cai/Research-Paper-Writing-Skills：https://github.com/Master-cai/Research-Paper-Writing-Skills/tree/main
+- Yuan1z0825/nature-skills：https://github.com/Yuan1z0825/nature-skills
+- Leey21/awesome-ai-research-writing：https://github.com/Leey21/awesome-ai-research-writing
 

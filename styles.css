@@ -881,7 +881,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin-top: 12px;
+  margin-top: 8px;
   border-top: 1px solid rgba(44, 72, 63, 0.16);
 }
 
