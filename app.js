@@ -33,6 +33,12 @@ function renderInline(text) {
 
   html = html
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, (_, label, url) => {
+      const href = url.replaceAll("&amp;", "&");
+      const token = `@@LINK_${linkTokens.length}@@`;
+      linkTokens.push(`<a ${linkAttrs(href)}>${label}</a>`);
+      return token;
+    })
     .replace(/&lt;(https?:\/\/[^\s]+?)&gt;/g, (_, url) => {
       const href = url.replaceAll("&amp;", "&");
       const token = `@@LINK_${linkTokens.length}@@`;

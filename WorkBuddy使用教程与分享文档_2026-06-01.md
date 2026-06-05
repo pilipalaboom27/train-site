@@ -480,15 +480,15 @@ skillhub install humanizer
 
 | Skill 名称 | 来源 | 功能简述 |
 |---|---|---|
-| 20-ml-paper-writing | zechenzhangAGI/AI-research-SKILLs | 面向 NeurIPS / ICML / ICLR / ACL / AAAI / COLM 的完整论文写作：repo 起稿、LaTeX 模板、引用验证、审稿人视角、会议 checklist、格式迁移；内含 booktabs 表格规范与图规范。 |
-| humanizer | `humanizer` / blader/humanizer | 识别并去除 AI 写作痕迹，修掉促销腔、空洞分析、破折号滥用、三点式堆砌和 AI 高频词，让终稿更像人写。 |
-| docx | anthropics/skills | 处理 .docx 创建、编辑、分析；论文场景可把标题、作者、摘要、正文替换进 Word 投稿模板，生成符合格式的投稿稿。 |
-| doc-coauthoring | anthropics/skills | 分阶段文档协作：收集上下文与澄清问题、按节头脑风暴、起草、精修、读者测试，适合论文单节或整篇结构化迭代。 |
-| canvas-design | anthropics/skills | 先产出 design philosophy，再生成单页 .png / .pdf，适合论文概念图、示意图、框架图。 |
-| speaker / ppt-speech-writer | AI272/speaker | 逐页解析 PPT，结合 OCR 和视觉复核生成讲稿，并写入 PowerPoint speaker notes，适合正式汇报前准备逐页讲稿。 |
-| PaperSpine | WUBING2023/PaperSpine | 用 motivation 主线学习强论文、搭建中心论证，支持 evidence-aware 改写和 LaTeX-safe audit，适合从论文骨架到论证质量检查。 |
-| research-paper-writing | Master-cai/Research-Paper-Writing-Skills | 面向 ML/CV/NLP 论文的 Abstract、Introduction、Method、Experiments、Conclusion 改写，检查段落逻辑、claim-evidence alignment，并做投稿前 reviewer 视角自检。 |
-| nature-skills | Yuan1z0825/nature-skills | 包含 nature-figure、nature-polishing、nature-writing、nature-reviewer、nature-citation、nature-data、nature-response、nature-paper2ppt、nature-academic-search，覆盖 Nature 风格写作、审稿回复、图表、引用、数据和论文转 PPT。 |
+| 20-ml-paper-writing | [zechenzhangAGI/AI-research-SKILLs](https://github.com/zechenzhangAGI/AI-research-SKILLs) | 面向 NeurIPS / ICML / ICLR / ACL / AAAI / COLM 的完整论文写作：repo 起稿、LaTeX 模板、引用验证、审稿人视角、会议 checklist、格式迁移；内含 booktabs 表格规范与图规范。 |
+| humanizer | [`humanizer`](https://github.com/blader/humanizer) / [blader/humanizer](https://github.com/blader/humanizer) | 识别并去除 AI 写作痕迹，修掉促销腔、空洞分析、破折号滥用、三点式堆砌和 AI 高频词，让终稿更像人写。 |
+| docx | [anthropics/skills](https://github.com/anthropics/skills) | 处理 .docx 创建、编辑、分析；论文场景可把标题、作者、摘要、正文替换进 Word 投稿模板，生成符合格式的投稿稿。 |
+| doc-coauthoring | [anthropics/skills](https://github.com/anthropics/skills) | 分阶段文档协作：收集上下文与澄清问题、按节头脑风暴、起草、精修、读者测试，适合论文单节或整篇结构化迭代。 |
+| canvas-design | [anthropics/skills](https://github.com/anthropics/skills) | 先产出 design philosophy，再生成单页 .png / .pdf，适合论文概念图、示意图、框架图。 |
+| speaker / ppt-speech-writer | [AI272/speaker](https://github.com/AI272/speaker) | 逐页解析 PPT，结合 OCR 和视觉复核生成讲稿，并写入 PowerPoint speaker notes，适合正式汇报前准备逐页讲稿。 |
+| PaperSpine | [WUBING2023/PaperSpine](https://github.com/WUBING2023/PaperSpine) | 用 motivation 主线学习强论文、搭建中心论证，支持 evidence-aware 改写和 LaTeX-safe audit，适合从论文骨架到论证质量检查。 |
+| research-paper-writing | [Master-cai/Research-Paper-Writing-Skills](https://github.com/Master-cai/Research-Paper-Writing-Skills) | 面向 ML/CV/NLP 论文的 Abstract、Introduction、Method、Experiments、Conclusion 改写，检查段落逻辑、claim-evidence alignment，并做投稿前 reviewer 视角自检。 |
+| nature-skills | [Yuan1z0825/nature-skills](https://github.com/Yuan1z0825/nature-skills) | 包含 nature-figure、nature-polishing、nature-writing、nature-reviewer、nature-citation、nature-data、nature-response、nature-paper2ppt、nature-academic-search，覆盖 Nature 风格写作、审稿回复、图表、引用、数据和论文转 PPT。 |
 
 GitHub 来源 Skill 参考安装方式：
 
