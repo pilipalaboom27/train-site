@@ -2170,40 +2170,40 @@ window.siteContent = {
           "label": "AI272/speaker",
           "href": "https://github.com/AI272/speaker",
           "type": "GitHub Skill",
-          "summary": "PPT 讲稿 Skill，强调逐页解析 PPT、结合 OCR/视觉复核生成讲稿，并写入 PowerPoint speaker notes。",
-          "useCase": "做正式汇报、答辩、路演前，需要把 PPT 变成逐页讲稿和备注。",
+          "summary": "面向真实 .pptx 的学术汇报讲稿 Skill。README 强调它会解析 PPTX 结构、渲染每页、做 OCR 和视觉复核，最后生成带证据链的逐页讲稿，并把 clean script 写入 PowerPoint speaker notes。",
+          "useCase": "适合会议报告、答辩、组会和科研项目汇报，尤其是 PPT 里有图表、截图、SmartArt、方法图时。不要用于脱离幻灯片内容的自由演讲或夸张营销文案。",
           "note": "PPT 讲稿和 speaker notes。"
         },
         {
           "label": "WUBING2023/PaperSpine",
           "href": "https://github.com/WUBING2023/PaperSpine",
           "type": "GitHub Skill",
-          "summary": "面向论文和报告的 motivation 主线工具，帮助搭建论文中心论证，做 evidence-aware 改写和 LaTeX-safe audit。",
-          "useCase": "论文逻辑松散、故事线不清楚，或需要检查 claim 和 evidence 是否对齐。",
+          "summary": "README 将它定位为 motivation-driven paper skill：先确认论文为什么值得写，再建立中心论证；重点防止只做逐句润色、无证据加 claim、忽略体裁差异，并通过 evidence-aware blueprint、revision matrix 和 LaTeX-safe audit 改稿。",
+          "useCase": "适合论文故事线不清、motivation 站不稳、claim 和 evidence 对不上、LaTeX 改稿需要保留审计轨迹时使用。",
           "note": "论文主线和 evidence-aware 改写。"
         },
         {
           "label": "Master-cai/Research-Paper-Writing-Skills",
           "href": "https://github.com/Master-cai/Research-Paper-Writing-Skills/tree/main",
           "type": "GitHub Skill",
-          "summary": "ML/CV/NLP 论文写作 Skill 集，覆盖 Abstract、Introduction、Method、Experiments、Conclusion 等章节改写和 reviewer 视角自检。",
-          "useCase": "写英文论文、改实验分析、投稿前做结构和审稿风险检查。",
+          "summary": "README 说明这是面向 ML/CV/NLP 论文写作的 Skill package，改编自 Peng Sida 教授公开写作笔记，供 Codex、Claude Code、Gemini 等工具使用。",
+          "useCase": "适合按机器学习论文常见结构改 Abstract、Introduction、Related Work、Method、Experiments、Conclusion，并做投稿前的逻辑和 reviewer 风险自检。",
           "note": "研究论文各章节写作。"
         },
         {
           "label": "Yuan1z0825/nature-skills",
           "href": "https://github.com/Yuan1z0825/nature-skills",
           "type": "GitHub Skill",
-          "summary": "Nature 风格科研 Skill 集，包含写作、润色、图表、引用、数据、审稿回复、论文转 PPT 和学术搜索等方向。",
-          "useCase": "想按高水平期刊表达方式打磨论文、图表、response letter 或组会汇报。",
+          "summary": "README 是一个 skill index，不只是润色包：包含 nature-figure、nature-polishing、nature-writing、nature-citation、nature-data、nature-reader、nature-response、nature-paper2ppt、nature-academic-search 等，分别覆盖图表、语言、引用、数据、审稿回复、论文转中文 PPT 和文献搜索。",
+          "useCase": "适合高水平期刊投稿前的图表、语言、引用、数据声明、rebuttal 和组会 PPT。使用前先选具体子 Skill，不要把它当成一个万能“Nature 化”按钮。",
           "note": "Nature 风格写作、图表、审稿回复。"
         },
         {
           "label": "Leey21/awesome-ai-research-writing",
           "href": "https://github.com/Leey21/awesome-ai-research-writing",
           "type": "GitHub 资源",
-          "summary": "AI 科研写作资源合集，Part I 收集翻译、润色、扩写缩写、逻辑检查、去 AI 味、图表 caption、实验分析、审稿和模型选择等 Prompt。",
-          "useCase": "不想从零写 Prompt，希望直接参考论文写作各环节模板。",
+          "summary": "README 的 Part I 是可直接复制的论文写作 Prompt 集合，覆盖中英互译、Word/LaTeX 润色、缩写扩写、逻辑检查、去 AI 味、架构图、实验图题/表题、实验分析、Reviewer 视角审阅和模型选择；Part II 还整理了论文写作相关 Skills。",
+          "useCase": "适合不知道怎么写论文写作 Prompt 时直接借模板，尤其是翻译、润色、caption、实验分析和审稿风险检查。使用时要替换成自己的材料，并人工核对事实和 LaTeX 特殊字符。",
           "note": "论文写作 Prompt 与工具合集。"
         }
       ]
