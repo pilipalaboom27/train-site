@@ -52,7 +52,7 @@ window.siteContent = {
       "id": "chapter-1",
       "group": "入门",
       "title": "先认识 WorkBuddy：它能帮你做什么",
-      "intro": "",
+      "intro": "先建立共同语言：WorkBuddy 不是普通聊天窗口，而是能围绕任务、材料、文件和结果区完成办公闭环的 AI 工作台。",
       "sections": [
         {
           "id": "what-is",
@@ -1459,7 +1459,7 @@ window.siteContent = {
       "id": "chapter-8",
       "group": "场景",
       "title": "业务场景示例：流域治理工作中的真实应用",
-      "intro": "",
+      "intro": "这一章把前面的基础动作和进阶能力放进真实业务语境里，看 WorkBuddy 如何辅助政策梳理、项目申报、技术报告、监测数据和汇报材料。",
       "sections": [
         {
           "id": "funding",
@@ -1826,7 +1826,7 @@ window.siteContent = {
       "id": "chapter-9",
       "group": "速查",
       "title": "Prompt 与模板：可复制、可改写、可复用",
-      "intro": "",
+      "intro": "这一章提供可直接复用的 Prompt 框架、业务模板和论文写作模板，重点是让你快速从“不会写”过渡到“能改、能复用、能自检”。",
       "sections": [
         {
           "id": "prompt-nature",
@@ -2000,7 +2000,7 @@ window.siteContent = {
       "id": "chapter-10",
       "group": "速查",
       "title": "常见问题：新手卡点和避坑",
-      "intro": "",
+      "intro": "这一章集中回答新手最容易卡住的问题：从第一次打开怎么做，到结果不对、文件找不到、积分消耗、敏感信息和交付复核怎么处理。",
       "sections": [
         {
           "id": "faq",
