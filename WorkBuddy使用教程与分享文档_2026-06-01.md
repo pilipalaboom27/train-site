@@ -498,30 +498,6 @@ npx skills add https://github.com/Yuan1z0825/nature-skills
 
 > 💡 **选择原则**：日常办公优先用 docx、xlsx、pptx、pdf、humanizer；论文写作、投稿、审稿回复、论文转汇报时，再补充科研写作类 Skill。
 
-**按需扩展：WPS、协作和会议类 Skill**
-
-| Skill 名称 | 来源 / 安装名 | 功能简述 |
-|---|---|---|
-| wps | `wps` | 需要处理 WPS 本地文档、表格、演示或 WPS 生态文件时再启用，适合中文办公环境。 |
-| kdocs-skill | `kdocs-skill` | 面向金山文档 / 在线协作文档的读取、整理和协作场景，适合团队资料已经在 KDocs 里沉淀时使用。 |
-| ai-meeting-notes | `ai-meeting-notes` | 用于会议录音、纪要、行动项整理，适合会后把口头讨论转成正式文档或待办清单。 |
-
-**第四步：常用 Skill 组合推荐**
-
-| 办公任务 | 推荐 Skill 组合 | 说明 |
-|---|---|---|
-| 写正式报告 | docx + 搜索 Skill | 搜索搜集资料 → docx 生成排版好的 Word |
-| 数据分析汇报 | xlsx + pptx | xlsx 处理数据生成图表 → pptx 做成汇报 |
-| 会议纪要整理 | 语音 Skill + docx | 语音转文字 → docx 生成正式纪要 |
-| 合同/制度审阅 | pdf + 搜索 Skill | pdf 读取条款 → 搜索查相关规定对照 |
-| 批量文件处理 | xlsx/docx/pdf + 文件管理 | 读取 → 提取 → 整理 → 归档 |
-| 资讯日报 | 搜索 Skill + docx | 搜索当日动态 → docx 生成排版好的简报 |
-| 投稿前论文检查 | 20-ml-paper-writing + humanizer + docx | 先做结构和引用自检，再修语言风格，最后放进投稿模板。 |
-| 论文转组会汇报 | nature-skills + speaker / ppt-speech-writer + powerpoint-pptx | 先提炼论文内容和图表，再生成 PPT 与逐页讲稿。 |
-| 会议资料沉淀 | ai-meeting-notes + docx + kdocs-skill | 先整理会议纪要，再生成正式文档，最后同步到团队在线文档。 |
-
-> 💡 **同事经验**：不要一上来就把所有 Skill 全装上。先想清楚今天要做什么任务，按上面的组合只装 2-3 个，用完觉得不够再加。
-
 ### 5.3 专家与专家团：换视角，或组一个小团队
 
 专家用于让 WorkBuddy 以更明确的角色和方法处理任务。专家团则更适合复杂任务，因为它有多角色分工和整合过程。
