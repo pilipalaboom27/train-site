@@ -2127,19 +2127,6 @@ window.siteContent = {
   ],
   "resources": [
     {
-      "title": "本地材料",
-      "items": [
-        {
-          "label": "WorkBuddy 使用教程与分享文档",
-          "href": "WorkBuddy使用教程与分享文档_2026-06-01.md",
-          "type": "本地文档",
-          "summary": "本文档本身，作为现场分享和会后复习的主材料。",
-          "useCase": "想快速回看操作路径、Prompt 示例和 Skill 选择逻辑时使用。",
-          "note": "分享和会后复习主材料。"
-        }
-      ]
-    },
-    {
       "title": "WorkBuddy 官方文档",
       "items": [
         {
